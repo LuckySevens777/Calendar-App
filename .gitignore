@@ -7,3 +7,4 @@ node_modules/
 
 #compiled code
 front/serve/
+front/intermediate/

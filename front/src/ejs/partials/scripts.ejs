@@ -1,5 +1,6 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js" integrity="sha384-ZOED+d9HxogEQwD+jFvux96iGQR9TxfJO+mPF2ZS0TuKH6eWrmvPsDpO6I0OWdiX" crossorigin="anonymous"></script>
-
+<script src="https://unpkg.com/react@16.12.0/umd/react.development.js" integrity="sha384-5l9PFjfzS2E5Gx88inFinqBHRa+gZtXaPxAFp9a54+T34j/Mp4dKFndKLBWJs9dz" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@16.12.0/umd/react-dom.development.js" integrity="sha384-5vT93CaqUB/QNpEQJyMKmL9addtKArGCt7GiCwWU1jsfJ66C46aSut0QuwgEwH44" crossorigin="anonymous"></script>
 <% for(let file of js_files) { %>
-    <script src="<%= file %>"></script>
+    <script src="<%= file %>.js"></script>
 <% } %>
