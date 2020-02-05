@@ -1,5 +1,5 @@
 <%
-    //settings for templating
+// Settings
     page_title = 'Calendar',
     css_files  = ['style.css'],
     js_files   = ['index.js', 'example-include.js'],
@@ -12,22 +12,18 @@
             {title: 'Navbar Link 3', link: '#'}
         ]
     }
+// Document
 %>
 
-<!DOCTYPE html>
-<html lang="en">
-    <%- include('partials/head') %>
-    <body>
-        <%- include('partials/navbar') %>
-        <div class="container">
-            <div class="card-panel">
-                <div class="center">
-                    <h3 class="grey-text text-darken-2">
-                        Here's some example text
-                    </h3>
-                </div>
+<%- include('partials/html-start') %>
+    <%- include('partials/navbar') %>
+    <div class="container">
+        <div class="card-panel">
+            <div class="center">
+                <h3 class="grey-text text-darken-2">
+                    Here's some example text
+                </h3>
             </div>
         </div>
-        <%- include('partials/scripts') %>
-    </body>
-</html>
+    </div>
+<%- include('partials/html-end') %>
