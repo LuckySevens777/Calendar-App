@@ -11,6 +11,7 @@ const browserify = require('browserify'),
       gulp       = require('gulp'),
       replace    = require('gulp-replace'),
       sass       = require('gulp-sass'),
+      shell      = require('gulp-shell'),
       tap        = require('gulp-tap'),
       typescript = require('gulp-typescript')
 
@@ -57,9 +58,14 @@ gulp.task('clean', () =>
     del(`${BUILD_DIRECTORY}/**`)
 )
 
+// Generate TypeScript documentation
+gulp.task('typedoc', shell.task('./node_modules/typedoc/bin/typedoc --out docs-frontend/ src/ts/ --jsx react')
+)
+
 // Default Task
 gulp.task('default', gulp.series(
     'clean',
     ['compileTypescript', 'copyHTML', 'copyCSS'],
-    'browserify'
+    'browserify',
+    'typedoc'
 ))
