@@ -31,6 +31,7 @@
     "gulp-shell": "^0.7.1",
     "gulp-tap": "^2.0.0",
     "gulp-typescript": "^6.0.0-alpha.1",
+    "materialize-css": "^1.0.0",
     "mocha": "^7.0.0",
     "readline-sync": "^1.4.10",
     "typedoc": "^0.16.9",

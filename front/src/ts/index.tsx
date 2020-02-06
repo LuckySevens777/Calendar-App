@@ -1,5 +1,6 @@
 import * as React from 'react'
 import * as ReactDOM from 'react-dom'
+import * as M from 'materialize-css'
 
 import {TestElement} from './TestElement'
 import {ExampleClass} from './ExampleClass'
@@ -16,5 +17,9 @@ const renderReact = function(name:string) : void {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-    renderReact('test');
+    renderReact('React Element')
+
+    //init material items
+    M.Collapsible.init(document.querySelectorAll('.collapsible'), {})
+    M.Sidenav.init(document.querySelectorAll('.sidenav'), {})
 })
