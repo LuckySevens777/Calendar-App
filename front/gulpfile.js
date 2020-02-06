@@ -20,7 +20,9 @@ gulp.task('compileTypescript', () =>
     gulp.src([`${SOURCE_DIRECTORY}/ts/**/*.ts*`])
     .pipe(typescript({
         module: 'commonjs',
-        jsx: 'react'
+        jsx: 'react',
+        noEmitOnError: false,
+        skipLibCheck: true
     }))
     .pipe(replace('var React = require("react");', ''))
     .pipe(replace('var ReactDOM = require("react-dom");', ''))
@@ -66,6 +68,5 @@ gulp.task('typedoc', shell.task('./node_modules/typedoc/bin/typedoc --out docs-f
 gulp.task('default', gulp.series(
     'clean',
     ['compileTypescript', 'copyHTML', 'copyCSS'],
-    'browserify',
-    'typedoc'
+    'browserify'
 ))
