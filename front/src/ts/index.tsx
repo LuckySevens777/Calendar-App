@@ -1,25 +1,23 @@
+//libraries
+import * as Material from 'materialize-css'
 import * as React from 'react'
 import * as ReactDOM from 'react-dom'
-import * as M from 'materialize-css'
 
-import {TestElement} from './TestElement'
+//classes
 import {ExampleClass} from './ExampleClass'
 
-/**
- * Renders the TestElement in the div with id="react-test"
- * @param name the name to be displayed
- */
-const renderReact = function(name:string) : void {
+//react elements
+import {TestElement} from './TestElement'
+
+//DOMContentLoaded
+document.addEventListener('DOMContentLoaded', () => {
+    //render react test element
     ReactDOM.render(
-        <TestElement name={name}/>,
+        <TestElement name={'React Element'}/>,
         document.getElementById('react-test')
     )
-}
 
-document.addEventListener('DOMContentLoaded', () => {
-    renderReact('React Element')
-
-    //init material items
-    M.Collapsible.init(document.querySelectorAll('.collapsible'), {})
-    M.Sidenav.init(document.querySelectorAll('.sidenav'), {})
+    //initialize material items
+    Material.Collapsible.init(document.querySelectorAll('.collapsible'), {})
+    Material.Sidenav.init(document.querySelectorAll('.sidenav'), {})
 })
