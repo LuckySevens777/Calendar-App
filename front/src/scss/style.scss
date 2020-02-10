@@ -1,7 +1,2 @@
 @import 'settings';
-
-body {
-    .weird-color {
-        color: $test-color;
-    }
-}
+@import 'switch';

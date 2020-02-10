@@ -1,0 +1,9 @@
+@import 'settings';
+
+.switch label input[type=checkbox]:checked+.lever {
+    background-color: $switch-color;
+}
+
+.switch label input[type=checkbox]:checked+.lever:after {
+    background-color: $switch-color;
+}
