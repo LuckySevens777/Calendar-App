@@ -62,7 +62,7 @@ export class TimeSlot extends React.Component<Props, State> {
         super(props)
 
         //temporary for constructor
-        let state:any = {
+        let state:State = {
             state: undefined,
             slot: undefined,
             text: undefined
