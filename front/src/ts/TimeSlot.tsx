@@ -90,14 +90,36 @@ export class TimeSlot extends React.Component<Props, State> {
     }
 
     /**
+     * @return the color class to be used for this component
+     */
+    private getColor() : string {
+        if(this.state.state === 'Not-Available') return 'grey'
+        if(this.state.state === 'Unselected') return 'white'
+        if(this.state.state === 'Selected') return 'blue'
+
+        //something must have failed
+        throw new Error(`Time slot ${this.state.slot} was in state: ${this.state.state} somehow`)
+    }
+
+    /**
+     * @return the text color class to be used for this component
+     */
+    private getTextColor() : string {
+        if(this.state.state === 'Not-Available') return 'grey-text'
+        if(this.state.state === 'Unselected') return 'black-text'
+        if(this.state.state === 'Selected') return 'white-text'
+
+        //something must have failed
+        throw new Error(`Time slot ${this.state.slot} was in state: ${this.state.state} somehow`)
+    }
+
+    /**
      * Renders the element
      * This is where you put the tsx
      */
     public render() {
         return (
-            <div className={
-                `card ${this.state.state === 'Selected' ? 'blue' : ''}`
-            } onClick={this.onClick.bind(this)}>
+            <div className={`card ${this.getColor()} ${this.getTextColor()}`} onClick={this.onClick.bind(this)}>
                 <p>{this.state.state}</p>
             </div>
         )
