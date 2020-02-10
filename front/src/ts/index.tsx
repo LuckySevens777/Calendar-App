@@ -22,7 +22,7 @@ document.addEventListener('DOMContentLoaded', () => {
             <TimeSlot slot={3} text="12:40am" defaultState={'Unselected'} onChange={cb}/>
             <TimeSlot slot={4} text="1:00pm" defaultState={'Not-Available'} onChange={cb}/>
         </ErrorBoundary>,
-        document.getElementById('react-test')
+        document.getElementById('react-root')
     )
 
     //initialize material items
