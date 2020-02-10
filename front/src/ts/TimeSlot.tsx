@@ -118,10 +118,22 @@ export class TimeSlot extends React.Component<Props, State> {
     }
 
     /**
-     *
-     * @param e the mouse event from the click
+     * Triggers whenever a mouse goes over this element
+     * @param mouseEvent the mouse event from the hover
      */
-    private onClick(e) : void {
+    private mouseOver(mouseEvent) {
+        //check if left click is held down
+
+        //this is to allow a user to drag the mouse over slots to make it easier
+        //to select multiple options
+        if(mouseEvent.buttons === 1) this.onClick(mouseEvent)
+    }
+
+    /**
+     *
+     * @param mouseEvent the mouse event from the click
+     */
+    private onClick(mouseEvent) : void {
 
         //do nothing if this time slot is not available
         if(this.state.state === 'Not-Available') return
@@ -137,7 +149,11 @@ export class TimeSlot extends React.Component<Props, State> {
      */
     public render() {
         return (
-            <div className={`timeslot card center hoverable draggable ${this.getColor()} ${this.getTextColor()}`} onClick={this.onClick.bind(this)}>
+            <div
+                className={`timeslot card center hoverable draggable ${this.getColor()} ${this.getTextColor()}`}
+                onClick={this.onClick.bind(this)}
+                onMouseOver={this.mouseOver.bind(this)}
+            >
                 <span>{this.state.text}</span>
             </div>
         )
