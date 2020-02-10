@@ -25,7 +25,12 @@ interface DayState {
     /**
      * The actual Date object to register this day as
      */
-    date:Date
+    date:Date,
+
+    /**
+     * Whether or not to grey out this day
+     */
+    valid:boolean
 }
 
 /**
@@ -46,7 +51,8 @@ export class Day extends React.Component<DayProps, DayState> {
         //temporary for constructor
         let state:DayState = {
             title: undefined,
-            date: undefined
+            date: undefined,
+            valid: true
         }
 
         //set date
@@ -101,6 +107,41 @@ export class Day extends React.Component<DayProps, DayState> {
     }
 
     /**
+     * sets entire day's validity
+     * @param valid whether or not it is valid
+     */
+    public setValid(valid:boolean) : void {
+        this.setState({valid: valid})
+    }
+
+    /**
+     *
+     * @param slot the slot being chosen
+     * @return whether this slot is a valid choice
+     */
+    private isValid(slot:number) : boolean {
+
+        //full day invalid
+        if(!this.state.valid) return false
+
+        //invalid time
+        if(slot <= 12) return false
+        if(slot >= 68) return false
+        if(slot >= 34 && slot <= 36) return false
+
+        //invalid date
+        const date = this.state.date
+        //Dec 25
+        if(date.getMonth() === 11 && date.getDate() === 25) return false
+        //Jan 1
+        if(date.getMonth() === 0 && date.getDate() === 1) return false
+        //July 4
+        if(date.getMonth() === 6 && date.getDate() === 4) return false
+
+        return true
+    }
+
+    /**
      * Renders the element
      * This is where you put the tsx
      */
@@ -112,7 +153,13 @@ export class Day extends React.Component<DayProps, DayState> {
                     <hr/>
                     {this.slots.map((time, slot) =>
                         <ErrorBoundary>
-                            <TimeSlot slot={slot+1} key={slot} text={time} defaultState={'Unselected'} onChange={()=>{}}/>
+                            <TimeSlot
+                                slot={slot+1}
+                                key={slot}
+                                text={time}
+                                defaultState={this.isValid(slot+1) ? 'Unselected' : 'Not-Available'}
+                                onChange={()=>{}}
+                            />
                         </ErrorBoundary>
                     )}
                 </div>
