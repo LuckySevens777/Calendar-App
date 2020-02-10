@@ -6,6 +6,6 @@ package-lock.json
 node_modules/
 
 #compiled code
-front/serve/
-front/intermediate/
-front/docs-frontend/
+webpage/front/serve/
+webpage/front/intermediate/
+webpage/front/docs-frontend/
