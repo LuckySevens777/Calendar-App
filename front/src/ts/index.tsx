@@ -4,6 +4,7 @@ import * as React from 'react'
 import * as ReactDOM from 'react-dom'
 
 //react elements
+import {ErrorBoundary} from './ErrorBoundary'
 import {TimeSlot} from './TimeSlot'
 
 //DOMContentLoaded
@@ -15,7 +16,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     //render react test element
     ReactDOM.render(
-        <TimeSlot slot={0} defaultState={'Unselected'} onChange={cb}/>,
+        <ErrorBoundary>
+            <TimeSlot slot={-2} defaultState={'Unselected'} onChange={cb}/>
+        </ErrorBoundary>,
         document.getElementById('react-test')
     )
 

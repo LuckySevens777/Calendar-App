@@ -1,6 +1,6 @@
 import * as React from 'react'
 
-type Props = {
+interface Props {
     /**
      * The time slot that this element represents <br>
      * range: 1..72
@@ -20,7 +20,7 @@ type Props = {
     onChange:Function
 }
 
-type State = {
+interface State {
     /**
      * Decides whether this slot has been clicked or not, or if it's unavailable <br>
      * <h3>States:</h3><ul><li>'Not-Avalable'</li><li>'Unselected'</li><li>'Selected'</li></ul>
@@ -42,31 +42,29 @@ type State = {
  * params: (slot:number, state:string)
  */
 export class TimeSlot extends React.Component<Props, State> {
-
-    public state:State
+    public readonly state:State
 
     /**
      * Constructs a TestElement
      * @param props the object's properties
      */
-    public constructor(props) {
+    public constructor(props:Props) {
         super(props)
 
-        this.state.slot = 1
 
         //check state and set
         if(this.props.defaultState === 'Not-Available' ||
         this.props.defaultState === 'Unselected') {
-            this.state.state = this.props.defaultState
+            this.setState({state: this.props.defaultState})
         } else {
-            console.error(`Failed to initialize time slot ${this.props.slot}, got defaultState=${this.props.defaultState}`)
+            throw new Error(`Failed to initialize time slot ${this.props.slot}, got defaultState=${this.props.defaultState}`)
         }
 
         //check slot and set
         if(this.props.slot >= 1 && this.props.slot <= 72) {
-            this.state.slot = this.props.slot
+            this.setState({slot: this.props.slot})
         } else {
-            console.error(`Failed to initialize time slot, slot=${this.props.slot} is not valid. Range: 1..72`)
+            throw new Error(`Failed to initialize time slot, slot=${this.props.slot} is not valid. Range: 1..72`)
         }
 
     }
@@ -92,7 +90,7 @@ export class TimeSlot extends React.Component<Props, State> {
     public render() {
         return (
             <div onClick={this.onClick}>
-                <h1>Hello {this.props.slot}</h1>
+                <h1>Hello {this.state.slot}</h1>
             </div>
         )
     }
