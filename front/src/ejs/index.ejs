@@ -2,22 +2,22 @@
 // Settings
     page_title = 'Calendar',
     css_files  = ['style'],
-    js_files   = ['index', 'TestElement', 'ExampleClass'],
+    js_files   = ['index', 'TimeSlot'],
     navbar     = {
         title: page_title,
         link: '/',
         links: [
             {title: 'Frontend docs', link: '/docs-frontend'},
-            {title: 'Backend docs', link: '/docs-backend'},
-            {title: 'Navbar Link 3', link: '#'}
+            {title: 'Backend docs', link: '/docs-backend'}
         ]
     }
+
 // Document
 %>
 
 <%- include('partials/html-start') %>
     <%- include('partials/navbar') %>
-    <div class="container">
+        <div class="container">
         <div class="card-panel">
             <div class="center container">
                 <div class="row">
@@ -63,7 +63,7 @@
                         </label>
                     </div>
                     <!--Toast test-->
-                    <a onclick="M.toast({html: 'Whatever you just did worked!'})" class="btn waves-effect col s6 l3">Display Confirmation</a>
+                    <a onclick="M.toast({html: 'Whatever you just did worked!'})" class="btn waves-effect col s6 l3 blue">Display Confirmation</a>
                 </div>
             </div>
         </div>
@@ -73,17 +73,25 @@
             <ul class="collapsible">
                 <li>
                     <div class="collapsible-header hoverable row">
-                        <a href="#!" class="waves-effect col s12"><span class="new badge">2</span>Events</a>
+                        <a href="#!" class="col s12 grey-text text-darken-2"><span class="new badge red lighten-1">2</span>Event Invitations</a>
                     </div>
                     <div class="collapsible-body">
                         <div class="collection">
-                            <a href="#!" class="collection-item">Event 1</a>
-                            <a href="#!" class="collection-item">Event 2</a>
+                            <a href="#!" class="collection-item blue-text">Event 1</a>
+                            <a href="#!" class="collection-item blue-text">Event 2</a>
                         </div>
                     </div>
                 </li>
-
             </ul>
+        </div>
+
+        <div class="row">
+            <div class="card-panel col s6 hoverable">
+                card 1<br>card 1<br>card 1<br>
+            </div>
+            <div class="card-panel col s6 hoverable">
+                card 2<br>card 2<br>card 2<br>
+            </div>
         </div>
     </div>
 <%- include('partials/html-end') %>
