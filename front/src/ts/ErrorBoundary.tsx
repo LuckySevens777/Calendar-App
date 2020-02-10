@@ -25,7 +25,7 @@ export class ErrorBoundary extends React.Component<Props, State> {
      * Constructs an ErrorBoundary wrapper
      * @param props should not receive any properties
      */
-    constructor(props:Props) {
+    public constructor(props:Props) {
         super(props)
         this.state = {
             error: null,
@@ -38,7 +38,7 @@ export class ErrorBoundary extends React.Component<Props, State> {
      * @param error
      * @param errorInfo
      */
-    componentDidCatch(error, errorInfo) {
+    public componentDidCatch(error, errorInfo) : void {
 
         //get mad!
         this.setState({
@@ -47,7 +47,7 @@ export class ErrorBoundary extends React.Component<Props, State> {
         })
     }
 
-    render() {
+    public render() {
     //if it should get mad
     if(this.state.errorInfo) {
         return (
