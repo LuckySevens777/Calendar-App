@@ -94,20 +94,6 @@ export class TimeSlot extends React.Component<Props, State> {
     }
 
     /**
-     *
-     * @param e the mouse event from the click
-     */
-    private onClick(e) : void {
-
-        //do nothing if this time slot is not available
-        if(this.state.state === 'Not-Available') return
-        if(this.state.state === 'Unselected') this.setState({state: 'Selected'})
-        if(this.state.state === 'Selected') this.setState({state: 'Unselected'})
-
-        this.props.onChange(this.state.slot, this.state.state)
-    }
-
-    /**
      * @return the color class to be used for this component
      */
     private getColor() : string {
@@ -132,12 +118,26 @@ export class TimeSlot extends React.Component<Props, State> {
     }
 
     /**
+     *
+     * @param e the mouse event from the click
+     */
+    private onClick(e) : void {
+
+        //do nothing if this time slot is not available
+        if(this.state.state === 'Not-Available') return
+        if(this.state.state === 'Unselected') this.setState({state: 'Selected'})
+        if(this.state.state === 'Selected') this.setState({state: 'Unselected'})
+
+        this.props.onChange(this.state.slot, this.state.state)
+    }
+
+    /**
      * Renders the element
      * This is where you put the tsx
      */
     public render() {
         return (
-            <div className={`timeslot card center hoverable ${this.getColor()} ${this.getTextColor()}`} onClick={this.onClick.bind(this)}>
+            <div className={`timeslot card center hoverable draggable ${this.getColor()} ${this.getTextColor()}`} onClick={this.onClick.bind(this)}>
                 <span>{this.state.text}</span>
             </div>
         )
