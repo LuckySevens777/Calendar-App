@@ -14,7 +14,7 @@ interface Props {
 
     /**
      * Decides whether this slot has been clicked or not, or if it's unavailable <br>
-     * <h3>States:</h3><ul><li>'Not-Avalable'</li><li>'Unselected'</li><li>'Selected'</li></ul>
+     * <h3>States:</h3><ul><li>'Not-Available'</li><li>'Unselected'</li><li>'Selected'</li></ul>
      */
     defaultState:string,
 
@@ -28,7 +28,7 @@ interface Props {
 interface State {
     /**
      * Decides whether this slot has been clicked or not, or if it's unavailable <br>
-     * <h3>States:</h3><ul><li>'Not-Avalable'</li><li>'Unselected'</li><li>'Selected'</li></ul>
+     * <h3>States:</h3><ul><li>'Not-Available'</li><li>'Unselected'</li><li>'Selected'</li></ul>
      */
     state:string,
 
