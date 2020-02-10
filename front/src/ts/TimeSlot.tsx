@@ -51,22 +51,28 @@ export class TimeSlot extends React.Component<Props, State> {
     public constructor(props:Props) {
         super(props)
 
+        //temporary for constructor
+        let state:any = {
+            state: undefined,
+            slot: undefined
+        }
 
         //check state and set
         if(this.props.defaultState === 'Not-Available' ||
         this.props.defaultState === 'Unselected') {
-            this.setState({state: this.props.defaultState})
+            state.state = this.props.defaultState
         } else {
             throw new Error(`Failed to initialize time slot ${this.props.slot}, got defaultState=${this.props.defaultState}`)
         }
 
         //check slot and set
         if(this.props.slot >= 1 && this.props.slot <= 72) {
-            this.setState({slot: this.props.slot})
+            state.slot = this.props.slot
         } else {
             throw new Error(`Failed to initialize time slot, slot=${this.props.slot} is not valid. Range: 1..72`)
         }
 
+        this.state = state
     }
 
     /**
@@ -77,8 +83,8 @@ export class TimeSlot extends React.Component<Props, State> {
 
         //do nothing if this time slot is not available
         if(this.state.state === 'Not-Available') return
-        if(this.state.state === 'Unselected') this.state.state = 'Selected'
-        if(this.state.state === 'Selected') this.state.state = 'Unselected'
+        if(this.state.state === 'Unselected') this.setState({state: 'Selected'})
+        if(this.state.state === 'Selected') this.setState({state: 'Unselected'})
 
         this.props.onChange(this.state.slot, this.state.state)
     }
@@ -89,8 +95,10 @@ export class TimeSlot extends React.Component<Props, State> {
      */
     public render() {
         return (
-            <div onClick={this.onClick}>
-                <h1>Hello {this.state.slot}</h1>
+            <div className={
+                `card ${this.state.state === 'Selected' ? 'blue' : ''}`
+            } onClick={this.onClick.bind(this)}>
+                <p>{this.state.state}</p>
             </div>
         )
     }

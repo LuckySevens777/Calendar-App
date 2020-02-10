@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', () => {
     //render react test element
     ReactDOM.render(
         <ErrorBoundary>
-            <TimeSlot slot={-2} defaultState={'Unselected'} onChange={cb}/>
+            <TimeSlot slot={1} defaultState={'Unselected'} onChange={cb}/>
         </ErrorBoundary>,
         document.getElementById('react-test')
     )
