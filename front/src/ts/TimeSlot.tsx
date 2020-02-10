@@ -8,6 +8,11 @@ interface Props {
     slot:number,
 
     /**
+     * Text to be displayed in the box
+     */
+    text:string
+
+    /**
      * Decides whether this slot has been clicked or not, or if it's unavailable <br>
      * <h3>States:</h3><ul><li>'Not-Avalable'</li><li>'Unselected'</li><li>'Selected'</li></ul>
      */
@@ -26,6 +31,11 @@ interface State {
      * <h3>States:</h3><ul><li>'Not-Avalable'</li><li>'Unselected'</li><li>'Selected'</li></ul>
      */
     state:string,
+
+    /**
+     * Text to be displayed in the box
+     */
+    text:string
 
     /**
      * The time slot that this element represents <br>
@@ -54,7 +64,8 @@ export class TimeSlot extends React.Component<Props, State> {
         //temporary for constructor
         let state:any = {
             state: undefined,
-            slot: undefined
+            slot: undefined,
+            text: undefined
         }
 
         //check state and set
@@ -70,6 +81,13 @@ export class TimeSlot extends React.Component<Props, State> {
             state.slot = this.props.slot
         } else {
             throw new Error(`Failed to initialize time slot, slot=${this.props.slot} is not valid. Range: 1..72`)
+        }
+
+        //check text and set
+        if(this.props.text.length > 0) {
+            state.text = this.props.text
+        } else {
+            throw new Error(`Failed to initialize time slot ${this.props.slot}, got text=${this.props.text}`)
         }
 
         this.state = state
@@ -119,8 +137,8 @@ export class TimeSlot extends React.Component<Props, State> {
      */
     public render() {
         return (
-            <div className={`card ${this.getColor()} ${this.getTextColor()}`} onClick={this.onClick.bind(this)}>
-                <p>{this.state.state}</p>
+            <div className={`timeslot card center hoverable ${this.getColor()} ${this.getTextColor()}`} onClick={this.onClick.bind(this)}>
+                <span>{this.state.text}</span>
             </div>
         )
     }
