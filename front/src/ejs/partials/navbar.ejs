@@ -1,14 +1,16 @@
-<nav class="blue" role="navigation">
-    <div class="nav-wrapper container">
-        <a href="#" data-target="slide-out" class="sidenav-trigger show-on-small icon-white"><i class="material-icons">menu</i></a>
-        <a id="logo-container" href="<%= navbar.link %>" class="brand-logo"><%= navbar.title %></a>
-        <ul class="right hide-on-med-and-down">
-            <% for(let link of navbar.links) { %>
-                <li><a href="<%= link.link %>"><%= link.title %></a></li>
-            <% } %>
-        </ul>
-    </div>
-</nav>
+<div class="navbar-fixed">
+    <nav class="blue" role="navigation">
+        <div class="nav-wrapper container">
+            <a href="#" data-target="slide-out" class="sidenav-trigger show-on-small icon-white"><i class="material-icons">menu</i></a>
+            <a id="logo-container" href="<%= navbar.link %>" class="brand-logo"><%= navbar.title %></a>
+            <ul class="right hide-on-med-and-down">
+                <% for(let link of navbar.links) { %>
+                    <li><a href="<%= link.link %>"><%= link.title %></a></li>
+                <% } %>
+            </ul>
+        </div>
+    </nav>
+</div>
 <ul id="slide-out" class="sidenav">
     <% for(let link of navbar.links) { %>
         <li><a href="<%= link.link %>"><%= link.title %></a></li>

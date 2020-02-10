@@ -16,57 +16,28 @@
 %>
 
 <%- include('partials/html-start') %>
-    <%- include('partials/navbar') %>
-    <div class="container" >
-        <div class="row">
-            <div class="col s6 m4 l2">
-                <div class="card-panel center">
-                    <h6>Monday</h6>
-                    <hr/>
-                    <div id="react-root"></div>
+<%- include('partials/navbar') %>
+<div class="container">
+    <div class="row">
+        <div class="card">
+            <!-- Switch -->
+            <div class="col s6">
+                <div class="switch">
+                    <label>
+                    Off
+                    <input type="checkbox">
+                    <span class="lever"></span>
+                    On
+                    </label>
                 </div>
             </div>
+            <div class="col s6">
+                <!--Toast test-->
+                <a onclick="M.toast({html: 'Whatever you just did worked!'})" class="btn blue">Display Confirmation</a>
+            </div>
+
         </div>
     </div>
-    <div class="container">
-        <div class="card-panel">
-            <div class="center container">
-                <div class="row">
-                    <!--chips demo-->
-                    <div class="chips col s12">
-                        <div class="chip">
-                            Jane Doe
-                            <i class="close material-icons">close</i>
-                        </div>
-                        <div class="chip">
-                            John Doe
-                            <i class="close material-icons">close</i>
-                        </div>
-                        <div class="chip">
-                            Sandy
-                            <i class="close material-icons">close</i>
-                        </div>
-                        <div class="chip">
-                            Jonathan
-                            <i class="close material-icons">close</i>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <!-- Switch -->
-                    <div class="switch col s6 l3">
-                        <label>
-                        Off
-                        <input type="checkbox">
-                        <span class="lever"></span>
-                        On
-                        </label>
-                    </div>
-                    <!--Toast test-->
-                    <a onclick="M.toast({html: 'Whatever you just did worked!'})" class="btn waves-effect col s6 l3 blue">Display Confirmation</a>
-                </div>
-            </div>
-        </div>
 
         <!--Badges-->
         <div class="card">
@@ -84,14 +55,10 @@
                 </li>
             </ul>
         </div>
-
-        <div class="row">
-            <div class="card-panel col s6 hoverable">
-                card 1<br>card 1<br>card 1<br>
-            </div>
-            <div class="card-panel col s6 hoverable">
-                card 2<br>card 2<br>card 2<br>
-            </div>
-        </div>
     </div>
+</div>
+
+<div class="container" >
+    <div class="row" id="react-root"></div>
+</div>
 <%- include('partials/html-end') %>
