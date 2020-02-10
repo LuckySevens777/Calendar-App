@@ -1,8 +1,8 @@
 import * as React from 'react'
 
-interface Props {}
+interface ErrorBoundaryProps {}
 
-interface State {
+interface ErrorBoundaryState {
     /**
      * Error information to be passed along, like the stack of elements involved
      */
@@ -18,14 +18,14 @@ interface State {
  * Replaces a failed element stack with an easier to understand big red square
  * contains a stack trace and the error
  */
-export class ErrorBoundary extends React.Component<Props, State> {
-    public readonly state:State
+export class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundaryState> {
+    public readonly state:ErrorBoundaryState
 
     /**
      * Constructs an ErrorBoundary wrapper
      * @param props should not receive any properties
      */
-    public constructor(props:Props) {
+    public constructor(props:ErrorBoundaryProps) {
         super(props)
         this.state = {
             error: null,

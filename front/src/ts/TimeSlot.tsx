@@ -1,6 +1,6 @@
 import * as React from 'react'
 
-interface Props {
+interface TimeSlotProps {
     /**
      * The time slot that this element represents <br>
      * range: 1..72
@@ -25,7 +25,7 @@ interface Props {
     onChange:Function
 }
 
-interface State {
+interface TimeSlotState {
     /**
      * Decides whether this slot has been clicked or not, or if it's unavailable <br>
      * <h3>States:</h3><ul><li>'Not-Available'</li><li>'Unselected'</li><li>'Selected'</li></ul>
@@ -51,18 +51,18 @@ interface State {
  * @callback onChange function run when the internal state changes<br>
  * params: (slot:number, state:string)
  */
-export class TimeSlot extends React.Component<Props, State> {
-    public readonly state:State
+export class TimeSlot extends React.Component<TimeSlotProps, TimeSlotState> {
+    public readonly state:TimeSlotState
 
     /**
      * Constructs a TestElement
      * @param props the object's properties
      */
-    public constructor(props:Props) {
+    public constructor(props:TimeSlotProps) {
         super(props)
 
         //temporary for constructor
-        let state:State = {
+        let state:TimeSlotState = {
             state: undefined,
             slot: undefined,
             text: undefined
