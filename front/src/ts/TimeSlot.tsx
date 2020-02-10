@@ -97,7 +97,7 @@ export class TimeSlot extends React.Component<Props, State> {
      * @return the color class to be used for this component
      */
     private getColor() : string {
-        if(this.state.state === 'Not-Available') return 'grey'
+        if(this.state.state === 'Not-Available') return 'grey lighten-1'
         if(this.state.state === 'Unselected') return 'white'
         if(this.state.state === 'Selected') return 'blue'
 
@@ -109,7 +109,7 @@ export class TimeSlot extends React.Component<Props, State> {
      * @return the text color class to be used for this component
      */
     private getTextColor() : string {
-        if(this.state.state === 'Not-Available') return 'grey-text'
+        if(this.state.state === 'Not-Available') return 'grey-text text-darken-1'
         if(this.state.state === 'Unselected') return 'black-text'
         if(this.state.state === 'Selected') return 'white-text'
 
@@ -134,13 +134,17 @@ export class TimeSlot extends React.Component<Props, State> {
      * @param mouseEvent the mouse event from the click
      */
     private onClick(mouseEvent) : void {
-
-        //do nothing if this time slot is not available
-        if(this.state.state === 'Not-Available') return
-        if(this.state.state === 'Unselected') this.setState({state: 'Selected'})
-        if(this.state.state === 'Selected') this.setState({state: 'Unselected'})
-
-        this.props.onChange(this.state.slot, this.state.state)
+        if(this.state.state === 'Not-Available') {
+            //do nothing if this time slot is not available
+        } else if(this.state.state === 'Unselected') {
+            //set selected
+            this.setState({state: 'Selected'})
+            this.props.onChange(this.state.slot, 'Selected')
+        } else if(this.state.state === 'Selected') {
+            //set unselected
+            this.setState({state: 'Unselected'})
+            this.props.onChange(this.state.slot, 'Unselected')
+        }
     }
 
     /**
@@ -150,7 +154,12 @@ export class TimeSlot extends React.Component<Props, State> {
     public render() {
         return (
             <div
-                className={`timeslot card center hoverable draggable ${this.getColor()} ${this.getTextColor()}`}
+                className={
+                    `timeslot card center
+                    ${this.state.state === 'Not-Available' ? '' : 'hoverable'}
+                    ${this.getColor()}
+                    ${this.getTextColor()}
+                `}
                 onClick={this.onClick.bind(this)}
                 onMouseOver={this.mouseOver.bind(this)}
             >
