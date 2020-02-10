@@ -21,3 +21,8 @@ services:
       MYSQL_DATABASE: "is"
       MYSQL_USER: "the" 
       MYSQL_PASSWORD: "coolest"
+  backend:
+    build: ./back
+    container_name: golang_backend
+    ports: 
+      - "3000:3000"
