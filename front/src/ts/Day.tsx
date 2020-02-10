@@ -1,5 +1,6 @@
 import * as React from 'react'
 
+import {ErrorBoundary} from './ErrorBoundary'
 import {TimeSlot} from './TimeSlot'
 
 interface DayProps {
@@ -68,18 +69,27 @@ export class Day extends React.Component<DayProps, DayState> {
 
             default: throw new Error(`Somehow the Day component was initialized on day number ${state.date.getDay()}`)
         }
+        let date = state.date.getDate()
+        let ending
 
-        //make slot list
+        if(date === 1) ending = 'st'
+        if(date === 2) ending = 'nd'
+        if(date === 3) ending = 'rd'
+        if(date > 3) ending = 'th'
+
+        state.title += ' the ' + date + ending
+
+        //generate slot list
         this.slots = []
 
         for(let hour = 1; hour <= 24; hour++) {
             for(let minute = 0; minute < 60; minute += 20) {
 
-                let now = `${hour}:${('0' + minute).slice(-2)}`
+                let now = `${('0' + hour).slice(-2)}:${('0' + minute).slice(-2)}`
 
                 let laterHour = minute + 20 === 60 ? hour + 1 : hour
                 let laterMinute = minute + 20 === 60 ? 0 : minute + 20
-                let later = `${laterHour}:${('0' + (laterMinute)).slice(-2)}`
+                let later = `${('0' + laterHour).slice(-2)}:${('0' + (laterMinute)).slice(-2)}`
 
                 this.slots.push(`${now} - ${later}`)
             }
@@ -96,12 +106,14 @@ export class Day extends React.Component<DayProps, DayState> {
      */
     public render() {
         return (
-            <div className="col s6 m4 l2">
+            <div className="col s12 m4 l2">
                 <div className="card-panel center">
                     <h6>{this.state.title}</h6>
                     <hr/>
                     {this.slots.map((time, slot) =>
-                        <TimeSlot slot={slot+1} key={slot} text={time} defaultState={'Unselected'} onChange={()=>{}}/>
+                        <ErrorBoundary>
+                            <TimeSlot slot={slot+1} key={slot} text={time} defaultState={'Unselected'} onChange={()=>{}}/>
+                        </ErrorBoundary>
                     )}
                 </div>
             </div>

@@ -126,7 +126,7 @@ export class TimeSlot extends React.Component<TimeSlotProps, TimeSlotState> {
 
         //this is to allow a user to drag the mouse over slots to make it easier
         //to select multiple options
-        // if(mouseEvent.buttons === 1) this.onClick(mouseEvent)
+        if(mouseEvent.buttons === 1) this.onClick(mouseEvent)
     }
 
     /**

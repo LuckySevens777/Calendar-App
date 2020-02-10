@@ -14,6 +14,11 @@ document.addEventListener('DOMContentLoaded', () => {
     ReactDOM.render(
         <ErrorBoundary>
             <Day date={new Date()} onChange={()=>{}}/>
+            <Day date={new Date()} onChange={()=>{}}/>
+            <Day date={new Date()} onChange={()=>{}}/>
+            <Day date={new Date()} onChange={()=>{}}/>
+            <Day date={new Date()} onChange={()=>{}}/>
+            <Day date={new Date()} onChange={()=>{}}/>
         </ErrorBoundary>,
         document.getElementById('react-root')
     )

@@ -2,7 +2,7 @@
 
 .timeslot {
     cursor: pointer;
-    margin: 0.1rem;
+    margin: 0.1em;
 
     //disable annoying text selection
     -webkit-touch-callout: none;
@@ -11,4 +11,11 @@
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
+
+    display: inline-block;
+
+    span {
+        font-size: 0.7em;
+        padding: 0.2em;
+    }
 }
