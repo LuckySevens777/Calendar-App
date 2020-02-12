@@ -2,7 +2,6 @@
 .vscode/
 
 #npm files
-package-lock.json
 node_modules/
 
 #compiled code
