@@ -6,13 +6,13 @@ import (
 )
 
 //gets all events for a specific day
-func GetEvents(key uint, day time.Time) string {
+func GetEvents(user string, day time.Time) string {
 	//need plan out return format
 	return ""
 }
 
 //validates that the user asking is the creator of the event, then returns a list of users attending the event
-func GetAttendees(key uint, eventName string) ([]string, error) {
+func GetAttendees(user string, eventName string) ([]string, error) {
 	//user := model.getUser(key)
 	//checking user is valid...
 	//check if user returned by db is creator of the event they are trying to access...
@@ -20,6 +20,6 @@ func GetAttendees(key uint, eventName string) ([]string, error) {
 	return nil, nil
 }
 
-func RegisterForEvent(key uint, eventName string, dayslot time.Time) error {
+func RegisterForEvent(user string, eventName string, dayslot time.Time) error {
 	return nil
 }
