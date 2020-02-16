@@ -5,14 +5,6 @@ import (
 	"time"
 )
 
-const allowedPat string = "[^abcdefghijklmnopqrstuvwxyz .ABCDEFGHIJKLMNOPQRSTUVWXYZ]+"
-
-//checks that the string given is a valid possibility for a username
-func validUsername(name string) bool {
-	out,_ := regexp.Match(allowedPat, []byte(name))
-	return out
-}
-
 //checks that the given day is a valid one (not nonsensical or December 25, July 4 or January 1)
 func validDay(date time.Time) bool {
 	//assuming time.Time rules out nonsensical dates (so I guess API handles that check)
