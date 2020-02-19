@@ -1,9 +1,13 @@
 package processing
 
 import (
-	"regexp"
 	"time"
 )
+
+//turns a string formatted time into a golang time.Time object (TODO: add format documentation when implementing)
+func toTime(slot string) (time.Time, error) {
+	return time.Now(), nil
+}
 
 //checks that the given day is a valid one (not nonsensical or December 25, July 4 or January 1)
 func validDay(date time.Time) bool {
