@@ -15,7 +15,7 @@ var (
 
 func Init() error {
 	var err error
-	db, err = connectDB("test")
+	db, err = connectDB("sandy:strongpass@(127.0.0.1:3306)/mysql")
 	autoMigrate()
 	return err
 }
