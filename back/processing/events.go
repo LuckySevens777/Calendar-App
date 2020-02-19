@@ -3,6 +3,8 @@ package processing
 import (
 	"github.com/LuckySevens777/Calendar-App/back/model"
 	"net/http" //should move this functionality to API when given chance
+	"errors"
+	"strings"
 	//"time"
 )
 
@@ -14,8 +16,69 @@ func DbInit() error {
 
 //Handles turning incoming header info into an action.  Should be moved to API eventually.  No authentication is done on this other than making sure the action is valid (and has all its pieces).  Will throw an error if the request is invalid.
 func HandleRequest(args http.Header) (string, error) {
+	user := args.Get("User")
 	
-	return "",nil
+	if user == "" {
+		return "", errors.New("No user specified in header")
+	}
+	
+	action := args.Get("Action")
+	
+	timeKey := http.CanonicalHeaderKey("Times")
+	eventKey := http.CanonicalHeaderKey("Event-Name")
+	
+	times, errTimes := args[timeKey]
+	eventName, errEventName := args[eventKey]
+	if len(eventName) == 0 {
+		errEventName = false
+	}
+
+	switch action {
+	case "Create-Event":
+		
+		if !errTimes {
+			return "", errors.New("Header doesn't contain the '" + timeKey + "' key")
+		}
+		
+		err := CreateEvent(user, times)
+		
+		if err != nil {
+			return "", err
+		}
+		
+		return "OK", nil
+	case "Get-Events":
+		
+		if !errTimes {
+			return "", errors.New("Header doesn't contain the '" + timeKey + "' key")
+		}
+		
+		return GetEvents(user, times), nil
+	case "Get-Attendees":
+		
+		if !errEventName {
+			return "", errors.New("Header doesn't contain the '" + eventKey + "' key")
+		}
+		
+		end, err := GetAttendees(user, eventName[0])
+		
+		return strings.Join(end,","), err
+	case "Register-For-Event":
+		
+		if !errTimes || !errEventName {
+			return "", errors.New("Header doesn't contain both of the '" + eventKey + "," + timeKey + "' keys")
+		}
+		
+		err := RegisterForEvent(user, eventName[0], times)
+		
+		if err != nil {
+			return "", err
+		}
+		
+		return "OK", nil
+	default:
+		return "", errors.New("No action selected")
+	}
 }
 
 //creates an event on the given day over the given timeslots. Throws errors and performs no db action when any of the timeslots are invalid.
