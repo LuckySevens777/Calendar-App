@@ -6,12 +6,13 @@ import * as ReactDOM from 'react-dom'
 //react elements
 import {ErrorBoundary} from './ErrorBoundary'
 import {Day} from './Day'
+import {apiCall} from './apiCall'
 
 //DOMContentLoaded
 document.addEventListener('DOMContentLoaded', () => {
 
     let now = new Date()
-
+		apiCall();
     //render react test element
     ReactDOM.render(
         <div>

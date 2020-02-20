@@ -3,11 +3,9 @@ services:
   nginx:
     build: ./webpage
     container_name: nginx
-    volumes:
-      - ./webpage/front/.:/code
     tty: true
     ports:
-      - "8080:80"
+      - "80:80"
   db:
     image: mysql:5.7.22
     container_name: mysql
@@ -24,4 +22,4 @@ services:
     build: ./back
     container_name: golang_backend
     ports:
-      - "3000:3000"
+      - "10000:10000"
