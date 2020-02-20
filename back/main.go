@@ -23,5 +23,8 @@ func main() {
 	model.CreateUser("Jonanathan")
 	model.CreateUser("Dylan")
 
-	model.CreateEvent("Sandy", "2020-02-17", []uint{0, 1})
+	res, err := model.GetAllTimeslots()
+	fmt.Println(res, err)
+
+	//fmt.Println(model.CreateEvent("Sandy", "2020-02-17", []uint{0, 1}))
 }

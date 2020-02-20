@@ -35,7 +35,7 @@ func GetUser(name string) (*User, error) {
 // CreateEvent creates an even
 // Register the day and the user_id of who created this event
 // Add an association to timeslots, so event can occupy multiple timeslots
-func CreateEvent(creator, day string, timeslots []uint) (*Event, error) {
+/* func CreateEvent(creator, day string, timeslots []uint) (*Event, error) {
 	user, err := GetUser(creator)
 	if err != nil {
 		return nil, err
@@ -45,12 +45,18 @@ func CreateEvent(creator, day string, timeslots []uint) (*Event, error) {
 	if err != nil {
 		return nil, err
 	}
-	return event, DB().
-		Model(event).
-		Association(DB().NewScope(Timeslot{}).TableName()).
-		Append(timeslots).Error
+	for _, v := range timeslots {
+		temp := &Timeslot{}
+		temp.ID = v
+		DB().Model(event).Association(DB().NewScope(Timeslot{}).TableName()).Append()
+	}
+	return event, nil
+	 	return event, DB().
+	Model(event).
+	Association(DB().NewScope(Timeslot{}).TableName()).
+	Append(timeslots).Error
 }
-
+*/
 // GetEvents gets all user's events on a specific day
 func GetEvents(creator, day string) ([]Event, error) {
 	events := make([]Event, 0, 8)
@@ -77,6 +83,7 @@ func GetEventTimeslots(eventID uint) ([]Timeslot, error) {
 		Error
 }
 
+/*
 // AddAttendee adds an attendance
 func AddAttendee(eventID, userID uint, timeslots []uint) {
 	for _, v := range timeslots {
@@ -88,7 +95,7 @@ func AddAttendee(eventID, userID uint, timeslots []uint) {
 		DB().Create(obj)
 	}
 }
-
+*/
 // DB just return the database access model
 func DB() *gorm.DB {
 	return db

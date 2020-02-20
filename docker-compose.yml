@@ -7,5 +7,5 @@ services:
     env_file: .env
     ports:
       - 3306:3306
-    volumes:
-      - "/data/luckysevens777/calendar/mysql:/var/lib/mysql"
+#    volumes:
+#      - "/data/luckysevens777/calendar/mysql:/var/lib/mysql"
