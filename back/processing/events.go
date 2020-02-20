@@ -68,11 +68,11 @@ func HandleRequest(args http.Header) (string, error) {
 			return "", errors.New("Header doesn't contain the '" + timeKey + "' key")
 		}
 		
-		err := CreateEvent(user, times)
+		//err := CreateEvent(user, times)
 		
-		if err != nil {
-			return "", err
-		}
+		//if err != nil {
+		//	return "", err
+		//}
 		
 		return "OK", nil
 	case "Get-Events":
@@ -109,8 +109,27 @@ func HandleRequest(args http.Header) (string, error) {
 	}
 }
 
-//creates an event on the given day over the given timeslots. Throws errors and performs no db action when any of the timeslots are invalid.
-func CreateEvent(creator string, times []string) error {
+//creates an event on the given day over the given timeslots made by the given user. 
+//Throws errors and performs no db action when any of the timeslots are invalid 
+//(but doesn't check that the user is valid).
+func CreateEvent(creator string, day string, times []string) error {
+	/*
+	if len(times) == 0 {
+		return errors.New("Can't make an event without timeslots!")
+	}
+	
+	//obtain the validated timeslots corresponding to input (checks date and slots):
+	slots,err := toValidTimeSlots(times)
+	if err != nil {
+		return errors.New("Problem parsing times: " + err.Error())
+	}
+	
+	//put event in db
+	//_,err = model.CreateEvent(creator, day, slots)
+	if err != nil {
+		return errors.New("Problem adding event to db: " + err.Error())
+	}
+	*/
 	return nil
 }
 
