@@ -1,48 +1,20 @@
-package processing
+package processlsing
 
 import (
 	"github.com/thecsw/Calendar-App/back/model"
 	"net/http" //should move this functionality to API when given chance
 	"errors"
 	"strings"
-	"time"
-	"fmt"
+	//"time"
 )
 
 //Initializes the database
 func DbInit() error {
-	//connect to db:
 	err := model.Init()
-	if err != nil {
-		return err
-	}
-
-	//check if this is first start up of the db: 
-	//(by checking for entries in the timeslot table)
-	slots,err := model.GetAllTimeslots()
-	if err != nil {
-		return err
-	}
-	if len(slots) == 0 {
-		//no entries is a problem:
-		var zero time.Time
-		increment, err := time.ParseDuration("20m")
-		if err != nil {
-			fmt.Println("Error parsing '20m' duration")
-			return nil
-		}
-		for i:=0; i < 72; i++ {
-			model.CreateTimeslot(zero.Format("15:04"))
-			zero = zero.Add(increment)
-		}
-	}
-
-	return nil
+	return err
 }
 
-//Handles turning incoming header info into an action.  Should be moved to API eventually.
-//No authentication is done on this other than making sure the action is valid 
-//(and has all its pieces).  Will throw an error if the request is invalid.
+//Handles turning incoming header info into an action.  Should be moved to API eventually.  No authentication is done on this other than making sure the action is valid (and has all its pieces).  Will throw an error if the request is invalid.
 func HandleRequest(args http.Header) (string, error) {
 	user := args.Get("User")
 	
