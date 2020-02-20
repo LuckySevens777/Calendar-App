@@ -8,6 +8,5 @@ RUN npm run gulp
 
 FROM nginx as server
 WORKDIR /var/www
-COPY index.html .
-#COPY --from=dev /code/serve .
-#COPY nginx.conf /etc/nginx/
+COPY --from=dev /code/serve .
+COPY nginx.conf /etc/nginx/
