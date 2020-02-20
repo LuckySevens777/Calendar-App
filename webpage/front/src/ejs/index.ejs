@@ -17,48 +17,6 @@
 
 <%- include('partials/html-start') %>
 <%- include('partials/navbar') %>
-<div class="container">
-    <div class="row">
-        <div class="card">
-            <!-- Switch -->
-            <div class="col s6">
-                <div class="switch">
-                    <label>
-                    Off
-                    <input type="checkbox">
-                    <span class="lever"></span>
-                    On
-                    </label>
-                </div>
-            </div>
-            <div class="col s6">
-                <!--Toast test-->
-                <a onclick="M.toast({html: 'Whatever you just did worked!'})" class="btn blue">Display Confirmation</a>
-            </div>
 
-        </div>
-    </div>
-
-        <!--Badges-->
-        <div class="card">
-            <ul class="collapsible">
-                <li>
-                    <div class="collapsible-header hoverable row">
-                        <a href="#!" class="col s12 grey-text text-darken-2"><span class="new badge red lighten-1">2</span>Event Invitations</a>
-                    </div>
-                    <div class="collapsible-body">
-                        <div class="collection">
-                            <a href="#!" class="collection-item blue-text">Event 1</a>
-                            <a href="#!" class="collection-item blue-text">Event 2</a>
-                        </div>
-                    </div>
-                </li>
-            </ul>
-        </div>
-    </div>
-</div>
-
-<div class="container" >
-    <div class="row" id="react-root"></div>
-</div>
+<div id="react-root"></div>
 <%- include('partials/html-end') %>
