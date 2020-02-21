@@ -101,8 +101,6 @@ export class Day extends React.Component<DayProps, DayState> {
             }
         }
 
-        console.log(this.slots)
-
         this.state = state
     }
 
