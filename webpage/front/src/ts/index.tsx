@@ -7,6 +7,7 @@ import * as ReactDOM from 'react-dom'
 import {ErrorBoundary} from './ErrorBoundary'
 import {Day} from './Day'
 import {SideBar} from './SideBar'
+import { Overview } from './Overview'
 
 //DOMContentLoaded
 document.addEventListener('DOMContentLoaded', () => {
@@ -36,7 +37,8 @@ document.addEventListener('DOMContentLoaded', () => {
             </ErrorBoundary>
         </div>*/
         <div className="row">
-            <div className="center card-panel col s12 l10">
+            <div className="center col s12 l10">
+
             {/* <div className="container">
                 <div className="row">
                     <div className="card">
@@ -74,8 +76,11 @@ document.addEventListener('DOMContentLoaded', () => {
                     </div>
                 </div>
             </div> */}
+                <ErrorBoundary>
+                    <Overview/>
+                </ErrorBoundary>
             </div>
-            <div className="card-panel col s12 l2">
+            <div className="col s12 l2">
                 <ErrorBoundary>
                     <SideBar/>
                 </ErrorBoundary>

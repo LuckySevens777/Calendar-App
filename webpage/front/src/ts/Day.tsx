@@ -147,7 +147,7 @@ export class Day extends React.Component<DayProps, DayState> {
      */
     public render() {
         return (
-            <div className="col s12 m4 l2">
+            <div>
                 <div className="card-panel center">
                     <h6>{this.state.title}</h6>
                     <hr/>
