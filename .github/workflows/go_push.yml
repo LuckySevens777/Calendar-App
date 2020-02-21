@@ -16,5 +16,8 @@ jobs:
     - name: Check out code into the Go module directory
       uses: actions/checkout@v1
 
+    - name: Grabbing dependencies
+      run: go get -v -u ./...
+      
     - name: Test
       run: ./back/test.sh
