@@ -17,7 +17,8 @@ jobs:
       uses: actions/checkout@v2
 
     - name: Grabbing dependencies
-      run: go get -v -u ./...
+      run: |
+        pwd && go get -v -t -d -u ./...
       
     - name: Test
       run: ./back/test.sh
