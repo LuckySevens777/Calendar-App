@@ -18,7 +18,8 @@ jobs:
 
     - name: Grabbing dependencies
       run: |
-        pwd && go get -v -t -d -u ./...
+        go get -v -u github.com/jinzhu/gorm
+        go get -v -u github.com/stretchr/testify
       
     - name: Test
       run: ./back/test.sh
