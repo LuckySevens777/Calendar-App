@@ -1,5 +1,7 @@
 #editors
 .vscode/
+.saves
+*~
 
 #npm files
 package-lock.json

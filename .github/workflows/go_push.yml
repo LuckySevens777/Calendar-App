@@ -1,0 +1,27 @@
+name: Go
+on: push
+jobs:
+
+  test:
+    name: Testing
+    runs-on: ubuntu-latest
+    steps:
+
+    - name: Set up Go 1.13
+      uses: actions/setup-go@v1
+      with:
+        go-version: 1.13
+      id: go
+
+    - name: Check out code into the Go module directory
+      uses: actions/checkout@v2
+
+    - name: Grabbing dependencies
+      run: |
+        go get -v -t -u github.com/jinzhu/gorm
+        go get -v -t -u github.com/stretchr/testify
+        go get -v -t -u github.com/lib/pq
+        go get -v -t -u github.com/lib/pq/hstore
+      
+    - name: Test
+      run: ./back/test.sh

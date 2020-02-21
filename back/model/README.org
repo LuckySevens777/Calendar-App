@@ -1,0 +1,21 @@
+* How to use `model` package
+
+Before all, you have to initialize the database.
+
+#+BEGIN_SRC go
+  err := model.Init()
+  if err != nil {
+	  // Handle the error
+  }
+#+END_SRC
+
+After that, you should have access to all model methods,
+like create user would make you type
+
+#+BEGIN_SRC go
+  sandy, err:= model.CreateUser("Sandy")
+  if err != nil {
+	  // Handle the error
+  }
+  fmt.Println(sandy.Name)
+#+END_SRC
