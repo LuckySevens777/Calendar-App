@@ -2,6 +2,7 @@ package model
 
 import "github.com/jinzhu/gorm"
 
+// Event defines an Event struct that defines events
 type Event struct {
 	gorm.Model
 
