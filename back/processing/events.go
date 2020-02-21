@@ -1,20 +1,48 @@
 package processing
 
 import (
-	"github.com/LuckySevens777/Calendar-App/back/model"
+	"github.com/thecsw/Calendar-App/back/model"
 	"net/http" //should move this functionality to API when given chance
 	"errors"
 	"strings"
-	//"time"
+	"time"
+	"fmt"
 )
 
 //Initializes the database
 func DbInit() error {
+	//connect to db:
 	err := model.Init()
-	return err
+	if err != nil {
+		return err
+	}
+
+	//check if this is first start up of the db: 
+	//(by checking for entries in the timeslot table)
+	slots,err := model.GetAllTimeslots()
+	if err != nil {
+		return err
+	}
+	if len(slots) == 0 {
+		//no entries is a problem:
+		var zero time.Time
+		increment, err := time.ParseDuration("20m")
+		if err != nil {
+			fmt.Println("Error parsing '20m' duration")
+			return nil
+		}
+		for i:=0; i < 72; i++ {
+			model.CreateTimeslot(zero.Format("15:04"))
+			zero = zero.Add(increment)
+		}
+	}
+
+	return nil
 }
 
-//Handles turning incoming header info into an action.  Should be moved to API eventually.  No authentication is done on this other than making sure the action is valid (and has all its pieces).  Will throw an error if the request is invalid.
+//Handles turning incoming header info into an action.  Should be moved to API eventually.
+//No authentication is done on this other than making sure the action is valid 
+//(and has all its pieces).  Will throw an error if the request is invalid.
 func HandleRequest(args http.Header) (string, error) {
 	user := args.Get("User")
 	
@@ -40,11 +68,11 @@ func HandleRequest(args http.Header) (string, error) {
 			return "", errors.New("Header doesn't contain the '" + timeKey + "' key")
 		}
 		
-		err := CreateEvent(user, times)
+		//err := CreateEvent(user, times)
 		
-		if err != nil {
-			return "", err
-		}
+		//if err != nil {
+		//	return "", err
+		//}
 		
 		return "OK", nil
 	case "Get-Events":
@@ -81,8 +109,27 @@ func HandleRequest(args http.Header) (string, error) {
 	}
 }
 
-//creates an event on the given day over the given timeslots. Throws errors and performs no db action when any of the timeslots are invalid.
-func CreateEvent(creator string, times []string) error {
+//creates an event on the given day over the given timeslots made by the given user. 
+//Throws errors and performs no db action when any of the timeslots are invalid 
+//(but doesn't check that the user is valid).
+func CreateEvent(creator string, day string, times []string) error {
+	/*
+	if len(times) == 0 {
+		return errors.New("Can't make an event without timeslots!")
+	}
+	
+	//obtain the validated timeslots corresponding to input (checks date and slots):
+	slots,err := toValidTimeSlots(times)
+	if err != nil {
+		return errors.New("Problem parsing times: " + err.Error())
+	}
+	
+	//put event in db
+	//_,err = model.CreateEvent(creator, day, slots)
+	if err != nil {
+		return errors.New("Problem adding event to db: " + err.Error())
+	}
+	*/
 	return nil
 }
 

@@ -6,18 +6,27 @@ import (
 	"time"
 
 	"github.com/jinzhu/gorm"
-	_ "github.com/jinzhu/gorm/dialects/mysql"
+	// We need this for gorm to connect to postgres
+	_ "github.com/jinzhu/gorm/dialects/postgres"
 )
 
 var (
-	db *gorm.DB
+	db               *gorm.DB
+	dbType           = "postgres"
+	connectionString = "postgresql://sandy:pass@127.0.0.1:5432/calendar?sslmode=disable"
 )
 
+// Init initialized the DB connection
 func Init() error {
 	var err error
-	db, err = connectDB("test")
+	db, err = connectDB(connectionString)
 	autoMigrate()
 	return err
+}
+
+// Close closes the current DB connection
+func Close() error {
+	return db.Close()
 }
 
 func connectDB(database string) (*gorm.DB, error) {
@@ -25,7 +34,7 @@ func connectDB(database string) (*gorm.DB, error) {
 	deadline := time.Now().Add(timeout)
 	tries := 0
 	for tries = 0; time.Now().Before(deadline); tries++ {
-		db, err := gorm.Open("mysql", database)
+		db, err := gorm.Open(dbType, database)
 		if err == nil {
 			return db, nil
 		}
