@@ -3,11 +3,11 @@ package processing
 import (
 	"time"
 	"errors"
-	"github.com/LuckySevens777/Calendar-App/back/model"
+	"github.com/thecsw/Calendar-App/back/model"
 )
 
 //turns a list of string formatted times into a timeslot 
-// (checks that it is possible for it to be a valid timeslot)
+// (and checks that it is possible for it to be a valid timeslot)
 func toValidTimeSlots(times []string) ([]model.Timeslot, error) {
 	slots,err := model.GetAllTimeslots()
 	if err != nil {
@@ -44,10 +44,15 @@ func toValidTimeSlots(times []string) ([]model.Timeslot, error) {
 	return end, nil
 }
 
-//checks that the given day is a valid one (not nonsensical or December 25, July 4 or January 1)
-func validDay(date time.Time) bool {
-	//assuming time.Time rules out nonsensical dates (so I guess API handles that check)
-	
+//validates that an input day is valid for making an event on.  (format: "01-02-2006"
+//also checks that the given day is a valid one (not nonsensical or December 25, July 4 or January 1)
+func validDay(datestr string) bool {
+	//let time.Time rule out impossible dates:
+	date,err := time.Parse("01-02-2006",datestr)
+	if err != nil {
+		return false
+	}
+
 	_, month, day := date.Date()
 	
 	if ((month == time.December && day == 25) || (month==time.July && day==4) || (month==time.January && day==1)) {

@@ -1,10 +1,8 @@
 package processing
 
 import (
-	"github.com/LuckySevens777/Calendar-App/back/model"
-	"net/http" //should move this functionality to API when given chance
+	"github.com/thecsw/Calendar-App/back/model"
 	"errors"
-	"strings"
 	"time"
 	"fmt"
 )
@@ -40,82 +38,29 @@ func DbInit() error {
 	return nil
 }
 
-//Handles turning incoming header info into an action.  Should be moved to API eventually.
-//No authentication is done on this other than making sure the action is valid 
-//(and has all its pieces).  Will throw an error if the request is invalid.
-func HandleRequest(args http.Header) (string, error) {
-	user := args.Get("User")
-	
-	if user == "" {
-		return "", errors.New("No user specified in header")
-	}
-	
-	action := args.Get("Action")
-	
-	timeKey := http.CanonicalHeaderKey("Times")
-	eventKey := http.CanonicalHeaderKey("Event-Name")
-	
-	times, errTimes := args[timeKey]
-	eventName, errEventName := args[eventKey]
-	if len(eventName) == 0 {
-		errEventName = false
-	}
-
-	switch action {
-	case "Create-Event":
-		
-		if !errTimes {
-			return "", errors.New("Header doesn't contain the '" + timeKey + "' key")
-		}
-		
-		//err := CreateEvent(user, times)
-		
-		//if err != nil {
-		//	return "", err
-		//}
-		
-		return "OK", nil
-	case "Get-Events":
-		
-		if !errTimes {
-			return "", errors.New("Header doesn't contain the '" + timeKey + "' key")
-		}
-		
-		return GetEvents(user, times), nil
-	case "Get-Attendees":
-		
-		if !errEventName {
-			return "", errors.New("Header doesn't contain the '" + eventKey + "' key")
-		}
-		
-		end, err := GetAttendees(user, eventName[0])
-		
-		return strings.Join(end,","), err
-	case "Register-For-Event":
-		
-		if !errTimes || !errEventName {
-			return "", errors.New("Header doesn't contain both of the '" + eventKey + "," + timeKey + "' keys")
-		}
-		
-		err := RegisterForEvent(user, eventName[0], times)
-		
-		if err != nil {
-			return "", err
-		}
-		
-		return "OK", nil
-	default:
-		return "", errors.New("No action selected")
-	}
+//closes the database
+func DbClose() error {
+	err := model.Close()
+	return err
 }
 
-//creates an event on the given day over the given timeslots made by the given user. 
 //Throws errors and performs no db action when any of the timeslots are invalid 
+//creates an event on the given day over the given timeslots made by the given user. 
 //(but doesn't check that the user is valid).
-func CreateEvent(creator string, day string, times []string) error {
-	/*
+//	creator must be a valid user
+//	name,desc have no specific restrictions
+//	day must be a valid day (format: "")
+//	times must be valid timeslots (format: "15:04")
+//Currently assumes the front end will ask for events again to get the eventID
+func CreateEvent(creator string, name string, desc string, day string, times []string) error {
+	
 	if len(times) == 0 {
-		return errors.New("Can't make an event without timeslots!")
+		return errors.New("Can't make an event without a time!")
+	}
+	
+	//make sure the day is a valid one:
+	if !validDay(day) {
+		return errors.New("Problem parsing day: " + day)
 	}
 	
 	//obtain the validated timeslots corresponding to input (checks date and slots):
@@ -124,12 +69,12 @@ func CreateEvent(creator string, day string, times []string) error {
 		return errors.New("Problem parsing times: " + err.Error())
 	}
 	
-	//put event in db
-	//_,err = model.CreateEvent(creator, day, slots)
+	//put the event in the db
+	_,err = model.CreateEvent(creator, day, desc, slots)
 	if err != nil {
 		return errors.New("Problem adding event to db: " + err.Error())
 	}
-	*/
+	
 	return nil
 }
 
