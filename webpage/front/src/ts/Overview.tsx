@@ -32,7 +32,7 @@ export class Overview extends React.Component<OverviewProps, OverviewState> {
         let now = new Date()
 
         return (
-            <div className="container">
+            <div className="container center">
                 <div className="row">
                     <div className="col s6">
                         <ErrorBoundary>

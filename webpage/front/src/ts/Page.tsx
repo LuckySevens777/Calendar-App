@@ -1,5 +1,6 @@
 import * as React from 'react'
 import {ErrorBoundary} from './ErrorBoundary'
+import {EventsView} from './EventsView'
 import {Overview} from './Overview'
 import {SideBar} from './SideBar'
 
@@ -24,7 +25,7 @@ export class Page extends React.Component<PageProps, PageState> {
             mode: undefined
         }
 
-        state.mode = 'overview'
+        state.mode = 'events'
 
         this.state = state
     }
@@ -38,32 +39,50 @@ export class Page extends React.Component<PageProps, PageState> {
         if(this.state.mode === 'overview') {
             return (
                 <div>
-                    <ErrorBoundary>
-                        <Overview/>
-                    </ErrorBoundary>
-                    <SideBar/>
+                    <div className="center col s12 l10">
+                        <ErrorBoundary>
+                            <Overview/>
+                        </ErrorBoundary>
+                    </div>
+                    <div className="col s12 l2">
+                        <ErrorBoundary>
+                            <SideBar/>
+                        </ErrorBoundary>
+                    </div>
                 </div>
             )
         }
         //events view mode
-        if(this.state.mode === 'overview') {
+        if(this.state.mode === 'events') {
             return (
                 <div>
-                    <ErrorBoundary>
-                        <Overview/>
-                    </ErrorBoundary>
-                    <SideBar/>
+                    <div className="center col s12 l10">
+                        <ErrorBoundary>
+                            <EventsView/>
+                        </ErrorBoundary>
+                    </div>
+                    <div className="col s12 l2">
+                        <ErrorBoundary>
+                            <SideBar/>
+                        </ErrorBoundary>
+                    </div>
                 </div>
             )
         }
         //create event mode
-        if(this.state.mode === 'overview') {
+        if(this.state.mode === 'create') {
             return (
                 <div>
-                    <ErrorBoundary>
-                        <Overview/>
-                    </ErrorBoundary>
-                    <SideBar/>
+                    <div className="center col s12 l10">
+                        <ErrorBoundary>
+                            <Overview/>
+                        </ErrorBoundary>
+                    </div>
+                    <div className="col s12 l2">
+                        <ErrorBoundary>
+                            <SideBar/>
+                        </ErrorBoundary>
+                    </div>
                 </div>
             )
         }

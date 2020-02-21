@@ -5,9 +5,7 @@ import * as ReactDOM from 'react-dom'
 
 //react elements
 import {ErrorBoundary} from './ErrorBoundary'
-import {Day} from './Day'
-import {SideBar} from './SideBar'
-import { Overview } from './Overview'
+import {Page} from './Page'
 
 //DOMContentLoaded
 document.addEventListener('DOMContentLoaded', () => {
@@ -37,7 +35,6 @@ document.addEventListener('DOMContentLoaded', () => {
             </ErrorBoundary>
         </div>*/
         <div className="row">
-            <div className="center col s12 l10">
 
             {/* <div className="container">
                 <div className="row">
@@ -59,32 +56,12 @@ document.addEventListener('DOMContentLoaded', () => {
                     </div>
                 </div>
 
-                    <div className="card">
-                        <ul className="collapsible">
-                            <li>
-                                <div className="collapsible-header hoverable row">
-                                    <a href="#!" className="col s12 grey-text text-darken-2"><span className="new badge red lighten-1">2</span>Event Invitations</a>
-                                </div>
-                                <div className="collapsible-body">
-                                    <div className="collection">
-                                        <a href="#!" className="collection-item blue-text">Event 1</a>
-                                        <a href="#!" className="collection-item blue-text">Event 2</a>
-                                    </div>
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
+
                 </div>
             </div> */}
-                <ErrorBoundary>
-                    <Overview/>
-                </ErrorBoundary>
-            </div>
-            <div className="col s12 l2">
-                <ErrorBoundary>
-                    <SideBar/>
-                </ErrorBoundary>
-            </div>
+            <ErrorBoundary>
+                <Page/>
+            </ErrorBoundary>
         </div>,
         document.getElementById('react-root')
     )
