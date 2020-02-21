@@ -6,7 +6,7 @@ import (
 	"time"
 
 	"github.com/jinzhu/gorm"
-	_ "github.com/jinzhu/gorm/dialects/mysql"
+	_ "github.com/jinzhu/gorm/dialects/postgres"
 )
 
 var (
@@ -15,7 +15,7 @@ var (
 
 func Init() error {
 	var err error
-	db, err = connectDB("root:yes@(127.0.0.1:3306)/mysql?parseTime=true")
+	db, err = connectDB("postgresql://sandy:pass@127.0.0.1:5432/calendar?sslmode=disable")
 	autoMigrate()
 	return err
 }
@@ -25,7 +25,7 @@ func connectDB(database string) (*gorm.DB, error) {
 	deadline := time.Now().Add(timeout)
 	tries := 0
 	for tries = 0; time.Now().Before(deadline); tries++ {
-		db, err := gorm.Open("mysql", database)
+		db, err := gorm.Open("postgres", database)
 		if err == nil {
 			return db, nil
 		}

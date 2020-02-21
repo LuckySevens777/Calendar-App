@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 
+	"github.com/sanity-io/litter"
 	"github.com/thecsw/Calendar-App/back/model"
 )
 
@@ -14,17 +15,15 @@ func main() {
 	}
 	fmt.Println("Connected to the database!")
 
-	model.CreateTimeslot("12:00")
-	model.CreateTimeslot("12:30")
-	model.CreateTimeslot("13:00")
-	model.CreateTimeslot("13:30")
-
 	model.CreateUser("Sandy")
-	model.CreateUser("Jonanathan")
-	model.CreateUser("Dylan")
 
-	res, err := model.GetAllTimeslots()
-	fmt.Println(res, err)
+	time1, _ := model.CreateTimeslot("12:00")
+	time2, _ := model.CreateTimeslot("12:20")
+	time3, _ := model.CreateTimeslot("12:40")
 
-	//fmt.Println(model.CreateEvent("Sandy", "2020-02-17", []uint{0, 1}))
+	event, _ := model.CreateEvent("Sandy", "2020-02-20", []*model.Timeslot{time1, time2, time3})
+
+	times, _ := model.GetEventTimeslots(event.ID)
+
+	litter.Dump(times)
 }

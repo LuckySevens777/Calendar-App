@@ -8,7 +8,7 @@ import (
 
 // GetAllTimeslots returns all timeslots in the system
 func GetAllTimeslots() ([]Timeslot, error) {
-	result := make([]Timeslot, 0, 64)
+	result := make([]Timeslot, 0, 72)
 	return result, DB().Model(&Timeslot{}).Find(&result).Error
 }
 
@@ -35,7 +35,7 @@ func GetUser(name string) (*User, error) {
 // CreateEvent creates an even
 // Register the day and the user_id of who created this event
 // Add an association to timeslots, so event can occupy multiple timeslots
-/* func CreateEvent(creator, day string, timeslots []uint) (*Event, error) {
+func CreateEvent(creator, day string, timeslots []*Timeslot) (*Event, error) {
 	user, err := GetUser(creator)
 	if err != nil {
 		return nil, err
@@ -45,18 +45,12 @@ func GetUser(name string) (*User, error) {
 	if err != nil {
 		return nil, err
 	}
-	for _, v := range timeslots {
-		temp := &Timeslot{}
-		temp.ID = v
-		DB().Model(event).Association(DB().NewScope(Timeslot{}).TableName()).Append()
-	}
-	return event, nil
-	 	return event, DB().
-	Model(event).
-	Association(DB().NewScope(Timeslot{}).TableName()).
-	Append(timeslots).Error
+	return event, DB().
+		Model(event).Association("Timeslots").
+		Append(timeslots).
+		Error
 }
-*/
+
 // GetEvents gets all user's events on a specific day
 func GetEvents(creator, day string) ([]Event, error) {
 	events := make([]Event, 0, 8)
@@ -83,9 +77,8 @@ func GetEventTimeslots(eventID uint) ([]Timeslot, error) {
 		Error
 }
 
-/*
 // AddAttendee adds an attendance
-func AddAttendee(eventID, userID uint, timeslots []uint) {
+/* func AddAttendee(eventID, userID uint, timeslots []Timeslot) {
 	for _, v := range timeslots {
 		obj := &Attendee{
 			EventID:    eventID,
