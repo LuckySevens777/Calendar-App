@@ -32,11 +32,13 @@ export class Overview extends React.Component<OverviewProps, OverviewState> {
         let now = new Date()
 
         return (
-            <div className="row center">
-                <div className="col s6">
-                    <ErrorBoundary>
-                        <Day date={now} onChange={()=>{}}/>
-                    </ErrorBoundary>
+            <div className="container">
+                <div className="row">
+                    <div className="col s6">
+                        <ErrorBoundary>
+                            <Day date={now} onChange={()=>{}}/>
+                        </ErrorBoundary>
+                    </div>
                 </div>
             </div>
         )
