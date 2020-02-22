@@ -15,3 +15,16 @@ services:
 
 #    volumes:
 #      - "/data/luckysevens777/calendar/mysql:/var/lib/mysql"
+  nginx:
+    build: ./webpage
+    container_name: nginx
+    volumes:
+      - ./webpage/front/.:/code
+    tty: true
+    ports:
+      - "80:80"
+  backend:
+    build: ./back
+    container_name: golang_backend
+    ports:
+      - "3000:3000"

@@ -1,0 +1,22 @@
+<%
+// Settings
+    page_title = 'Calendar',
+    css_files  = ['style'],
+    js_files   = ['index', 'TimeSlot'],
+    navbar     = {
+        title: page_title,
+        link: '/',
+        links: [
+            {title: 'Frontend docs', link: '/docs-frontend'},
+            {title: 'Backend docs', link: '/docs-backend'}
+        ]
+    }
+
+// Document
+%>
+
+<%- include('partials/html-start') %>
+<%- include('partials/navbar') %>
+
+<div id="react-root"></div>
+<%- include('partials/html-end') %>
