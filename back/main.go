@@ -1,7 +1,7 @@
 package main
 
 import (
-	"Calendar-App/back/processing/."
+	"./Calendar-App/back/processing"
 	"fmt"
 	"log"
 	"net/http"
