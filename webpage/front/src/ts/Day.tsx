@@ -150,7 +150,7 @@ export class Day extends React.Component<DayProps, DayState> {
                     <h6>{this.state.title}</h6>
                     <hr/>
                     {this.slots.map((time, slot) =>
-                        <ErrorBoundary>
+                        <ErrorBoundary key={slot}>
                             <TimeSlot
                                 slot={slot+1}
                                 key={slot}
