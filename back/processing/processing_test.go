@@ -48,10 +48,11 @@ func (suite *ProcessingTestSuite) TestD_validEventID() {
 	//(runs after test C which creates an event)
 	id,err := validateEventID("1")
 	suite.Assert().Nil(err)
-	suite.Assert().Equal(1,id)
+	suite.Assert().Equal(uint(1),id)
 	_,err = validateEventID("100")
 	suite.Assert().NotNil(err)
 	_,err = validateEventID("-2")
+	suite.Assert().NotNil(err)
 }
 
 func (suite *ProcessingTestSuite) TestE_getUser() {
@@ -107,14 +108,44 @@ func (suite *ProcessingTestSuite) TestF_GetEvents() {
 	suite.Assert().Equal("A test event",eventMaps[0]["Description"])
 	suite.Assert().Equal("test2",eventMaps[0]["Creator"])
 	suite.Assert().Equal("02-21-2020",eventMaps[0]["Day"])
-	suite.Assert().Equal(string(uint(3)),eventMaps[0]["EventID"])
+	suite.Assert().Equal("3",eventMaps[0]["EventID"])
 	suite.Assert().Equal(1,len(times[0]))
 	suite.Assert().Equal("15:00",times[0][0])
 	
 	_,times = GetEvents("","test1","",[]string{"03-20-2020","03-21-2020"})
 	suite.Assert().Equal(2,len(times))
 
-	//TODO: write more tests when the GetAttendees() method is implemented
+	eventMaps,times = GetEvents("","","test1",[]string{})
+	suite.Assert().Equal(3,len(eventMaps))
+	suite.Assert().Equal("test1",eventMaps[0]["Creator"])
+}
+
+func (suite *ProcessingTestSuite) TestG_RegisterForEvent() {
+	suite.Assert().Nil(RegisterForEvent("test1","3",[]string{"15:00"}))
+	suite.Assert().NotNil(RegisterForEvent("test2","3",[]string{"15:40"}))
+	suite.Assert().Nil(RegisterForEvent("test2","2",[]string{"08:00"}))
+	suite.Assert().NotNil(RegisterForEvent("test2","4",[]string{"15:40","06:00"}))
+}
+
+func (suite *ProcessingTestSuite) TestH_GetAttendees() {
+	atts,slots,err := GetAttendees("1")
+	suite.Assert().Nil(err)
+	suite.Assert().Equal(len(atts),len(slots))
+	suite.Assert().Equal(1,len(atts))
+	suite.Assert().Equal("test1",atts[0])
+	suite.Assert().Equal([]string{"08:00","08:20"},slots[0])
+
+	atts,slots,err = GetAttendees("3")
+	suite.Assert().Nil(err)
+	suite.Assert().Equal(len(atts),len(slots))
+	suite.Assert().Equal(2,len(atts))
+	suite.Assert().Equal([]string{"test2","test1"},atts) //mismatched order may be ok
+	suite.Assert().Equal([][]string{[]string{"15:00"},[]string{"15:00"}},slots)
+
+	_,_,err = GetAttendees("6")
+	suite.Assert().NotNil(err)
+	_,_,err = GetAttendees("-2")
+	suite.Assert().NotNil(err)
 }
 
 func TestInvestorTestSuite(t *testing.T) {

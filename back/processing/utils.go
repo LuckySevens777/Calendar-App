@@ -80,7 +80,7 @@ func validDay(datestr string) bool {
 }
 
 //validates that the given event id corresponds to an existing event, returns that id.
-func validateEventID(eventID string) (int,error) {
+func validateEventID(eventID string) (uint,error) {
 	events,err := model.GetAllEvents()
 	if err != nil {
 		return 0, errors.New("Error getting events: " + err.Error())
@@ -91,7 +91,7 @@ func validateEventID(eventID string) (int,error) {
 	}
 	for _,elem := range(events) {
 		if elem.ID == uint(intid) {
-			return int(elem.ID),nil
+			return elem.ID,nil
 		}
 	}
 
