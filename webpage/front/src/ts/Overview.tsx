@@ -3,7 +3,9 @@ import {Day} from './Day'
 import { ErrorBoundary } from './ErrorBoundary'
 import { SideBar } from './SideBar'
 
-interface OverviewProps {}
+interface OverviewProps {
+    stateChange:Function
+}
 
 interface OverviewState {}
 

@@ -1,6 +1,8 @@
 import * as React from 'react'
 
-interface SideBarProps {}
+interface SideBarProps {
+    stateChange:Function
+}
 
 interface SideBarState {}
 
@@ -21,27 +23,19 @@ export class SideBar extends React.Component<SideBarProps, SideBarState> {
     }
 
     /**
-     *
-     * @param mouseEvent the mouse event from the click
-     */
-    private onClick(mouseEvent) : void {
-
-    }
-
-    /**
      * Renders the element
      * This is where you put the tsx
      */
     public render() {
         return (
             <div className="collection" id="sidebar">
-                <a className="collection-item">
+                <a className="collection-item" onClick={() => this.props.stateChange('overview')}>
+                    Overview
+                </a>
+                <a className="collection-item" onClick={() => this.props.stateChange('events')}>
                     Events
                 </a>
-                <a className="collection-item">
-                    Pending
-                </a>
-                <a className="collection-item">
+                <a className="collection-item" onClick={() => this.props.stateChange('events')}>
                     Create
                 </a>
             </div>

@@ -25,9 +25,25 @@ export class Page extends React.Component<PageProps, PageState> {
             mode: undefined
         }
 
-        state.mode = 'events'
+        state.mode = 'overview'
 
         this.state = state
+    }
+
+    /**
+     * Changes the main page view to a new mode
+     * @param state the state to change to
+     */
+    private changeState(state:string) {
+        switch(state) {
+            //valid states
+            case 'overview':
+            case 'events':
+            case 'create':
+                this.changeState(state)
+            //invalid
+            default:
+        }
     }
 
     /**
@@ -41,12 +57,12 @@ export class Page extends React.Component<PageProps, PageState> {
                 <div>
                     <div className="center col s12 l10">
                         <ErrorBoundary>
-                            <Overview/>
+                            <Overview stateChange={this.changeState}/>
                         </ErrorBoundary>
                     </div>
                     <div className="col s12 l2">
                         <ErrorBoundary>
-                            <SideBar/>
+                            <SideBar stateChange={this.changeState}/>
                         </ErrorBoundary>
                     </div>
                 </div>
@@ -63,7 +79,7 @@ export class Page extends React.Component<PageProps, PageState> {
                     </div>
                     <div className="col s12 l2">
                         <ErrorBoundary>
-                            <SideBar/>
+                            <SideBar stateChange={this.changeState}/>
                         </ErrorBoundary>
                     </div>
                 </div>
@@ -75,12 +91,12 @@ export class Page extends React.Component<PageProps, PageState> {
                 <div>
                     <div className="center col s12 l10">
                         <ErrorBoundary>
-                            <Overview/>
+                            <Overview stateChange={this.changeState}/>
                         </ErrorBoundary>
                     </div>
                     <div className="col s12 l2">
                         <ErrorBoundary>
-                            <SideBar/>
+                            <SideBar stateChange={this.changeState}/>
                         </ErrorBoundary>
                     </div>
                 </div>
