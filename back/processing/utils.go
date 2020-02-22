@@ -97,3 +97,17 @@ func validateEventID(eventID string) (int,error) {
 
 	return 0, errors.New("No event matching the given ID: " + eventID)
 }
+
+//returns name of user associated with given userID
+func getUser(userID uint) (string,error) {
+	users,err := model.GetAllUsers()
+	if err != nil {
+		return "",errors.New("Problem getting users from db: " + err.Error())
+	}
+	for _,elem := range(users) {
+		if elem.ID == userID {
+			return elem.Name, nil
+		}
+	}
+	return "", errors.New("No user found with id of: " + string(userID))
+}

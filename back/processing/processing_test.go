@@ -15,6 +15,8 @@ func (suite *ProcessingTestSuite) SetupSuite() {
 	suite.Assert().Nil(DbInit())
 	_,err := model.CreateUser("test1")
 	suite.Assert().Nil(err)
+	_,err = model.CreateUser("test2")
+	suite.Assert().Nil(err)
 }
 
 //test utility methods:
@@ -47,7 +49,19 @@ func (suite *ProcessingTestSuite) TestD_validEventID() {
 	id,err := validateEventID("1")
 	suite.Assert().Nil(err)
 	suite.Assert().Equal(1,id)
-	_,err = validateEventID("2")
+	_,err = validateEventID("100")
+	suite.Assert().NotNil(err)
+	_,err = validateEventID("-2")
+}
+
+func (suite *ProcessingTestSuite) TestE_getUser() {
+	name,err := getUser(1)
+	suite.Assert().Nil(err)
+	suite.Assert().Equal("test1",name)
+	name,err = getUser(2)
+	suite.Assert().Nil(err)
+	suite.Assert().Equal("test2",name)
+	_,err = getUser(35)
 	suite.Assert().NotNil(err)
 }
 
@@ -63,11 +77,45 @@ func (suite *ProcessingTestSuite) TestC_CreateEvent() {
 	suite.Assert().Equal("08:00",slots[0].Name)
 	suite.Assert().Equal("02-21-2020",events[0].Day)
 
-	suite.Assert().NotNil(CreateEvent("test1","TE","","03-45-2019",[]string{"8:00"}))
-	suite.Assert().NotNil(CreateEvent("test2","TE","","02-21-2020",[]string{"8:00"}))
-	suite.Assert().NotNil(CreateEvent("test1","TE","","02-21-2020",[]string{"8:30"}))
+	suite.Assert().NotNil(CreateEvent("test1","TE","","03-45-2019",[]string{"08:00"}))
+	suite.Assert().NotNil(CreateEvent("test3","TE","","02-21-2020",[]string{"08:00"}))
+	suite.Assert().NotNil(CreateEvent("test1","TE","","02-21-2020",[]string{"08:30"}))
 }
 
+func (suite *ProcessingTestSuite) TestF_GetEvents() {
+	//create more test events:
+	suite.Assert().Nil(CreateEvent("test1","TE","","03-20-2020",[]string{"08:00","08:20","09:00"}))
+	suite.Assert().Nil(CreateEvent("test2","TE","A test event","02-21-2020",[]string{"15:00"}))
+	suite.Assert().Nil(CreateEvent("test1","TE","","03-21-2020",[]string{"15:40"}))
+	
+	_,times := GetEvents("","","",[]string{})
+	suite.Assert().Equal(4,len(times))
+	
+	_,times = GetEvents("", "test2","",[]string{})
+	suite.Assert().Equal(1,len(times))
+	
+	eventMaps,times := GetEvents("","","",[]string{"02-21-2020"})
+	suite.Assert().Equal(len(eventMaps),len(times))
+	suite.Assert().Equal(2,len(eventMaps))
+	
+	//TODO: uncomment when names are added to events in db
+	//_,times := GetEvents("","TE","",[]string{})
+	//suite.Assert().Equal(4,len(times))
+
+	eventMaps,times = GetEvents("","test2","",[]string{"02-21-2020"})
+	suite.Assert().Equal(1,len(times))
+	suite.Assert().Equal("A test event",eventMaps[0]["Description"])
+	suite.Assert().Equal("test2",eventMaps[0]["Creator"])
+	suite.Assert().Equal("02-21-2020",eventMaps[0]["Day"])
+	suite.Assert().Equal(string(uint(3)),eventMaps[0]["EventID"])
+	suite.Assert().Equal(1,len(times[0]))
+	suite.Assert().Equal("15:00",times[0][0])
+	
+	_,times = GetEvents("","test1","",[]string{"03-20-2020","03-21-2020"})
+	suite.Assert().Equal(2,len(times))
+
+	//TODO: write more tests when the GetAttendees() method is implemented
+}
 
 func TestInvestorTestSuite(t *testing.T) {
 	suite.Run(t, new(ProcessingTestSuite))

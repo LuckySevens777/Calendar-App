@@ -45,7 +45,7 @@ func DbClose() error {
 }
 
 //Throws errors and performs no db action when any of the timeslots are invalid 
-//creates an event on the given day over the given timeslots made by the given user. 
+//	creates an event on the given day over the given timeslots made by the given user. 
 //	creator must be an existing user
 //	name,desc have no specific restrictions
 //	day must be a valid day (format: "02-21-2020")
@@ -69,50 +69,12 @@ func CreateEvent(creator string, name string, desc string, day string, times []s
 	}
 	
 	//put the event in the db (model checks that user exists in db)
-	_,err = model.CreateEvent(creator, day, desc, slots)
+	event,err := model.CreateEvent(creator, day, desc, slots)
 	if err != nil {
 		return errors.New("Problem adding event to db: " + err.Error())
 	}
 	
-	return nil
-}
-
-/*
-gets all events for a specific day or days
-return format: returns a pair of lists of same size
-a list of maps mapping:
-"Name" to event name
-"Description" to event description
-"EventID" to unique event id
-"Creator" to event creator's name
-"Day" to the event's day
-and a list of a list of timeslots
-(each distinct index of the two lists corresponds to the same event)
-*/
-func GetEvents(name, creator, attendee string, days []string) ([]map[string]string,[][]string) {
-	//TODO: remove and revise the implementation properly (this is just for testing):
-	events,err := model.GetAllEvents()
-	if err != nil {
-		return nil, nil
-	}
-	endmap := make([]map[string]string,len(events))
-	endslots := make([][]string,len(events))
-	for i,elem := range(events) {
-		//fill out info for the event:
-		endmap[i] = make(map[string]string)
-		//endmap[i]["Name"] = elem.Name
-		endmap[i]["Description"] = elem.Description
-		endmap[i]["EventID"] = string(elem.ID)
-		//endmap[i]["Creator"] = 
-		endmap[i]["Day"] = elem.Day
-		
-		//fill in slots for the event:
-		endslots[i] = make([]string,len(elem.Timeslots))
-		for p,slot := range(elem.Timeslots) {
-			endslots[i][p] = slot.Name
-		}
-	}
-	return endmap, endslots
+	return RegisterForEvent(creator, string(event.ID), times) //creator signs up for all timeslots of event?
 }
 
 //validates that the event exists, then returns a list of usernames of users attending the event
@@ -120,6 +82,95 @@ func GetAttendees(eventID string) ([]string, error) {
 	//id := int(eventID)
 
 	return nil, nil
+}
+
+
+//gets all events with specific criteria.  Leave the criterion zeroed/nil to not search on it.
+//	return format: returns a pair of lists of same size
+//	a list of maps mapping:
+//		"Name" to event name
+//		"Description" to event description
+//		"EventID" to unique event id
+//		"Creator" to event creator's name
+//		"Day" to the event's day
+//	and a list of a list of timeslots
+//	(each distinct index of the two lists corresponds to the same event)
+func GetEvents(name, creator, attendee string, days []string) ([]map[string]string,[][]string) {
+	events,err := model.GetAllEvents()
+	if err != nil {
+		return nil, nil
+	}
+	skpd := 0 //number of events skipped over in search (using continue)
+	endmap := make([]map[string]string,len(events))
+	endslots := make([][]string,len(events))
+	for i,elem := range(events) {
+		crtr,err := getUser(elem.UserID)
+		if err != nil {
+			return nil,nil
+		}
+
+		//make sure event fits the filters:
+		//if (name != "" && elem.Name != name) || (creator != "" && crtr != creator) { TODO: uncomment when Sandy adds names
+		if (creator != "" && crtr != creator) {
+			skpd++
+			continue
+		}
+		//check attendee:
+		if attendee != "" {
+			atts,err := GetAttendees(string(elem.ID))
+			if err != nil {
+				return nil,nil //worse problems are occurring
+			}
+			ok := false
+			for _,att := range(atts) {
+				if attendee == att {
+					ok = true
+					break
+				}
+			}
+			if !ok {
+				skpd++
+				continue
+			}
+		}
+		//check days:
+		if len(days) != 0 {
+			dayOk := false
+			for _,day := range(days) {
+				if elem.Day == day {
+					dayOk = true
+					break
+				}
+			}
+			if !dayOk {
+				skpd++
+				continue
+			}
+		}
+		
+		cind := i-skpd
+
+		//fill out info for the event:
+		endmap[cind] = make(map[string]string)
+		//endmap[cind]["Name"] = elem.Name TODO: uncomment when Sandy adds names
+		endmap[cind]["Description"] = elem.Description
+		endmap[cind]["EventID"] = string(elem.ID)
+		endmap[cind]["Creator"] = crtr
+		endmap[cind]["Day"] = elem.Day
+		
+		//fill in slots for the event:
+		slots,err := model.GetEventTimeslots(elem.ID)
+		if err != nil {
+			return nil,nil //worse problems are occurring
+		}
+		endslots[cind] = make([]string,len(slots))
+		for p,slot := range(slots) {
+			endslots[cind][p] = slot.Name
+		}
+	}
+	endmap = endmap[0:(len(events)-skpd)]
+	endslots = endslots[0:(len(events)-skpd)]
+	return endmap, endslots
 }
 
 //validates that the event exists, that the user is in the db, 
