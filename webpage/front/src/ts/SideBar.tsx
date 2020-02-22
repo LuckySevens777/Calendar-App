@@ -29,13 +29,13 @@ export class SideBar extends React.Component<SideBarProps, SideBarState> {
     public render() {
         return (
             <div className="collection" id="sidebar">
-                <a className="collection-item" onClick={() => this.props.stateChange('overview')}>
+                <a className="collection-item blue-text" onClick={() => this.props.stateChange('overview')}>
                     Overview
                 </a>
-                <a className="collection-item" onClick={() => this.props.stateChange('events')}>
+                <a className="collection-item blue-text" onClick={() => this.props.stateChange('events')}>
                     Events
                 </a>
-                <a className="collection-item" onClick={() => this.props.stateChange('events')}>
+                <a className="collection-item blue-text" onClick={() => this.props.stateChange('create')}>
                     Create
                 </a>
             </div>
