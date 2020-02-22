@@ -46,11 +46,10 @@ func DbClose() error {
 
 //Throws errors and performs no db action when any of the timeslots are invalid 
 //creates an event on the given day over the given timeslots made by the given user. 
-//(but doesn't check that the user is valid).
-//	creator must be a valid user
+//	creator must be an existing user
 //	name,desc have no specific restrictions
-//	day must be a valid day (format: "")
-//	times must be valid timeslots (format: "15:04")
+//	day must be a valid day (format: "02-21-2020")
+//	times must be valid timeslots (format: "08:20")
 //Currently assumes the front end will ask for events again to get the eventID
 func CreateEvent(creator string, name string, desc string, day string, times []string) error {
 	
@@ -69,7 +68,7 @@ func CreateEvent(creator string, name string, desc string, day string, times []s
 		return errors.New("Problem parsing times: " + err.Error())
 	}
 	
-	//put the event in the db
+	//put the event in the db (model checks that user exists in db)
 	_,err = model.CreateEvent(creator, day, desc, slots)
 	if err != nil {
 		return errors.New("Problem adding event to db: " + err.Error())
@@ -78,22 +77,56 @@ func CreateEvent(creator string, name string, desc string, day string, times []s
 	return nil
 }
 
-//gets all events for a specific day or days
-func GetEvents(user string, days []string) string {
-	//need to plan out return format
-	return ""
+/*
+gets all events for a specific day or days
+return format: returns a pair of lists of same size
+a list of maps mapping:
+"Name" to event name
+"Description" to event description
+"EventID" to unique event id
+"Creator" to event creator's name
+"Day" to the event's day
+and a list of a list of timeslots
+(each distinct index of the two lists corresponds to the same event)
+*/
+func GetEvents(name, creator, attendee string, days []string) ([]map[string]string,[][]string) {
+	//TODO: remove and revise the implementation properly (this is just for testing):
+	events,err := model.GetAllEvents()
+	if err != nil {
+		return nil, nil
+	}
+	endmap := make([]map[string]string,len(events))
+	endslots := make([][]string,len(events))
+	for i,elem := range(events) {
+		//fill out info for the event:
+		endmap[i] = make(map[string]string)
+		//endmap[i]["Name"] = elem.Name
+		endmap[i]["Description"] = elem.Description
+		endmap[i]["EventID"] = string(elem.ID)
+		//endmap[i]["Creator"] = 
+		endmap[i]["Day"] = elem.Day
+		
+		//fill in slots for the event:
+		endslots[i] = make([]string,len(elem.Timeslots))
+		for p,slot := range(elem.Timeslots) {
+			endslots[i][p] = slot.Name
+		}
+	}
+	return endmap, endslots
 }
 
-//validates that the user asking is the creator of the event and the event exists, then returns a list of users attending the event
-func GetAttendees(user string, eventName string) ([]string, error) {
-	//user := model.getUser(key)
-	//checking user is valid...
-	//check if user returned by db is creator of the event they are trying to access...
-	//model.GetEvents(user)
+//validates that the event exists, then returns a list of usernames of users attending the event
+func GetAttendees(eventID string) ([]string, error) {
+	//id := int(eventID)
+
 	return nil, nil
 }
 
-//validates that the event exists, the user is in the db, and that all the times are valid times.  If anything is invalid, no action will be taken (maybe change later?).
-func RegisterForEvent(user string, eventName string, times []string) error {
+//validates that the event exists, that the user is in the db, 
+//and that all the times are valid (both valid timeslots and linked to the event).  
+//If anything is invalid, no action will be taken.
+//remember: valid format for times is "08:40" or "18:00"
+func RegisterForEvent(user string, eventID string, times []string) error {
+
 	return nil
 }

@@ -3,6 +3,7 @@ package processing
 import (
 	"time"
 	"errors"
+	"strconv"
 	"github.com/thecsw/Calendar-App/back/model"
 )
 
@@ -44,6 +45,22 @@ func toValidTimeSlots(times []string) ([]model.Timeslot, error) {
 	return end, nil
 }
 
+//checks that the given time is not in [12am,5am) and [12pm,1pm)
+func validTime(potentialslot string) bool {
+
+	slot,err := time.Parse("15:04",potentialslot)
+	if err != nil {
+		return false
+	}
+	hour := slot.Hour()
+	
+	if (hour >= 0 && hour < 5 || hour >= 12 && hour < 1) {
+		return false
+	}
+	
+	return true
+}
+
 //validates that an input day is valid for making an event on.  (format: "01-02-2006"
 //also checks that the given day is a valid one (not nonsensical or December 25, July 4 or January 1)
 func validDay(datestr string) bool {
@@ -62,18 +79,21 @@ func validDay(datestr string) bool {
 	return true
 }
 
-//checks that the given time is not in [12am,5am) and [12pm,1pm)
-func validTime(potentialslot string) bool {
-
-	slot,err := time.Parse("15:04",potentialslot)
+//validates that the given event id corresponds to an existing event, returns that id.
+func validateEventID(eventID string) (int,error) {
+	events,err := model.GetAllEvents()
 	if err != nil {
-		return false
+		return 0, errors.New("Error getting events: " + err.Error())
 	}
-	hour := slot.Hour()
-	
-	if (hour >= 0 && hour < 5 || hour >= 12 && hour < 1) {
-		return false
+	intid,err := strconv.ParseUint(eventID,10,64)
+	if err != nil {
+		return 0, errors.New("Error parsing event into int: " + err.Error())
 	}
-	
-	return true
+	for _,elem := range(events) {
+		if elem.ID == uint(intid) {
+			return int(elem.ID),nil
+		}
+	}
+
+	return 0, errors.New("No event matching the given ID: " + eventID)
 }
