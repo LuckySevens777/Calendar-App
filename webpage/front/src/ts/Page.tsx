@@ -1,4 +1,10 @@
 import * as React from 'react'
+
+import {USERNAME} from './improvisedValues'
+
+import {Event} from './Event'
+
+import {CreateEvent} from './CreateEvent'
 import {ErrorBoundary} from './ErrorBoundary'
 import {EventsView} from './EventsView'
 import {Overview} from './Overview'
@@ -7,7 +13,8 @@ import {SideBar} from './SideBar'
 interface PageProps {}
 
 interface PageState {
-    mode:string
+    mode:string,
+    username:string
 }
 
 export class Page extends React.Component<PageProps, PageState> {
@@ -22,7 +29,8 @@ export class Page extends React.Component<PageProps, PageState> {
 
         //temporary for constructor
         let state:PageState = {
-            mode: undefined
+            mode: undefined,
+            username: USERNAME
         }
 
         state.mode = 'overview'
@@ -91,7 +99,7 @@ export class Page extends React.Component<PageProps, PageState> {
                 <div>
                     <div className="center col s12 l10">
                         <ErrorBoundary>
-                            <Overview stateChange={this.changeState.bind(this)}/>
+                            <CreateEvent username={this.state.username} createObject={(event:Event) => {console.log(event)}}/>
                         </ErrorBoundary>
                     </div>
                     <div className="col s12 l2">

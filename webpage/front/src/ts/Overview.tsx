@@ -1,7 +1,6 @@
 import * as React from 'react'
 import {Day} from './Day'
 import { ErrorBoundary } from './ErrorBoundary'
-import { SideBar } from './SideBar'
 
 interface OverviewProps {
     stateChange:Function
@@ -34,7 +33,7 @@ export class Overview extends React.Component<OverviewProps, OverviewState> {
         let now = new Date()
 
         return (
-            <div className="container center">
+            <div className="container">
                 <div className="row">
                     <div className="col s6">
                         <ErrorBoundary>

@@ -67,6 +67,8 @@ document.addEventListener('DOMContentLoaded', () => {
     )
 
     //initialize material items
+
+    Material.updateTextFields()
     Material.Collapsible.init(document.querySelectorAll('.collapsible'), {})
     Material.Sidenav.init(document.querySelectorAll('.sidenav'), {})
 })

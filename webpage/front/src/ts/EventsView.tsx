@@ -1,7 +1,4 @@
 import * as React from 'react'
-import {Day} from './Day'
-import { ErrorBoundary } from './ErrorBoundary'
-import { SideBar } from './SideBar'
 
 interface EventsViewProps {}
 
