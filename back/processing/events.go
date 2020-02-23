@@ -1,7 +1,7 @@
 package processing
 
 import (
-	"github.com/LuckySevens777/Calendar-App/back/model"
+	"github.com/thecsw/Calendar-App/back/model"
 	"net/http" //should move this functionality to API when given chance
 	"errors"
 	"strings"
