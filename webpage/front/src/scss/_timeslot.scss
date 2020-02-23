@@ -19,3 +19,15 @@
         padding: 0.2em;
     }
 }
+
+.time-slot {
+    display: block;
+    line-height: 1em;
+    border: 1px solid #333;
+    cursor: pointer;
+}
+
+.time-title {
+    display: block;
+    line-height: 3em;
+}
