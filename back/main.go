@@ -9,7 +9,6 @@ import (
 	"github.com/gorilla/mux"
 	"io/ioutil"
 	"errors"
-	"strings"
 )
 
 type data struct {
@@ -18,6 +17,14 @@ type data struct {
 	Day string `json:"Day"`
 	Times []string `json:"Times"`
 	Event_Name string `json:"Event_Name"`
+	Event_Description string `json:"Event_Description"`
+}
+
+type return_data struct {
+	Message string `json:"Message"`
+	Attendee_Names []string `json:"Attendee_Names"`
+	Event_Info []map[string]string `json:"Event_Info"`
+	Timeslots [][]string `json:"Timeslots"`
 }
 
 func apicall(w http.ResponseWriter, r *http.Request){
@@ -37,83 +44,75 @@ func apicall(w http.ResponseWriter, r *http.Request){
 	fmt.Println(Data.Day)
 	fmt.Println(Data.Times)
 	fmt.Println(Data.Event_Name)
+	fmt.Println(Data.Event_Description)
 
-	str, err := HandleRequest(Data)
+	new_data, err := HandleRequest(Data)
 
 	if err != nil {
 		fmt.Println(err)
 		fmt.Println("Help!")
 	}
 
-	fmt.Println(str)
-	
-	json.NewEncoder(w).Encode(Data)
+	json.NewEncoder(w).Encode(new_data)
 }
 
-//Handles turning incoming header info into an action.  Should be moved to API eventually.  No authentication is done on this other than making sure the action is valid (and has all its pieces).  Will throw an error if the request is invalid.
-func HandleRequest(Data data) (string, error) {
+//No authentication is done on this other than making sure the action is valid (and has all its pieces).  Will throw an error if the request is invalid.
+func HandleRequest(Data data) (return_data, error) {
 	user := Data.User
-	
-	if user == "" {
-		return "", errors.New("No user specified in header")
-	}
 	
 	action := Data.Action
 
+	day := Data.Day
 	times := Data.Times
 	eventName := Data.Event_Name
-
-	errTimes := times != nil
-	errEventName := eventName != ""
-	if len(eventName) == 0 {
-		errEventName = false
-	}
+	eventDescription := Data.Event_Description
 
 	switch action {
 	case "Create-Event":
-		
-		if !errTimes {
-			return "", errors.New("Header doesn't contain the times key")
-		}
-		
-		err := processing.CreateEvent(user, times)
+		err := processing.CreateEvent(user, eventName, eventDescription, day, times)
 		
 		if err != nil {
-			return "", err
+			return return_data{}, err
 		}
 		
-		return "OK", nil
+		return return_data{}, nil
+		
 	case "Get-Events":
+		var return_this return_data
+		event_info, timeslots := processing.GetEvents(eventName, user, "", []string{day})
+		return_this.Message = "OK"
+		return_this.Event_Info = event_info
+		return_this.Timeslots = timeslots
+		return return_this, nil
 		
-		if !errTimes {
-			return "", errors.New("Header doesn't contain the time key")
-		}
-		
-		return processing.GetEvents(user, times), nil
 	case "Get-Attendees":
-		
-		if !errEventName {
-			return "", errors.New("Header doesn't contain the eventName key")
+		var return_this return_data
+		attendees, timeslots, err := processing.GetAttendees("")
+		if err != nil {
+			return return_data{}, err
 		}
+
+		return_this.Message = "OK"
+		return_this.Attendee_Names = attendees
+		return_this.Timeslots = timeslots
 		
-		end, err := processing.GetAttendees(user, eventName)
+		return return_this, nil
 		
-		return strings.Join(end,","), err
 	case "Register-For-Event":
-		
-		if !errTimes || !errEventName {
-			return "", errors.New("Header doesn't contain both of the eventName, time keys")
-		}
+		var return_this return_data
 		
 		err := processing.RegisterForEvent(user, eventName, times)
 		
 		if err != nil {
-			return "", err
+			return return_data{}, err
 		}
+
+		return_this.Message = "OK"
+
+		return return_this, nil
 		
-		return "OK", nil
 	default:
-		return "", errors.New("No action selected")
+		return return_data{}, errors.New("No action selected")
 	}
 }
 
