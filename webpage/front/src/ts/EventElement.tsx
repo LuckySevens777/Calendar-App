@@ -98,8 +98,14 @@ export class EventElement extends React.Component<EventElementProps, EventElemen
         for(let i = 0; i < 72; i++) {
             state.slots[i] = new Slot()
             state.slots[i].active = false
-            state.slots[i].interactive = true
-            state.slots[i].color = this.props.color.interactive
+
+            if(i < 12) state.slots[i].interactive = false
+            else if(i > 68) state.slots[i].interactive = false
+            else if(i >= 33 && i < 36) state.slots[i].interactive = false
+            else state.slots[i].interactive = true
+
+            if(state.slots[i].interactive) state.slots[i].color = this.props.color.interactive
+            else state.slots[i].color = this.props.color.inactive
         }
 
         state.displayTimes = [
@@ -135,42 +141,31 @@ export class EventElement extends React.Component<EventElementProps, EventElemen
     public render() {
         return (
             <ErrorBoundary>
-                {this.state.displayTimes.map((time, number) =>
-                    <div className="card row" id="event">
-                        <div className="col s4">
-                            <div className={`time-title`} key={number}>{time}<br/></div>
-                        </div>
-                        <div className="col s8">
-                            <div className={`time-slot ${this.state.slots[number*3].color}`} key={number*3}  onClick={(() => {
-                                    if(this.state.slots[number*3].interactive) this.setSlot(number*3, !this.state.slots[number*3].active)
-                                }).bind(this)}><br/>
+                <div className="card-panel">
+                    {this.state.displayTimes.map((time, number) =>
+                        <ErrorBoundary>
+                            <div className="card row" id="event">
+                                <div className="col s4">
+                                    <div className={`time-title`} key={number}><br/>{time}</div>
+                                </div>
+                                <div className="col s8">
+                                    <div className={`time-slot ${this.state.slots[number*3].color}`} key={number*3}  onClick={(() => {
+                                            if(this.state.slots[number*3].interactive) this.setSlot(number*3, !this.state.slots[number*3].active)
+                                        }).bind(this)}><br/>
+                                    </div>
+                                    <div className={`time-slot ${this.state.slots[number*3+1].color}`} key={number*3+1}  onClick={(() => {
+                                            if(this.state.slots[number*3+1].interactive) this.setSlot(number*3+1, !this.state.slots[number*3+1].active)
+                                        }).bind(this)}><br/>
+                                    </div>
+                                    <div className={`time-slot ${this.state.slots[number*3+2].color}`} key={number*3+2}  onClick={(() => {
+                                            if(this.state.slots[number*3+2].interactive) this.setSlot(number*3+2, !this.state.slots[number*3+2].active)
+                                        }).bind(this)}><br/>
+                                    </div>
+                                </div>
                             </div>
-                            <div className={`time-slot ${this.state.slots[number*3+1].color}`} key={number*3+1}  onClick={(() => {
-                                    if(this.state.slots[number*3+1].interactive) this.setSlot(number*3+1, !this.state.slots[number*3+1].active)
-                                }).bind(this)}><br/>
-                            </div>
-                            <div className={`time-slot ${this.state.slots[number*3+2].color}`} key={number*3+2}  onClick={(() => {
-                                    if(this.state.slots[number*3+2].interactive) this.setSlot(number*3+2, !this.state.slots[number*3+2].active)
-                                }).bind(this)}><br/>
-                            </div>
-                        </div>
-                    </div>
-                )}
-
-                {/* <div className="card row" id="event">
-                    <div className="col s4">
-                        {this.state.displayTimes.map((time, number) =>
-                            <div className={`time-title`} key={number}>{time}<br/></div>
-                        )}
-                    </div>
-                    <div className="col s8">
-                        {this.state.slots.map((slot, number) =>
-                            <div className={`time-slot ${slot.color}`} key={number}  onClick={(() => {
-                                if(slot.interactive) this.setSlot(number, !slot.active)
-                            }).bind(this)}><br/></div>
-                        )}
-                    </div>
-                </div> */}
+                        </ErrorBoundary>
+                    )}
+                </div>
             </ErrorBoundary>
         )
     }

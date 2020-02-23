@@ -1,33 +1,13 @@
 @import 'settings';
 
-.timeslot {
-    cursor: pointer;
-    margin: 0.1em;
-
-    //disable annoying text selection
-    -webkit-touch-callout: none;
-    -webkit-user-select: none;
-    -khtml-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-
-    display: inline-block;
-
-    span {
-        font-size: 0.7em;
-        padding: 0.2em;
-    }
-}
-
 .time-slot {
     display: block;
     line-height: 1em;
-    border: 1px solid #333;
+    border: 1px solid #666;
     cursor: pointer;
 }
 
 .time-title {
     display: block;
-    line-height: 3em;
+    line-height: 1em;
 }
