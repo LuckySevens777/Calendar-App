@@ -6,9 +6,11 @@ import * as ReactDOM from 'react-dom'
 //react elements
 import {ErrorBoundary} from './ErrorBoundary'
 import {Page} from './Page'
+import {call} from './Call'
 
 //DOMContentLoaded
 document.addEventListener('DOMContentLoaded', () => {
+		call('/api/');
 
     let now = new Date()
 

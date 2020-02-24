@@ -27,4 +27,4 @@ services:
     build: ./back
     container_name: golang_backend
     ports:
-      - "3000:3000"
+      - "10000:10000"
