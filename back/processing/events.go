@@ -240,6 +240,8 @@ func RegisterForEvent(username string, eventID string, times []string) error {
 	return err
 }
 
+//Adds the username given to the database if the user does not already exist.
+//If the user does exist, throw an error
 func SignUp(username string) error {
 	_, err := model.GetUser(username)
 	if err == nil {
