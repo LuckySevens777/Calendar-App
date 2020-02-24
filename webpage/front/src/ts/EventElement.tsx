@@ -141,25 +141,27 @@ export class EventElement extends React.Component<EventElementProps, EventElemen
     public render() {
         return (
             <ErrorBoundary>
-                <div className="card-panel">
+                <div className="card-panel row">
                     {this.state.displayTimes.map((time, number) =>
                         <ErrorBoundary>
-                            <div className="card row" id="event">
-                                <div className="col s4">
-                                    <div className={`time-title`} key={number}><br/>{time}</div>
-                                </div>
-                                <div className="col s8">
-                                    <div className={`time-slot ${this.state.slots[number*3].color}`} key={number*3}  onClick={(() => {
-                                            if(this.state.slots[number*3].interactive) this.setSlot(number*3, !this.state.slots[number*3].active)
-                                        }).bind(this)}><br/>
+                            <div className="col">
+                                <div className="card row" id="event">
+                                    <div className="col s4">
+                                        <div className={`time-title`} key={number}><br/>{time}</div>
                                     </div>
-                                    <div className={`time-slot ${this.state.slots[number*3+1].color}`} key={number*3+1}  onClick={(() => {
-                                            if(this.state.slots[number*3+1].interactive) this.setSlot(number*3+1, !this.state.slots[number*3+1].active)
-                                        }).bind(this)}><br/>
-                                    </div>
-                                    <div className={`time-slot ${this.state.slots[number*3+2].color}`} key={number*3+2}  onClick={(() => {
-                                            if(this.state.slots[number*3+2].interactive) this.setSlot(number*3+2, !this.state.slots[number*3+2].active)
-                                        }).bind(this)}><br/>
+                                    <div className="col s8">
+                                        <div className={`time-slot ${this.state.slots[number*3].color}`} key={number*3}  onClick={(() => {
+                                                if(this.state.slots[number*3].interactive) this.setSlot(number*3, !this.state.slots[number*3].active)
+                                            }).bind(this)}><br/>
+                                        </div>
+                                        <div className={`time-slot ${this.state.slots[number*3+1].color}`} key={number*3+1}  onClick={(() => {
+                                                if(this.state.slots[number*3+1].interactive) this.setSlot(number*3+1, !this.state.slots[number*3+1].active)
+                                            }).bind(this)}><br/>
+                                        </div>
+                                        <div className={`time-slot ${this.state.slots[number*3+2].color}`} key={number*3+2}  onClick={(() => {
+                                                if(this.state.slots[number*3+2].interactive) this.setSlot(number*3+2, !this.state.slots[number*3+2].active)
+                                            }).bind(this)}><br/>
+                                        </div>
                                     </div>
                                 </div>
                             </div>

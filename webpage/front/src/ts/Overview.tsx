@@ -1,6 +1,9 @@
 import * as React from 'react'
-import {Day} from './Day'
-import { ErrorBoundary } from './ErrorBoundary'
+
+import {Slot} from './Slot'
+
+import {ErrorBoundary} from './ErrorBoundary'
+import {EventElement} from './EventElement'
 
 interface OverviewProps {
     stateChange:Function
@@ -29,15 +32,21 @@ export class Overview extends React.Component<OverviewProps, OverviewState> {
      * This is where you put the tsx
      */
     public render() {
-
-        let now = new Date()
-
         return (
             <div className="container">
                 <div className="row">
                     <div className="col s6">
                         <ErrorBoundary>
-                            <Day date={now} onChange={()=>{}}/>
+                            <EventElement
+                                date={new Date()}
+                                interactive={true}
+                                onChange={(slots:Slot[]) => console.log(slots)}
+                                color={{
+                                    active: 'blue',
+                                    interactive: 'white',
+                                    inactive: 'grey'
+                                }}
+                            />
                         </ErrorBoundary>
                     </div>
                 </div>
