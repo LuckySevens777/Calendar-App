@@ -99,9 +99,8 @@ func (suite *ProcessingTestSuite) TestF_GetEvents() {
 	suite.Assert().Equal(len(eventMaps),len(times))
 	suite.Assert().Equal(2,len(eventMaps))
 	
-	//TODO: uncomment when names are added to events in db
-	//_,times := GetEvents("","TE","",[]string{})
-	//suite.Assert().Equal(4,len(times))
+	_,times = GetEvents("TE","","",[]string{})
+	suite.Assert().Equal(3,len(times))
 
 	eventMaps,times = GetEvents("","test2","",[]string{"02-21-2020"})
 	suite.Assert().Equal(1,len(times))

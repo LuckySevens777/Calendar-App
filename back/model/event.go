@@ -8,6 +8,7 @@ type Event struct {
 
 	UserID      uint
 	Day         string
+	Title       string
 	Description string
 	Timeslots   []*Timeslot `gorm:"many2many:event_times;"`
 }

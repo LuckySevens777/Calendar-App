@@ -70,7 +70,7 @@ func CreateEvent(creator string, name string, desc string, day string, times []s
 	}
 	
 	//put the event in the db (model checks that user exists in db)
-	event,err := model.CreateEvent(creator, day, desc, slots)
+	event,err := model.CreateEvent(creator, day, name, desc, slots)
 	if err != nil {
 		return errors.New("Problem adding event to db: " + err.Error())
 	}
@@ -117,7 +117,7 @@ func GetAttendees(eventID string) ([]string, [][]string, error) {
 //gets all events with specific criteria.  Leave the criterion zeroed/nil to not search on it.
 //	return format: returns a pair of lists of same size
 //	a list of maps mapping:
-//		"Name" to event name - TODO: will be implemented when names are added to the events in the db
+//		"Name" to event name
 //		"Description" to event description
 //		"EventID" to unique event id
 //		"Creator" to event creator's name
@@ -139,8 +139,7 @@ func GetEvents(name, creator, attendee string, days []string) ([]map[string]stri
 		}
 
 		//make sure event fits the filters:
-		//if (name != "" && elem.Name != name) || (creator != "" && crtr != creator) { TODO: uncomment when names are added to the db
-		if (creator != "" && crtr != creator) {
+		if (name != "" && elem.Title != name) || (creator != "" && crtr != creator) {
 			skpd++
 			continue
 		}
@@ -181,7 +180,7 @@ func GetEvents(name, creator, attendee string, days []string) ([]map[string]stri
 
 		//fill out info for the event:
 		endmap[cind] = make(map[string]string)
-		//endmap[cind]["Name"] = elem.Name TODO: uncomment when names are added to the db
+		endmap[cind]["Name"] = elem.Title
 		endmap[cind]["Description"] = elem.Description
 		endmap[cind]["EventID"] = strconv.FormatUint(uint64(elem.ID),10)
 		endmap[cind]["Creator"] = crtr

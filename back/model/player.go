@@ -47,7 +47,7 @@ func GetUser(name string) (*User, error) {
 // CreateEvent creates an even
 // Register the day and the user_id of who created this event
 // Add an association to timeslots, so event can occupy multiple timeslots
-func CreateEvent(creator, day, description string, timeslots []Timeslot) (*Event, error) {
+func CreateEvent(creator, day, title, description string, timeslots []Timeslot) (*Event, error) {
 	user, err := GetUser(creator)
 	if err != nil {
 		return nil, err
@@ -55,6 +55,7 @@ func CreateEvent(creator, day, description string, timeslots []Timeslot) (*Event
 	event := &Event{
 		UserID:      user.ID,
 		Day:         day,
+		Title:       title,
 		Description: description,
 	}
 	err = DB().Create(event).Error
@@ -77,6 +78,14 @@ func GetEvents(creator, day string) ([]Event, error) {
 	return events, DB().
 		Model(&Event{}).
 		Where("user_id=?", user.ID).
+		Where("day=?", day).
+		Find(&events).Error
+}
+
+func GetEventsOfTheDay(day string) ([]Event, error) {
+	events := make([]Event, 0, 8)
+	return events, DB().
+		Model(&Event{}).
 		Where("day=?", day).
 		Find(&events).Error
 }
