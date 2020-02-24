@@ -86,9 +86,25 @@ func HandleRequest(Data data) (return_data, error) {
 		return_this.Message = "OK"
 		return return_this, nil
 		
-	case "Get-Events":
+	case "Get-All-Events":
 		var return_this return_data
-		event_info, timeslots := processing.GetEvents(eventName, user, eventID, []string{day})
+		event_info, timeslots := processing.GetEvents("", "", "", []string{day})
+		return_this.Message = "OK"
+		return_this.Event_Info = event_info
+		return_this.Timeslots = timeslots
+		return return_this, nil
+
+	case "Get-Events-Attending":
+		var return_this return_data
+		event_info, timeslots := processing.GetEvents("", "", user, []string{day})
+		return_this.Message = "OK"
+		return_this.Event_Info = event_info
+		return_this.Timeslots = timeslots
+		return return_this, nil
+
+	case "Get-Events-Created":
+		var return_this return_data
+		event_info, timeslots := processing.GetEvents("", user, "", []string{day})
 		return_this.Message = "OK"
 		return_this.Event_Info = event_info
 		return_this.Timeslots = timeslots
@@ -129,13 +145,13 @@ func HandleRequest(Data data) (return_data, error) {
 		return_this.Message = "OK"
 
 		return return_this, nil
+		
 	default:
 		return return_data{}, errors.New("No action selected")
 	}
 }
 
 func handleRequests() {
-	
 	myRouter := mux.NewRouter().StrictSlash(true)
 	
 	myRouter.HandleFunc("/", apicall).Methods("POST")
