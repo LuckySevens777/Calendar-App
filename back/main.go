@@ -10,7 +10,9 @@ import (
 	"io/ioutil"
 	"errors"
 )
-
+// data stores all the possible data that should come in from the front end.
+// Includes the name of the user, the action they want to take, the day they're looking at, the possible timeslots (for registration purposes),
+// the event name, and the event description
 type data struct {
 	User string `json:"User"`
 	Action string `json:"Action"`
@@ -20,6 +22,8 @@ type data struct {
 	Event_Description string `json:"Event_Description"`
 }
 
+// return_data stores all the possible data that could be returned to the front end.
+// Includes a simple message for the front end to check, and the result of the get_attendees and get_event methods
 type return_data struct {
 	Message string `json:"Message"`
 	Attendee_Names []string `json:"Attendee_Names"`
@@ -27,18 +31,18 @@ type return_data struct {
 	Timeslots [][]string `json:"Timeslots"`
 }
 
+//apicall parses the data obtained from the front-end into the data struct, then sends the data into the handle method
 func apicall(w http.ResponseWriter, r *http.Request){
-	fmt.Fprintf(w, "Hello World!")
-
 	var Data data
 
 	reqBody, err := ioutil.ReadAll(r.Body)
 	if err != nil {
-		fmt.Fprintf(w, "Kindly enter data with the event title and description only in order to update")
+		fmt.Fprintf(w, "Data entered is invalid")
 	}
 
 	json.Unmarshal(reqBody, &Data)
 
+	//For observation purposes
 	fmt.Println(Data.User)
 	fmt.Println(Data.Action)
 	fmt.Println(Data.Day)

@@ -1,3 +1,3 @@
 FROM golang
 WORKDIR /
-COPY . .
+RUN go run main.go
