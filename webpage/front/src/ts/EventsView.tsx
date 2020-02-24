@@ -53,7 +53,7 @@ export class EventsView extends React.Component<EventsViewProps, EventsViewState
                                 {/* onMouseover is a hacky way to initialize the container just in time */}
                                 <div className="collapsible-header" onMouseOver={()=>Material.Collapsible.init(document.querySelectorAll('.collapsible'), {})}>
                                     <i className="material-icons">group</i>
-                                    <h4>{event.name} | {event.creatorName} | {event.date}</h4>
+                                    <h5>{event.name} | {event.creatorName} | {event.date}</h5>
                                     {console.log(EVENTS)}
                                 </div>
                                 <div className="collapsible-body">
