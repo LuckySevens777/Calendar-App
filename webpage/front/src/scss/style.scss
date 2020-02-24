@@ -1,0 +1,16 @@
+@import 'settings';
+@import 'timeslot';
+@import 'switch';
+@import 'sidebar';
+
+input {
+    margin: auto;
+}
+
+.collapsible-header {
+    text-justify: inter-word;
+    .material-icons {
+        font-size: 4em;
+        margin-right: 3rem;
+    }
+}

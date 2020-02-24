@@ -1,9 +1,12 @@
 #editors
 .vscode/
+.saves
+*~
 
 #npm files
-package-lock.json
 node_modules/
 
 #compiled code
-front/serve/
+webpage/front/serve/
+webpage/front/intermediate/
+webpage/front/docs-frontend/
