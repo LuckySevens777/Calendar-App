@@ -11,5 +11,4 @@ WORKDIR /var/www
 COPY --from=dev /code/serve .
 WORKDIR /var/www/docs-frontend
 COPY --from=dev /code/docs-frontend .
-RUN ls
 COPY nginx.conf /etc/nginx/

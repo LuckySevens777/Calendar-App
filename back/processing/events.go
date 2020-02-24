@@ -5,7 +5,7 @@ import (
 	"errors"
 	"time"
 	"fmt"
-	"github.com/LuckySevens777/Calendar-App/back/model"
+	//"github.com/LuckySevens777/Calendar-App/back/model"
 	"net/http" //should move this functionality to API when given chance
 	"errors"
 	"strings"
