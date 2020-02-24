@@ -1,9 +1,11 @@
 import * as React from 'react'
 
 import {Event} from './Event'
+import {Slot} from './Slot'
 
 import {Day} from './Day'
 import {ErrorBoundary} from './ErrorBoundary'
+import { EventElement } from './EventElement'
 interface CreateEventProps {
     /**
      * the name of the currently logged in user
@@ -110,10 +112,21 @@ export class CreateEvent extends React.Component<CreateEventProps, CreateEventSt
                 </div>
                 <div className="row">
                     <ErrorBoundary>
-                        <Day date={now} onChange={()=>{}}/>
+                        <div className="col s8 m4">
+                            <EventElement
+                                date={new Date()}
+                                interactive={true}
+                                onChange={(slots:Slot[]) => console.log(slots)}
+                                color={{
+                                    active: 'blue',
+                                    interactive: 'white',
+                                    inactive: 'grey'
+                                }}
+                            />
+                        </div>
                     </ErrorBoundary>
                 </div>
-                <div className="row">
+                <div className="row center">
                     <a className="waves-effect blue white-text btn" onClick={this.createEvent.bind(this)}>Create</a>
                 </div>
             </div>
