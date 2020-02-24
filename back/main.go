@@ -120,9 +120,15 @@ func HandleRequest(Data data) (return_data, error) {
 	}
 }
 
+func helloworld(w http.ResponseWriter, r *http.Request) {
+	w.WriteHeader(http.StatusOK)
+	fmt.Fprintf(w, "hello, world")
+}
+
 func handleRequests() {
 	myRouter := mux.NewRouter().StrictSlash(true)
 	
+	//myRouter.HandleFunc("/", helloworld).Methods("GET")
 	myRouter.HandleFunc("/", apicall).Methods("POST")
 	
 	log.Fatal(http.ListenAndServe(":10000", myRouter))
