@@ -239,3 +239,12 @@ func RegisterForEvent(username string, eventID string, times []string) error {
 	_,err = model.AddAttendee(evntID,usr.ID,slots)
 	return err
 }
+
+func SignUp(username string) error {
+	_, err := model.GetUser(username)
+	if err == nil {
+		return errors.New("User already exists in db.")
+	}
+	_, err2 := model.CreateUser(username)
+	return err2
+}

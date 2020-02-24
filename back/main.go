@@ -9,6 +9,7 @@ import (
 	"github.com/gorilla/mux"
 	"io/ioutil"
 	"errors"
+	"os"
 )
 // data stores all the possible data that should come in from the front end.
 // Includes the name of the user, the action they want to take, the day they're looking at, the possible timeslots (for registration purposes),
@@ -20,6 +21,7 @@ type data struct {
 	Times []string `json:"Times"`
 	Event_Name string `json:"Event_Name"`
 	Event_Description string `json:"Event_Description"`
+	Event_ID string `json:"Event_ID"`
 }
 
 // return_data stores all the possible data that could be returned to the front end.
@@ -70,20 +72,23 @@ func HandleRequest(Data data) (return_data, error) {
 	times := Data.Times
 	eventName := Data.Event_Name
 	eventDescription := Data.Event_Description
+	eventID := Data.Event_ID
 
 	switch action {
 	case "Create-Event":
+		var return_this return_data
 		err := processing.CreateEvent(user, eventName, eventDescription, day, times)
 		
 		if err != nil {
 			return return_data{}, err
 		}
-		
-		return return_data{}, nil
+
+		return_this.Message = "OK"
+		return return_this, nil
 		
 	case "Get-Events":
 		var return_this return_data
-		event_info, timeslots := processing.GetEvents(eventName, user, "", []string{day})
+		event_info, timeslots := processing.GetEvents(eventName, user, eventID, []string{day})
 		return_this.Message = "OK"
 		return_this.Event_Info = event_info
 		return_this.Timeslots = timeslots
@@ -91,7 +96,7 @@ func HandleRequest(Data data) (return_data, error) {
 		
 	case "Get-Attendees":
 		var return_this return_data
-		attendees, timeslots, err := processing.GetAttendees("")
+		attendees, timeslots, err := processing.GetAttendees(eventID)
 		if err != nil {
 			return return_data{}, err
 		}
@@ -114,13 +119,23 @@ func HandleRequest(Data data) (return_data, error) {
 		return_this.Message = "OK"
 
 		return return_this, nil
-		
+	case "Sign-Up":
+		var return_this return_data
+
+		err := processing.SignUp(user)
+		if err != nil {
+			return return_data{}, err
+		}
+		return_this.Message = "OK"
+
+		return return_this, nil
 	default:
 		return return_data{}, errors.New("No action selected")
 	}
 }
 
 func handleRequests() {
+	
 	myRouter := mux.NewRouter().StrictSlash(true)
 	
 	myRouter.HandleFunc("/", apicall).Methods("POST")
@@ -132,5 +147,12 @@ func handleRequests() {
 func main() {
 	fmt.Println("Hello world!")
 
+	err := processing.DbInit()
+
+	if err != nil {
+		fmt.Println("DB unable to be initialized.")
+		os.Exit(3)
+	}
+	
 	handleRequests()
 }
