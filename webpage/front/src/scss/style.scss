@@ -6,3 +6,11 @@
 input {
     margin: auto;
 }
+
+.collapsible-header {
+    text-justify: inter-word;
+    .material-icons {
+        font-size: 4em;
+        margin-right: 3rem;
+    }
+}
