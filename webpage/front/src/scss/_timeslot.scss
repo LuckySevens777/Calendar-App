@@ -4,7 +4,9 @@
     display: block;
     line-height: 1em;
     border: 1px solid #666;
-    cursor: pointer;
+    &.selectable {
+        cursor: pointer;
+    }
 }
 
 .time-title {

@@ -4,6 +4,7 @@ import {Slot} from './Slot'
 
 import {ErrorBoundary} from './ErrorBoundary'
 import {EventElement} from './EventElement'
+import { EVENTS } from './improvisedValues'
 
 interface OverviewProps {
     stateChange:Function
@@ -32,6 +33,15 @@ export class Overview extends React.Component<OverviewProps, OverviewState> {
      * This is where you put the tsx
      */
     public render() {
+
+        let slots:Slot[] = []
+        for(let i = 0; i < 72; i++) {
+            let slot = new Slot
+            slot.interactive = false
+            slot.active = EVENTS[0].timeSlots.indexOf(i) != -1
+            slots[i] = slot
+        }
+
         return (
             <div className="container">
                 <div className="row">
@@ -39,13 +49,14 @@ export class Overview extends React.Component<OverviewProps, OverviewState> {
                         <ErrorBoundary>
                             <EventElement
                                 date={new Date()}
-                                interactive={true}
+                                interactive={false}
                                 onChange={(slots:Slot[]) => console.log(slots)}
                                 color={{
                                     active: 'blue',
                                     interactive: 'white',
                                     inactive: 'grey'
                                 }}
+                                slots={slots}
                             />
                         </ErrorBoundary>
                     </div>

@@ -32,8 +32,13 @@ interface EventElementProps {
         /**
          * slot is unable to be interacted with
          */
-        inactive:string
+        inactive:string,
     }
+
+    /**
+     * array of default slots
+     */
+    slots:Slot[],
 
     /**
      * Callback function to be called when the state of this element changes
@@ -110,18 +115,27 @@ export class EventElement extends React.Component<EventElementProps, EventElemen
             ]
         }
 
-        //generate blank slots
-        for(let i = 0; i < 72; i++) {
-            state.slots[i] = new Slot()
-            state.slots[i].active = false
+        if(this.props.slots.length != 72) {
+            //generate blank slots
+            for(let i = 0; i < 72; i++) {
+                state.slots[i] = new Slot
+                state.slots[i].active = false
 
-            if(i < 12) state.slots[i].interactive = false
-            else if(i > 68) state.slots[i].interactive = false
-            else if(i >= 33 && i < 36) state.slots[i].interactive = false
-            else state.slots[i].interactive = true
+                if(i < 12) state.slots[i].interactive = false
+                else if(i > 68) state.slots[i].interactive = false
+                else if(i >= 33 && i < 36) state.slots[i].interactive = false
+                else state.slots[i].interactive = true
 
-            if(state.slots[i].interactive) state.slots[i].color = this.props.color.interactive
-            else state.slots[i].color = this.props.color.inactive
+                if(state.slots[i].interactive) state.slots[i].color = this.props.color.interactive
+                else state.slots[i].color = this.props.color.inactive
+            }
+        } else {
+            state.slots = this.props.slots
+
+            for(let i = 0; i < 72; i++) {
+                if(state.slots[i].active) state.slots[i].color = this.props.color.active
+                else state.slots[i].color = this.props.color.interactive
+            }
         }
 
         state.displayTimes = state.times12
@@ -178,15 +192,15 @@ export class EventElement extends React.Component<EventElementProps, EventElemen
                                         <div className={`time-title`} key={number}><br/>{time}</div>
                                     </div>
                                     <div className="col s8">
-                                        <div className={`time-slot ${this.state.slots[number*3].color}`} key={number*3}  onClick={(() => {
+                                        <div className={`time-slot ${this.state.slots[number*3].interactive ? 'selectable' : ''} ${this.state.slots[number*3].color}`} key={number*3}  onClick={(() => {
                                                 if(this.state.slots[number*3].interactive) this.setSlot(number*3, !this.state.slots[number*3].active)
                                             }).bind(this)}><br/>
                                         </div>
-                                        <div className={`time-slot ${this.state.slots[number*3+1].color}`} key={number*3+1}  onClick={(() => {
+                                        <div className={`time-slot ${this.state.slots[number*3].interactive ? 'selectable' : ''} ${this.state.slots[number*3+1].color}`} key={number*3+1}  onClick={(() => {
                                                 if(this.state.slots[number*3+1].interactive) this.setSlot(number*3+1, !this.state.slots[number*3+1].active)
                                             }).bind(this)}><br/>
                                         </div>
-                                        <div className={`time-slot ${this.state.slots[number*3+2].color}`} key={number*3+2}  onClick={(() => {
+                                        <div className={`time-slot ${this.state.slots[number*3].interactive ? 'selectable' : ''} ${this.state.slots[number*3+2].color}`} key={number*3+2}  onClick={(() => {
                                                 if(this.state.slots[number*3+2].interactive) this.setSlot(number*3+2, !this.state.slots[number*3+2].active)
                                             }).bind(this)}><br/>
                                         </div>
