@@ -17,7 +17,7 @@ import (
 type data struct {
 	User string `json:"User"`
 	Action string `json:"Action"`
-	Day string `json:"Day"`
+	Day []string `json:"Day"`
 	Times []string `json:"Times"`
 	Event_Name string `json:"Event_Name"`
 	Event_Description string `json:"Event_Description"`
@@ -81,7 +81,7 @@ func HandleRequest(Data data) (return_data, error) {
 	switch action {
 	case "Create-Event":
 		var return_this return_data
-		err := processing.CreateEvent(user, eventName, eventDescription, day, times)
+		err := processing.CreateEvent(user, eventName, eventDescription, day[0], times)
 		
 		if err != nil {
 			return return_data{}, err
@@ -92,7 +92,7 @@ func HandleRequest(Data data) (return_data, error) {
 		
 	case "Get-All-Events":
 		var return_this return_data
-		event_info, timeslots := processing.GetEvents("", "", "", []string{day})
+		event_info, timeslots := processing.GetEvents("", "", "", nil)
 		return_this.Message = "OK"
 		return_this.Event_Info = event_info
 		return_this.Timeslots = timeslots
@@ -100,7 +100,7 @@ func HandleRequest(Data data) (return_data, error) {
 
 	case "Get-Events-Attending":
 		var return_this return_data
-		event_info, timeslots := processing.GetEvents("", "", user, []string{day})
+		event_info, timeslots := processing.GetEvents("", "", user, nil)
 		return_this.Message = "OK"
 		return_this.Event_Info = event_info
 		return_this.Timeslots = timeslots
@@ -108,7 +108,15 @@ func HandleRequest(Data data) (return_data, error) {
 
 	case "Get-Events-Created":
 		var return_this return_data
-		event_info, timeslots := processing.GetEvents("", user, "", []string{day})
+		event_info, timeslots := processing.GetEvents("", user, "", nil)
+		return_this.Message = "OK"
+		return_this.Event_Info = event_info
+		return_this.Timeslots = timeslots
+		return return_this, nil
+
+	case "Get-Events-For-Day":
+		var return_this return_data
+		event_info, timeslots := processing.GetEvents("", "", "", day)
 		return_this.Message = "OK"
 		return_this.Event_Info = event_info
 		return_this.Timeslots = timeslots
