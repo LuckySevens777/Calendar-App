@@ -1,6 +1,10 @@
 import * as React from 'react'
-import {Day} from './Day'
-import { ErrorBoundary } from './ErrorBoundary'
+
+import {Slot} from './Slot'
+
+import {ErrorBoundary} from './ErrorBoundary'
+import {EventElement} from './EventElement'
+import {EVENTS} from './improvisedValues'
 
 interface OverviewProps {
     stateChange:Function
@@ -30,14 +34,30 @@ export class Overview extends React.Component<OverviewProps, OverviewState> {
      */
     public render() {
 
-        let now = new Date()
+        let slots:Slot[] = []
+        for(let i = 0; i < 72; i++) {
+            let slot = new Slot
+            slot.interactive = false
+            slot.active = EVENTS[0].timeSlots.indexOf(i) != -1
+            slots[i] = slot
+        }
 
         return (
             <div className="container">
                 <div className="row">
                     <div className="col s6">
                         <ErrorBoundary>
-                            <Day date={now} onChange={()=>{}}/>
+                            <EventElement
+                                date={new Date()}
+                                interactive={false}
+                                onChange={(slots:Slot[]) => console.log(slots)}
+                                color={{
+                                    active: 'blue',
+                                    interactive: 'white',
+                                    inactive: 'grey'
+                                }}
+                                slots={slots}
+                            />
                         </ErrorBoundary>
                     </div>
                 </div>

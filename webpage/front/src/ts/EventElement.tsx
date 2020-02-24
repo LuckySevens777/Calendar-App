@@ -32,8 +32,13 @@ interface EventElementProps {
         /**
          * slot is unable to be interacted with
          */
-        inactive:string
+        inactive:string,
     }
+
+    /**
+     * array of default slots
+     */
+    slots:Slot[],
 
     /**
      * Callback function to be called when the state of this element changes
@@ -67,7 +72,14 @@ interface EventElementState {
     /**
      * what format of times to display
      */
-    displayTimes:string[]
+    displayTimes:string[],
+
+    /**
+     * whether or not to display time in 24 hour mode
+     */
+    time24Hour:boolean,
+    times12:string[],
+    times24:string[]
 }
 
 /**
@@ -91,27 +103,42 @@ export class EventElement extends React.Component<EventElementProps, EventElemen
             title: undefined,
             date: undefined,
             slots: [],
-            displayTimes: []
+            displayTimes: [],
+            time24Hour: false,
+            times12: [
+                '01:00 am', '02:00 am', '03:00 am', '04:00 am', '05:00 am', '06:00 am', '07:00 am', '08:00 am', '09:00 am', '10:00 am', '11:00 am', '12:00 am',
+                '01:00 pm', '02:00 pm', '03:00 pm', '04:00 pm', '05:00 pm', '06:00 pm', '07:00 pm', '08:00 pm', '09:00 pm', '10:00 pm', '11:00 pm', '12:00 pm'
+            ],
+            times24: [
+                '01:00', '02:00', '03:00', '04:00', '05:00', '06:00', '07:00', '08:00', '09:00', '10:00', '11:00', '12:00',
+                '13:00', '14:00', '15:00', '16:00', '17:00', '18:00', '19:00', '20:00', '21:00', '22:00', '23:00', '24:00'
+            ]
         }
 
-        //generate blank slots
-        for(let i = 0; i < 72; i++) {
-            state.slots[i] = new Slot()
-            state.slots[i].active = false
+        if(this.props.slots.length != 72) {
+            //generate blank slots
+            for(let i = 0; i < 72; i++) {
+                state.slots[i] = new Slot
+                state.slots[i].active = false
 
-            if(i < 12) state.slots[i].interactive = false
-            else if(i > 68) state.slots[i].interactive = false
-            else if(i >= 33 && i < 36) state.slots[i].interactive = false
-            else state.slots[i].interactive = true
+                if(i < 12) state.slots[i].interactive = false
+                else if(i > 68) state.slots[i].interactive = false
+                else if(i >= 33 && i < 36) state.slots[i].interactive = false
+                else state.slots[i].interactive = true
 
-            if(state.slots[i].interactive) state.slots[i].color = this.props.color.interactive
-            else state.slots[i].color = this.props.color.inactive
+                if(state.slots[i].interactive) state.slots[i].color = this.props.color.interactive
+                else state.slots[i].color = this.props.color.inactive
+            }
+        } else {
+            state.slots = this.props.slots
+
+            for(let i = 0; i < 72; i++) {
+                if(state.slots[i].active) state.slots[i].color = this.props.color.active
+                else state.slots[i].color = this.props.color.interactive
+            }
         }
 
-        state.displayTimes = [
-            '1:00 am', '2:00 am', '3:00 am', '4:00 am', '5:00 am', '6:00 am', '7:00 am', '8:00 am', '9:00 am', '10:00 am', '11:00 am', '12:00 am',
-            '1:00 pm', '2:00 pm', '3:00 pm', '4:00 pm', '5:00 pm', '6:00 pm', '7:00 pm', '8:00 pm', '9:00 pm', '10:00 pm', '11:00 pm', '12:00 pm'
-        ]
+        state.displayTimes = state.times12
 
         this.state = state
     }
@@ -141,25 +168,42 @@ export class EventElement extends React.Component<EventElementProps, EventElemen
     public render() {
         return (
             <ErrorBoundary>
-                <div className="card-panel">
+                <div className="card-panel row">
+                    <div className="row">
+                        <div className="switch">
+                            <label>
+                                12 hour
+                                <input type="checkbox" onChange={((e: React.FormEvent<HTMLInputElement>) => {
+                                    let time24 = e.currentTarget.checked
+
+                                    this.setState({time24Hour: time24})
+                                    this.setState({displayTimes: (time24 ? this.state.times24 : this.state.times12)})
+                                }).bind(this)}/>
+                                <span className="lever"></span>
+                                24 hour
+                            </label>
+                        </div>
+                    </div>
                     {this.state.displayTimes.map((time, number) =>
-                        <ErrorBoundary>
-                            <div className="card row" id="event">
-                                <div className="col s4">
-                                    <div className={`time-title`} key={number}><br/>{time}</div>
-                                </div>
-                                <div className="col s8">
-                                    <div className={`time-slot ${this.state.slots[number*3].color}`} key={number*3}  onClick={(() => {
-                                            if(this.state.slots[number*3].interactive) this.setSlot(number*3, !this.state.slots[number*3].active)
-                                        }).bind(this)}><br/>
+                        <ErrorBoundary key={number}>
+                            <div className="col">
+                                <div className="card row" id="event">
+                                    <div className="col s4">
+                                        <div className={`time-title`} key={number}><br/>{time}</div>
                                     </div>
-                                    <div className={`time-slot ${this.state.slots[number*3+1].color}`} key={number*3+1}  onClick={(() => {
-                                            if(this.state.slots[number*3+1].interactive) this.setSlot(number*3+1, !this.state.slots[number*3+1].active)
-                                        }).bind(this)}><br/>
-                                    </div>
-                                    <div className={`time-slot ${this.state.slots[number*3+2].color}`} key={number*3+2}  onClick={(() => {
-                                            if(this.state.slots[number*3+2].interactive) this.setSlot(number*3+2, !this.state.slots[number*3+2].active)
-                                        }).bind(this)}><br/>
+                                    <div className="col s8">
+                                        <div className={`time-slot ${this.state.slots[number*3].interactive ? 'selectable' : ''} ${this.state.slots[number*3].color}`} key={number*3}  onClick={(() => {
+                                                if(this.state.slots[number*3].interactive) this.setSlot(number*3, !this.state.slots[number*3].active)
+                                            }).bind(this)}><br/>
+                                        </div>
+                                        <div className={`time-slot ${this.state.slots[number*3].interactive ? 'selectable' : ''} ${this.state.slots[number*3+1].color}`} key={number*3+1}  onClick={(() => {
+                                                if(this.state.slots[number*3+1].interactive) this.setSlot(number*3+1, !this.state.slots[number*3+1].active)
+                                            }).bind(this)}><br/>
+                                        </div>
+                                        <div className={`time-slot ${this.state.slots[number*3].interactive ? 'selectable' : ''} ${this.state.slots[number*3+2].color}`} key={number*3+2}  onClick={(() => {
+                                                if(this.state.slots[number*3+2].interactive) this.setSlot(number*3+2, !this.state.slots[number*3+2].active)
+                                            }).bind(this)}><br/>
+                                        </div>
                                     </div>
                                 </div>
                             </div>

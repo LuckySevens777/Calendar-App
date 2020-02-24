@@ -3,7 +3,6 @@ import * as React from 'react'
 import {Event} from './Event'
 import {Slot} from './Slot'
 
-import {Day} from './Day'
 import {ErrorBoundary} from './ErrorBoundary'
 import { EventElement } from './EventElement'
 interface CreateEventProps {
@@ -23,14 +22,22 @@ interface CreateEventState {
      * What this event will be called
      */
     name:string,
+
     /**
      * A description for this event
      */
     description:string,
+
     /**
      * The name of the user who created this
      */
     creatorName:string,
+
+    /**
+     * The date that this event will be held on
+     */
+    date:string,
+
     /**
      * the number of each individual 20 minute time slot that has been selected
      * <br>I know it sounds dumb, but that was easiest in the database
@@ -53,6 +60,7 @@ export class CreateEvent extends React.Component<CreateEventProps, CreateEventSt
             name: undefined,
             description: undefined,
             creatorName: undefined,
+            date: undefined,
             timeSlots: []
         }
 
@@ -70,6 +78,7 @@ export class CreateEvent extends React.Component<CreateEventProps, CreateEventSt
         event.description = this.state.description
         event.uniqueID = 'INVALID ID'
         event.creatorName = this.props.username
+        event.date = this.state.date
         event.timeSlots = this.state.timeSlots
 
         //run callback
@@ -81,16 +90,22 @@ export class CreateEvent extends React.Component<CreateEventProps, CreateEventSt
      * This is where you put the tsx
      */
     public render() {
-
-        let now = new Date()
-
         return (
-            <div className="card container center">
-                <div className="row">
+            <div className="card-panel container align-center">
+                <div className="row align-center">
                     <h2>
                         Create a new event
                     </h2>
                     <hr/>
+                </div>
+                <div className="row">
+                    <div className="col s2"></div>
+                    <div className="input-field col s8">
+                        <input id="event-date" type="date" onChange={((e: React.FormEvent<HTMLInputElement>) => {
+                            this.setState({date: e.currentTarget.value})
+                        }).bind(this)}></input>
+                    </div>
+                    <div className="col s2"></div>
                 </div>
                 <div className="row">
                     <div className="col s2"></div>
@@ -112,16 +127,23 @@ export class CreateEvent extends React.Component<CreateEventProps, CreateEventSt
                 </div>
                 <div className="row">
                     <ErrorBoundary>
-                        <div className="col s8 m4">
+                        <div className="col s12">
                             <EventElement
-                                date={new Date()}
+                                date={new Date}
                                 interactive={true}
-                                onChange={(slots:Slot[]) => console.log(slots)}
+                                onChange={((slots:Slot[]) => {
+                                    let timeSlots = []
+
+                                    for(let n in slots) if(slots[n].active) timeSlots.push(n)
+
+                                    this.setState({timeSlots: timeSlots})
+                                }).bind(this)}
                                 color={{
                                     active: 'blue',
                                     interactive: 'white',
                                     inactive: 'grey'
                                 }}
+                                slots={[]}
                             />
                         </div>
                     </ErrorBoundary>

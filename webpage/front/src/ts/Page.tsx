@@ -1,3 +1,4 @@
+import * as Material from 'materialize-css'
 import * as React from 'react'
 
 import {USERNAME} from './improvisedValues'
@@ -63,7 +64,7 @@ export class Page extends React.Component<PageProps, PageState> {
         if(this.state.mode === 'overview') {
             return (
                 <div>
-                    <div className="center col s12 l10">
+                    <div className="col s12 l10">
                         <ErrorBoundary>
                             <Overview stateChange={this.changeState.bind(this)}/>
                         </ErrorBoundary>
@@ -80,7 +81,7 @@ export class Page extends React.Component<PageProps, PageState> {
         if(this.state.mode === 'events') {
             return (
                 <div>
-                    <div className="center col s12 l10">
+                    <div className="col s12 l10">
                         <ErrorBoundary>
                             <EventsView/>
                         </ErrorBoundary>
@@ -97,9 +98,14 @@ export class Page extends React.Component<PageProps, PageState> {
         if(this.state.mode === 'create') {
             return (
                 <div>
-                    <div className="center col s12 l10">
+                    <div className="col s12 l10 red">
                         <ErrorBoundary>
-                            <CreateEvent username={this.state.username} createObject={(event:Event) => {console.log(event)}}/>
+                            <CreateEvent username={this.state.username} createObject={((event:Event) => {
+                                //this is called when a user confirms creating an event
+                                Material.toast({html: 'Event Created!'})
+                                console.log(event)
+                                this.setState({mode: 'overview'})
+                            }).bind(this)}/>
                         </ErrorBoundary>
                     </div>
                     <div className="col s12 l2">
