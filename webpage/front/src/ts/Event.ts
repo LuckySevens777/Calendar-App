@@ -9,6 +9,7 @@ export class Event {
     public uniqueID:string
     public date:string
     public timeSlots:number[]
+    public members:string[]
 
     /**
      * just makes typescript happy

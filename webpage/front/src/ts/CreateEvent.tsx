@@ -91,8 +91,8 @@ export class CreateEvent extends React.Component<CreateEventProps, CreateEventSt
      */
     public render() {
         return (
-            <div className="card container center">
-                <div className="row">
+            <div className="card-panel container align-center">
+                <div className="row align-center">
                     <h2>
                         Create a new event
                     </h2>
