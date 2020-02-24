@@ -1,7 +1,8 @@
 FROM golang
 WORKDIR /go/src/Calendar-App/back
 COPY . .
-#RUN go run main.go
+RUN ls
+RUN go run main.go
 
 
 
