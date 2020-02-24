@@ -67,7 +67,14 @@ interface EventElementState {
     /**
      * what format of times to display
      */
-    displayTimes:string[]
+    displayTimes:string[],
+
+    /**
+     * whether or not to display time in 24 hour mode
+     */
+    time24Hour:boolean,
+    times12:string[],
+    times24:string[]
 }
 
 /**
@@ -91,7 +98,16 @@ export class EventElement extends React.Component<EventElementProps, EventElemen
             title: undefined,
             date: undefined,
             slots: [],
-            displayTimes: []
+            displayTimes: [],
+            time24Hour: false,
+            times12: [
+                '1:00 am', '2:00 am', '3:00 am', '4:00 am', '5:00 am', '6:00 am', '7:00 am', '8:00 am', '9:00 am', '10:00 am', '11:00 am', '12:00 am',
+                '1:00 pm', '2:00 pm', '3:00 pm', '4:00 pm', '5:00 pm', '6:00 pm', '7:00 pm', '8:00 pm', '9:00 pm', '10:00 pm', '11:00 pm', '12:00 pm'
+            ],
+            times24: [
+                '01:00', '02:00', '03:00', '04:00', '05:00', '06:00', '07:00', '08:00', '09:00', '10:00', '11:00', '12:00',
+                '13:00', '14:00', '15:00', '16:00', '17:00', '18:00', '19:00', '20:00', '21:00', '22:00', '23:00', '24:00'
+            ]
         }
 
         //generate blank slots
@@ -108,10 +124,7 @@ export class EventElement extends React.Component<EventElementProps, EventElemen
             else state.slots[i].color = this.props.color.inactive
         }
 
-        state.displayTimes = [
-            '1:00 am', '2:00 am', '3:00 am', '4:00 am', '5:00 am', '6:00 am', '7:00 am', '8:00 am', '9:00 am', '10:00 am', '11:00 am', '12:00 am',
-            '1:00 pm', '2:00 pm', '3:00 pm', '4:00 pm', '5:00 pm', '6:00 pm', '7:00 pm', '8:00 pm', '9:00 pm', '10:00 pm', '11:00 pm', '12:00 pm'
-        ]
+        state.displayTimes = state.times12
 
         this.state = state
     }
@@ -142,6 +155,21 @@ export class EventElement extends React.Component<EventElementProps, EventElemen
         return (
             <ErrorBoundary>
                 <div className="card-panel row">
+                    <div className="row">
+                        <div className="switch">
+                            <label>
+                                12 hour
+                                <input type="checkbox" onChange={((e: React.FormEvent<HTMLInputElement>) => {
+                                    let time24 = e.currentTarget.checked
+
+                                    this.setState({time24Hour: time24})
+                                    this.setState({displayTimes: (time24 ? this.state.times24 : this.state.times12)})
+                                }).bind(this)}/>
+                                <span className="lever"></span>
+                                24 hour
+                            </label>
+                        </div>
+                    </div>
                     {this.state.displayTimes.map((time, number) =>
                         <ErrorBoundary key={number}>
                             <div className="col">
