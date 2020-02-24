@@ -52,14 +52,18 @@ func apicall(w http.ResponseWriter, r *http.Request){
 	fmt.Println(Data.Event_Name)
 	fmt.Println(Data.Event_Description)
 
-	new_data, err := HandleRequest(Data)
-
-	if err != nil {
+	if Data.Action != "Echo" {
+		new_data, err := HandleRequest(Data)
+		if err != nil {
 		fmt.Println(err)
 		fmt.Println("Help!")
 	}
 
 	json.NewEncoder(w).Encode(new_data)
+	} else {
+		json.NewEncoder(w).Encode(Data)
+	}
+
 }
 
 //No authentication is done on this other than making sure the action is valid (and has all its pieces).  Will throw an error if the request is invalid.
