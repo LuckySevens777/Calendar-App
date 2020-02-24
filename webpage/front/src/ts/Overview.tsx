@@ -4,7 +4,7 @@ import {Slot} from './Slot'
 
 import {ErrorBoundary} from './ErrorBoundary'
 import {EventElement} from './EventElement'
-import { EVENTS } from './improvisedValues'
+import {EVENTS} from './improvisedValues'
 
 interface OverviewProps {
     stateChange:Function

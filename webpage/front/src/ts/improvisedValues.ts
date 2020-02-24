@@ -5,7 +5,7 @@ export const USERNAME:string = 'YOLO420blazeItMaster69'
 
 export let EVENTS:Event[] = []
 
-//fake event
+//fake events
 let event1 = new Event
 event1.name = 'Test Event'
 event1.description = 'A desription'
@@ -16,4 +16,8 @@ event1.timeSlots = []
 for(let i = 0; i < 72; i++) {
     if(!!Math.round(Math.random())) event1.timeSlots.push(i)
 }
+EVENTS.push(event1)
+EVENTS.push(event1)
+EVENTS.push(event1)
+EVENTS.push(event1)
 EVENTS.push(event1)
