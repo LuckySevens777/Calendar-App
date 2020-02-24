@@ -143,7 +143,7 @@ export class EventElement extends React.Component<EventElementProps, EventElemen
             <ErrorBoundary>
                 <div className="card-panel row">
                     {this.state.displayTimes.map((time, number) =>
-                        <ErrorBoundary>
+                        <ErrorBoundary key={number}>
                             <div className="col">
                                 <div className="card row" id="event">
                                     <div className="col s4">
