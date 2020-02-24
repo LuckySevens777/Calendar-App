@@ -1,0 +1,41 @@
+{
+  "name": "calendar-app",
+  "version": "1.0.0",
+  "description": "An application to help teams find meeting times",
+  "main": "gulpfile.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "gulp": "node node_modules/gulp/bin/gulp.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/luckysevens777/Calendar-App.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/luckysevens777/Calendar-App/issues"
+  },
+  "homepage": "https://github.com/luckysevens777/Calendar-App#readme",
+  "dependencies": {
+    "@types/prop-types": "^15.7.3",
+    "@types/react": "^16.9.19",
+    "@types/react-dom": "^16.9.5",
+    "browserify": "^16.5.0",
+    "del": "^5.1.0",
+    "gulp": "^4.0.2",
+    "gulp-ejs": "^5.0.0",
+    "gulp-ext-replace": "^0.3.0",
+    "gulp-mocha": "^7.0.2",
+    "gulp-replace": "^1.0.0",
+    "gulp-sass": "^4.0.2",
+    "gulp-shell": "^0.7.1",
+    "gulp-tap": "^2.0.0",
+    "gulp-typescript": "^6.0.0-alpha.1",
+    "materialize-css": "^1.0.0",
+    "mocha": "^7.0.0",
+    "readline-sync": "^1.4.10",
+    "typedoc": "^0.16.9",
+    "typescript": "^3.7.5"
+  }
+}

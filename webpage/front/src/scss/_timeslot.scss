@@ -1,0 +1,15 @@
+@import 'settings';
+
+.time-slot {
+    display: block;
+    line-height: 1em;
+    border: 1px solid #333;
+    &.selectable {
+        cursor: pointer;
+    }
+}
+
+.time-title {
+    padding-right: 2em;
+    line-height: 1em;
+}
