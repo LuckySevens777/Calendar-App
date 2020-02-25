@@ -7,7 +7,7 @@ interface SignInProps {
      * function to be run when a user hits the sign in button
      * passes the name of the user as an argument
      */
-    onsSignin:Function,
+    onSignin:Function,
 
     /**
      * function to run when the user hits the sign up button
@@ -46,14 +46,14 @@ export class SignIn extends React.Component<SignInProps, SignInState> {
      * yes, I know there's no actual security but what do you expect?
      */
     private signIn() {
-
+        this.props.onSignin(this.state.username)
     }
 
     /**
      * Signs a user up for an account
      */
     private signUp() {
-
+        this.props.onSignup(this.state.username)
     }
 
     /**
