@@ -6,12 +6,12 @@ services:
     restart: unless-stopped
     ports:
       - 5432:5432
-  testdb:
-    image: postgres:11.3-alpine
-    env_file: .env
-    restart: unless-stopped
-    ports:
-      - 5432:5432
+  # testdb:
+  #   image: postgres:11.3-alpine
+  #   env_file: .env
+  #   restart: unless-stopped
+  #   ports:
+  #     - 5432:5432
 
     volumes:
       - "/data/luckysevens777/calendar/mysql:/var/lib/mysql"
