@@ -11,9 +11,10 @@ import (
 	"net/http"
 )
 
-// data stores all the possible data that should come in from the front end.
+// Stores all the possible data that should come in from the front end.
 // Includes the name of the user, the action they want to take, the day they're looking at, the possible timeslots (for registration purposes),
-// the event name, and the event description
+// the event name, the event description, and the event ID
+// Some of these may be empty, signifying the data is not important
 type data struct {
 	User              string   `json:"User"`
 	Action            string   `json:"Action"`
@@ -24,7 +25,7 @@ type data struct {
 	Event_ID          string   `json:"Event_ID"`
 }
 
-// return_data stores all the possible data that could be returned to the front end.
+// Stores all the possible data that could be returned to the front end.
 // Includes a simple message for the front end to check, and the result of the get_attendees and get_event methods
 type return_data struct {
 	Message        string              `json:"Message"`
@@ -33,7 +34,7 @@ type return_data struct {
 	Timeslots      [][]string          `json:"Timeslots"`
 }
 
-//apicall parses the data obtained from the front-end into the data struct, then sends the data into the handle method
+//Parses the data obtained from the front-end into the data struct, then sends the data into the handle method
 func apicall(w http.ResponseWriter, r *http.Request) {
 	var Data data
 
@@ -67,6 +68,15 @@ func apicall(w http.ResponseWriter, r *http.Request) {
 }
 
 //No authentication is done on this other than making sure the action is valid (and has all its pieces).  Will throw an error if the request is invalid.
+// The possible actions you can take are as follows:
+// Create-Event - Create a new event given the user, event name, event description, day, and timeslots.
+// Get-All-Events - Just returns the data for every event in the calendar.
+// Get-Events-Attending - Given a user, get the events that they are attending.
+// Get-Events-Created - Given a user, get the events that they have created.
+// Get-Events-For-Days - Given a day, get all events for that day.
+// Get-Attendees - Given an event ID, get all attendees for that event.
+// Register-For-Event - Given a user, event name, and timeslots, register for that event.
+// Sign-Up - Given a user, sign them up (add them to the DB).
 func HandleRequest(Data data) (return_data, error) {
 	user := Data.User
 
@@ -163,6 +173,7 @@ func HandleRequest(Data data) (return_data, error) {
 	}
 }
 
+//Creates a new router and then continually listens for a POST request on port 10000.
 func HandleRequests() {
 	myRouter := mux.NewRouter().StrictSlash(true)
 

@@ -13,8 +13,8 @@ services:
 #    ports:
 #      - 5432:5432
 
-    volumes:
-      - "/data/luckysevens777/calendar/mysql:/var/lib/mysql"
+#    volumes:
+#      - "/data/luckysevens777/calendar/mysql:/var/lib/mysql"
   nginx:
     build: ./webpage
     container_name: nginx
