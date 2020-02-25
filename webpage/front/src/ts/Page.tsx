@@ -98,7 +98,7 @@ export class Page extends React.Component<PageProps, PageState> {
         if(this.state.mode === 'create') {
             return (
                 <div>
-                    <div className="col s12 l10 red">
+                    <div className="col s12 l10">
                         <ErrorBoundary>
                             <CreateEvent username={this.state.username} createObject={((event:Event) => {
                                 //this is called when a user confirms creating an event
