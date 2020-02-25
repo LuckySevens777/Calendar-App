@@ -37,7 +37,7 @@ export class EventsView extends React.Component<EventsViewProps, EventsViewState
         for(let i = 0; i < 72; i++) {
             let slot = new Slot
             slot.interactive = false
-            slot.active = EVENTS[0].timeSlots.indexOf(i) != -1
+            slot.active = EVENTS[0].timeSlots.indexOf(i) != -1 //EVENTS NEEDS TO BE REPLACED WITH SOME ARRAY OF EVENT OBJECTS
             slots[i] = slot
         }
 
@@ -48,13 +48,12 @@ export class EventsView extends React.Component<EventsViewProps, EventsViewState
                 </h2>
                 <div className="row">
                     <ul className="collapsible">
-                        {EVENTS.map((event, number) =>
+                        {EVENTS.map((event, number) => //EVENTS NEEDS TO BE REPLACED WITH SOME ARRAY OF EVENT OBJECTS
                             <li key={number}>
                                 {/* onMouseover is a hacky way to initialize the container just in time */}
                                 <div className="collapsible-header" onMouseOver={()=>Material.Collapsible.init(document.querySelectorAll('.collapsible'), {})}>
                                     <i className="material-icons">group</i>
                                     <h5>{event.name} | {event.creatorName} | {event.date}</h5>
-                                    {console.log(EVENTS)}
                                 </div>
                                 <div className="collapsible-body">
                                     <span>{event.description}</span><br/>

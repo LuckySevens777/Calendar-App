@@ -32,7 +32,7 @@ export class Page extends React.Component<PageProps, PageState> {
         //temporary for constructor
         let state:PageState = {
             mode: undefined,
-            username: USERNAME
+            username: USERNAME  //EXAMPLE USERNAME NEEDS TO BE REPLACED WITH HOWEVER YOU WANT TO STORE THAT
         }
 
         state.mode = 'overview'
@@ -85,7 +85,15 @@ export class Page extends React.Component<PageProps, PageState> {
                 <div>
                     <div className="col s12 l10">
                         <ErrorBoundary>
-                            <SignIn onSignin={()=>{}} onSignup={()=>{}}/>
+                            <SignIn onSignin={username => {
+                                ///////////////////////////////////////
+                                // SIGN IN FUNCTIONALITY
+                                ///////////////////////////////////////
+                            }} onSignup={username => {
+                                ///////////////////////////////////////
+                                // SIGN UP FUNCTIONALITY
+                                ///////////////////////////////////////
+                            }}/>
                         </ErrorBoundary>
                     </div>
                     <div className="col s12 l2">
@@ -102,7 +110,7 @@ export class Page extends React.Component<PageProps, PageState> {
                 <div>
                     <div className="col s12 l10">
                         <ErrorBoundary>
-                            <EventsView/>
+                            <EventsView/>  {/* NEEDS EVENT JOINING FUNCTIONALITY */}
                         </ErrorBoundary>
                     </div>
                     <div className="col s12 l2">
@@ -121,8 +129,12 @@ export class Page extends React.Component<PageProps, PageState> {
                         <ErrorBoundary>
                             <CreateEvent username={this.state.username} createObject={((event:Event) => {
                                 //this is called when a user confirms creating an event
+
+                                ///////////////////////////////////////
+                                // CREATE EVENT FUNCTIONALITY
+                                ///////////////////////////////////////
+
                                 Material.toast({html: 'Event Created!'})
-                                console.log(event)
                                 this.setState({mode: 'overview'})
                             }).bind(this)}/>
                         </ErrorBoundary>
