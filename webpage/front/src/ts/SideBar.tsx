@@ -32,6 +32,9 @@ export class SideBar extends React.Component<SideBarProps, SideBarState> {
                 <a className="collection-item blue-text" onClick={() => this.props.stateChange('overview')}>
                     Overview
                 </a>
+                <a className="collection-item blue-text" onClick={() => this.props.stateChange('signin')}>
+                    Sign In / Sign Up
+                </a>
                 <a className="collection-item blue-text" onClick={() => this.props.stateChange('events')}>
                     Events
                 </a>

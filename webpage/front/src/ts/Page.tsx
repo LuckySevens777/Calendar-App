@@ -10,6 +10,7 @@ import {ErrorBoundary} from './ErrorBoundary'
 import {EventsView} from './EventsView'
 import {Overview} from './Overview'
 import {SideBar} from './SideBar'
+import {SignIn} from './SignIn'
 
 interface PageProps {}
 
@@ -49,6 +50,7 @@ export class Page extends React.Component<PageProps, PageState> {
             case 'overview':
             case 'events':
             case 'create':
+            case 'signin':
                 this.setState({mode: state})
             //invalid
             default:
@@ -67,6 +69,23 @@ export class Page extends React.Component<PageProps, PageState> {
                     <div className="col s12 l10">
                         <ErrorBoundary>
                             <Overview stateChange={this.changeState.bind(this)}/>
+                        </ErrorBoundary>
+                    </div>
+                    <div className="col s12 l2">
+                        <ErrorBoundary>
+                            <SideBar stateChange={this.changeState.bind(this)}/>
+                        </ErrorBoundary>
+                    </div>
+                </div>
+            )
+        }
+        //sign in mode
+        if(this.state.mode === 'signin') {
+            return (
+                <div>
+                    <div className="col s12 l10">
+                        <ErrorBoundary>
+                            <SignIn/>
                         </ErrorBoundary>
                     </div>
                     <div className="col s12 l2">
