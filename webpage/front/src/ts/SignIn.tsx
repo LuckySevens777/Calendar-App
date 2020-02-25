@@ -46,14 +46,14 @@ export class SignIn extends React.Component<SignInProps, SignInState> {
      * yes, I know there's no actual security but what do you expect?
      */
     private signIn() {
-
+        this.props.createObject(this.state.username)
     }
 
     /**
      * Signs a user up for an account
      */
     private signUp() {
-
+        this.props.createObject(this.state.username)
     }
 
     /**
