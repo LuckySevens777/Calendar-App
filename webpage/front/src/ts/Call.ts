@@ -69,6 +69,10 @@ export class ApiCall {
 		})
 	}
 
+	/**
+	 * Add user to an event
+	 * @param the_name the name of the event to join
+	 */
 	signUp(the_name:string) {
 		this.actions = "Sign-Up";
 		this.user = the_name;
@@ -102,11 +106,18 @@ export class ApiCall {
 	}
 
 
-	createEvent(the_event_name: string, the_event_description: string, the_day: string[], the_time: string[]) {
+	/**
+	 * Sends an API call to create an event
+	 * @param the_event_name duh
+	 * @param the_event_description also, duh
+	 * @param the_day the date formatted as ["YYYY", "MM", "DD"]
+	 * @param time_slots the array of time slot numbers to be created
+	 */
+	createEvent(the_event_name: string, the_event_description: string, the_day: string[], time_slots: number[]) : void {
 
 	}
 
 
-	}
+}
 
 

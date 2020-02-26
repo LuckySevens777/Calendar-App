@@ -106,6 +106,12 @@ export class Page extends React.Component<PageProps, PageState> {
             })
         }
 
+        //api call
+        let call:ApiCall = new ApiCall(this.state.username)
+        const date = event.date.split('-')
+        const slots = event.timeSlots.map(slot => '' + slot)
+        call.createEvent(event.name, event.description, date, slots)
+
         ///////////////////////////////////////
         // JOIN EVENT
         ///////////////////////////////////////
