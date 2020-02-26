@@ -102,9 +102,9 @@ export class ApiCall {
 	}
 
 
-	//createEvent(the_event_name: string, the_event_description: string, the_day: string[], the_time: string[]) {
+	createEvent(the_event_name: string, the_event_description: string, the_day: string[], the_time: string[]) {
 
-//	}
+	}
 
 
 	}

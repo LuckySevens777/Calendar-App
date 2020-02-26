@@ -1,6 +1,7 @@
 import * as Material from 'materialize-css'
 import * as React from 'react'
 
+import {ApiCall} from './Call'
 import {Event} from './Event'
 
 import {CreateEvent} from './CreateEvent'
@@ -60,13 +61,18 @@ export class Page extends React.Component<PageProps, PageState> {
      * @param event event to be created
      */
     private createEvent(event:Event) {
-        //this is called when a user confirms creating an event
+        //local events
         let events:Event[] = this.state.events
         events.push(event)
         this.setState({events: events})
-        ///////////////////////////////////////
-        // CREATE EVENT FUNCTIONALITY
-        ///////////////////////////////////////
+
+        //api call
+        let call:ApiCall = new ApiCall(this.state.username)
+        const date = event.date.split('-')
+        const slots = event.timeSlots.map(slot => '' + slot)
+        call.createEvent(event.name, event.description, date, slots)
+
+        //confirmations
         Material.toast({html: 'Event Created!'})
         this.setState({mode: 'events'})
     }
