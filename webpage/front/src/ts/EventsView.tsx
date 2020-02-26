@@ -69,6 +69,12 @@ export class EventsView extends React.Component<EventsViewProps, EventsViewState
                                             }}
                                             slots={slots}
                                         />
+                                        <a className="btn waves-effect blue white-text" onClick={() => {
+                                            ////////////////////////////////////////////////
+                                            // EVENT JOINING FUNCTIONALITY
+                                            // ONLY DISPLAY THIS IF THE EVENT ISNT YOURS
+                                            ////////////////////////////////////////////////
+                                        }}>Join Event</a>
                                     </ErrorBoundary>
                                 </div>
                             </li>
