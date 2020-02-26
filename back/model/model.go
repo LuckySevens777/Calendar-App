@@ -13,7 +13,7 @@ import (
 var (
 	db               *gorm.DB
 	dbType           = "postgres"
-	connectionString = "postgresql://sandy:pass@127.0.0.1:5432/calendar?sslmode=disable"
+	connectionString = "postgresql://sandy:pass@db:5432/calendar?sslmode=disable"
 )
 
 // Init initialized the DB connection

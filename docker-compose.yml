@@ -8,14 +8,6 @@ services:
       - 5432:5432
     volumes:
       - /data/LuckySevens/Calendar-App/postgres:/var/lib/postgresql/data
-
-  testdb:
-   image: postgres:11.3-alpine
-   env_file: .env
-   restart: unless-stopped
-   ports:
-     - 5432:5432
-
   nginx:
     build: ./webpage
     container_name: nginx
