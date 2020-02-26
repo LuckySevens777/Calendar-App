@@ -7,7 +7,7 @@ import {Event} from './Event'
 import {Slot} from './Slot'
 
 import {ErrorBoundary} from './ErrorBoundary'
-import { EventElement } from './EventElement'
+import {EventElement} from './EventElement'
 interface CreateEventProps {
     /**
      * the name of the currently logged in user
