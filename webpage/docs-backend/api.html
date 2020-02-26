@@ -1,0 +1,171 @@
+<!--
+	Copyright 2009 The Go Authors. All rights reserved.
+	Use of this source code is governed by a BSD-style
+	license that can be found in the LICENSE file.
+-->
+<!--
+	Note: Static (i.e., not template-generated) href and id
+	attributes start with "pkg-" to make it impossible for
+	them to conflict with generated attributes (some of which
+	correspond to Go identifiers).
+-->
+
+	<script type='text/javascript'>
+	document.ANALYSIS_DATA = ;
+	document.CALLGRAPH = ;
+	</script>
+
+	
+		
+		<div id="short-nav">
+			<dl>
+			<dd><code>import "Calendar-App/back/api"</code></dd>
+			</dl>
+			<dl>
+			<dd><a href="#pkg-overview" class="overviewLink">Overview</a></dd>
+			<dd><a href="#pkg-index" class="indexLink">Index</a></dd>
+			
+			
+			</dl>
+		</div>
+		<!-- The package's Name is printed as title by the top-level template -->
+		<div id="pkg-overview" class="toggleVisible">
+			<div class="collapsed">
+				<h2 class="toggleButton" title="Click to show Overview section">Overview ▹</h2>
+			</div>
+			<div class="expanded">
+				<h2 class="toggleButton" title="Click to hide Overview section">Overview ▾</h2>
+				
+				
+			</div>
+		</div>
+
+		<div id="pkg-index" class="toggleVisible">
+		<div class="collapsed">
+			<h2 class="toggleButton" title="Click to show Index section">Index ▹</h2>
+		</div>
+		<div class="expanded">
+			<h2 class="toggleButton" title="Click to hide Index section">Index ▾</h2>
+
+		<!-- Table of contents for API; must be named manual-nav to turn off auto nav. -->
+			<div id="manual-nav">
+			<dl>
+			
+			
+			
+				
+				<dd><a href="#HandleRequest">func HandleRequest(Data data) (return_data, error)</a></dd>
+			
+				
+				<dd><a href="#HandleRequests">func HandleRequests()</a></dd>
+			
+			
+			
+			</dl>
+			</div><!-- #manual-nav -->
+
+		
+
+		
+			<h3>Package files</h3>
+			<p>
+			<span style="font-size:90%">
+			
+				<a href="/src/Calendar-App/back/api/api.go">api.go</a>
+			
+			</span>
+			</p>
+		
+		</div><!-- .expanded -->
+		</div><!-- #pkg-index -->
+
+		<div id="pkg-callgraph" class="toggle" style="display: none">
+		<div class="collapsed">
+			<h2 class="toggleButton" title="Click to show Internal Call Graph section">Internal call graph ▹</h2>
+		</div> <!-- .expanded -->
+		<div class="expanded">
+			<h2 class="toggleButton" title="Click to hide Internal Call Graph section">Internal call graph ▾</h2>
+			<p>
+			  In the call graph viewer below, each node
+			  is a function belonging to this package
+			  and its children are the functions it
+			  calls&mdash;perhaps dynamically.
+			</p>
+			<p>
+			  The root nodes are the entry points of the
+			  package: functions that may be called from
+			  outside the package.
+			  There may be non-exported or anonymous
+			  functions among them if they are called
+			  dynamically from another package.
+			</p>
+			<p>
+			  Click a node to visit that function's source code.
+			  From there you can visit its callers by
+			  clicking its declaring <code>func</code>
+			  token.
+			</p>
+			<p>
+			  Functions may be omitted if they were
+			  determined to be unreachable in the
+			  particular programs or tests that were
+			  analyzed.
+			</p>
+			<!-- Zero means show all package entry points. -->
+			<ul style="margin-left: 0.5in" id="callgraph-0" class="treeview"></ul>
+		</div>
+		</div> <!-- #pkg-callgraph -->
+
+		
+		
+		
+			
+			
+			<h2 id="HandleRequest">func <a href="/src/target/api.go?s=2862:2912#L70">HandleRequest</a>
+				<a class="permalink" href="#HandleRequest">&#xb6;</a>
+				
+				
+			</h2>
+			<pre>func HandleRequest(Data data) (return_data, <a href="/pkg/builtin/#error">error</a>)</pre>
+			<p>
+No authentication is done on this other than making sure the action is valid (and has all its pieces).  Will throw an error if the request is invalid.
+The possible actions you can take are as follows:
+Create-Event - Create a new event given the user, event name, event description, day, and timeslots.
+Get-All-Events - Just returns the data for every event in the calendar.
+Get-Events-Attending - Given a user, get the events that they are attending.
+Get-Events-Created - Given a user, get the events that they have created.
+Get-Events-For-Days - Given a day, get all events for that day.
+Get-Attendees - Given an event ID, get all attendees for that event.
+Register-For-Event - Given a user, event name, and timeslots, register for that event.
+Sign-Up - Given a user, sign them up (add them to the DB).
+</p>
+
+			
+			
+
+		
+			
+			
+			<h2 id="HandleRequests">func <a href="/src/target/api.go?s=5253:5274#L167">HandleRequests</a>
+				<a class="permalink" href="#HandleRequests">&#xb6;</a>
+				
+				
+			</h2>
+			<pre>func HandleRequests()</pre>
+			<p>
+Creates a new router and then continually listens for a POST request on port 10000.
+</p>
+
+			
+			
+
+		
+		
+	
+
+	
+
+
+
+
+

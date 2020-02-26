@@ -1,0 +1,574 @@
+<!--
+	Copyright 2009 The Go Authors. All rights reserved.
+	Use of this source code is governed by a BSD-style
+	license that can be found in the LICENSE file.
+-->
+<!--
+	Note: Static (i.e., not template-generated) href and id
+	attributes start with "pkg-" to make it impossible for
+	them to conflict with generated attributes (some of which
+	correspond to Go identifiers).
+-->
+
+	<script type='text/javascript'>
+	document.ANALYSIS_DATA = ;
+	document.CALLGRAPH = ;
+	</script>
+
+	
+		
+		<div id="short-nav">
+			<dl>
+			<dd><code>import "Calendar-App/back/model"</code></dd>
+			</dl>
+			<dl>
+			<dd><a href="#pkg-overview" class="overviewLink">Overview</a></dd>
+			<dd><a href="#pkg-index" class="indexLink">Index</a></dd>
+			
+			
+			</dl>
+		</div>
+		<!-- The package's Name is printed as title by the top-level template -->
+		<div id="pkg-overview" class="toggleVisible">
+			<div class="collapsed">
+				<h2 class="toggleButton" title="Click to show Overview section">Overview ▹</h2>
+			</div>
+			<div class="expanded">
+				<h2 class="toggleButton" title="Click to hide Overview section">Overview ▾</h2>
+				
+				
+			</div>
+		</div>
+
+		<div id="pkg-index" class="toggleVisible">
+		<div class="collapsed">
+			<h2 class="toggleButton" title="Click to show Index section">Index ▹</h2>
+		</div>
+		<div class="expanded">
+			<h2 class="toggleButton" title="Click to hide Index section">Index ▾</h2>
+
+		<!-- Table of contents for API; must be named manual-nav to turn off auto nav. -->
+			<div id="manual-nav">
+			<dl>
+			
+				<dd><a href="#pkg-constants">Constants</a></dd>
+			
+			
+			
+				
+				<dd><a href="#Close">func Close() error</a></dd>
+			
+				
+				<dd><a href="#DB">func DB() *gorm.DB</a></dd>
+			
+				
+				<dd><a href="#Init">func Init() error</a></dd>
+			
+			
+				
+				<dd><a href="#Attendee">type Attendee</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#AddAttendee">func AddAttendee(eventID, userID uint, timeslots []Timeslot) (*Attendee, error)</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#GetEventAttendees">func GetEventAttendees(eventID uint) ([]Attendee, error)</a></dd>
+				
+				
+			
+				
+				<dd><a href="#Event">type Event</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#CreateEvent">func CreateEvent(creator, day, title, description string, timeslots []Timeslot) (*Event, error)</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#GetAllEvents">func GetAllEvents() ([]Event, error)</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#GetEvents">func GetEvents(creator, day string) ([]Event, error)</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#GetEventsOfTheDay">func GetEventsOfTheDay(day string) ([]Event, error)</a></dd>
+				
+				
+			
+				
+				<dd><a href="#Timeslot">type Timeslot</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#CreateTimeslot">func CreateTimeslot(name string) (*Timeslot, error)</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#GetAllTimeslots">func GetAllTimeslots() ([]Timeslot, error)</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#GetAttendeeTimeslots">func GetAttendeeTimeslots(attendeeID uint) ([]Timeslot, error)</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#GetEventTimeslots">func GetEventTimeslots(eventID uint) ([]Timeslot, error)</a></dd>
+				
+				
+			
+				
+				<dd><a href="#User">type User</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#CreateUser">func CreateUser(name string) (*User, error)</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#GetAllUsers">func GetAllUsers() ([]User, error)</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#GetUser">func GetUser(name string) (*User, error)</a></dd>
+				
+				
+			
+			
+			</dl>
+			</div><!-- #manual-nav -->
+
+		
+
+		
+			<h3>Package files</h3>
+			<p>
+			<span style="font-size:90%">
+			
+				<a href="/src/Calendar-App/back/model/attendee.go">attendee.go</a>
+			
+				<a href="/src/Calendar-App/back/model/event.go">event.go</a>
+			
+				<a href="/src/Calendar-App/back/model/model.go">model.go</a>
+			
+				<a href="/src/Calendar-App/back/model/player.go">player.go</a>
+			
+				<a href="/src/Calendar-App/back/model/timeslot.go">timeslot.go</a>
+			
+				<a href="/src/Calendar-App/back/model/user.go">user.go</a>
+			
+			</span>
+			</p>
+		
+		</div><!-- .expanded -->
+		</div><!-- #pkg-index -->
+
+		<div id="pkg-callgraph" class="toggle" style="display: none">
+		<div class="collapsed">
+			<h2 class="toggleButton" title="Click to show Internal Call Graph section">Internal call graph ▹</h2>
+		</div> <!-- .expanded -->
+		<div class="expanded">
+			<h2 class="toggleButton" title="Click to hide Internal Call Graph section">Internal call graph ▾</h2>
+			<p>
+			  In the call graph viewer below, each node
+			  is a function belonging to this package
+			  and its children are the functions it
+			  calls&mdash;perhaps dynamically.
+			</p>
+			<p>
+			  The root nodes are the entry points of the
+			  package: functions that may be called from
+			  outside the package.
+			  There may be non-exported or anonymous
+			  functions among them if they are called
+			  dynamically from another package.
+			</p>
+			<p>
+			  Click a node to visit that function's source code.
+			  From there you can visit its callers by
+			  clicking its declaring <code>func</code>
+			  token.
+			</p>
+			<p>
+			  Functions may be omitted if they were
+			  determined to be unreachable in the
+			  particular programs or tests that were
+			  analyzed.
+			</p>
+			<!-- Zero means show all package entry points. -->
+			<ul style="margin-left: 0.5in" id="callgraph-0" class="treeview"></ul>
+		</div>
+		</div> <!-- #pkg-callgraph -->
+
+		
+			<h2 id="pkg-constants">Constants</h2>
+			
+				
+				<pre>const (
+    <span class="comment">// TimeslotTable is the name of the table</span>
+    <span class="comment">// for quick referencing</span>
+    <span id="TimeslotTable">TimeslotTable</span> = `Timeslots`
+)</pre>
+			
+		
+		
+		
+			
+			
+			<h2 id="Close">func <a href="/src/target/model.go?s=501:519#L18">Close</a>
+				<a class="permalink" href="#Close">&#xb6;</a>
+				
+				
+			</h2>
+			<pre>func Close() <a href="/pkg/builtin/#error">error</a></pre>
+			<p>
+Close closes the current DB connection
+</p>
+
+			
+			
+
+		
+			
+			
+			<h2 id="DB">func <a href="/src/target/player.go?s=3470:3488#L133">DB</a>
+				<a class="permalink" href="#DB">&#xb6;</a>
+				
+				
+			</h2>
+			<pre>func DB() *<a href="/pkg/github.com/jinzhu/gorm/">gorm</a>.<a href="/pkg/github.com/jinzhu/gorm/#DB">DB</a></pre>
+			<p>
+DB just return the database access model
+</p>
+
+			
+			
+
+		
+			
+			
+			<h2 id="Init">func <a href="/src/target/model.go?s=355:372#L10">Init</a>
+				<a class="permalink" href="#Init">&#xb6;</a>
+				
+				
+			</h2>
+			<pre>func Init() <a href="/pkg/builtin/#error">error</a></pre>
+			<p>
+Init initialized the DB connection
+</p>
+
+			
+			
+
+		
+		
+			
+			
+			<h2 id="Attendee">type <a href="/src/target/attendee.go?s=142:270#L1">Attendee</a>
+				<a class="permalink" href="#Attendee">&#xb6;</a>
+				
+				
+			</h2>
+			<p>
+Attendee defines an attendee to an event that visits
+some of the timeslots of the event
+</p>
+
+			<pre>type Attendee struct {
+    <a href="/pkg/github.com/jinzhu/gorm/">gorm</a>.<a href="/pkg/github.com/jinzhu/gorm/#Model">Model</a>
+
+<span id="Attendee.UserID"></span>    UserID    <a href="/pkg/builtin/#uint">uint</a>
+<span id="Attendee.EventID"></span>    EventID   <a href="/pkg/builtin/#uint">uint</a>
+<span id="Attendee.Timeslots"></span>    Timeslots []*<a href="#Timeslot">Timeslot</a> `gorm:&#34;many2many:attendees_times;&#34;`
+}
+</pre>
+
+			
+
+			
+
+			
+			
+			
+
+			
+				
+				<h3 id="AddAttendee">func <a href="/src/target/player.go?s=3122:3201#L117">AddAttendee</a>
+					<a class="permalink" href="#AddAttendee">&#xb6;</a>
+					
+					
+				</h3>
+				<pre>func AddAttendee(eventID, userID <a href="/pkg/builtin/#uint">uint</a>, timeslots []<a href="#Timeslot">Timeslot</a>) (*<a href="#Attendee">Attendee</a>, <a href="/pkg/builtin/#error">error</a>)</pre>
+				<p>
+AddAttendee adds an attendance
+</p>
+
+				
+				
+			
+				
+				<h3 id="GetEventAttendees">func <a href="/src/target/player.go?s=2586:2642#L96">GetEventAttendees</a>
+					<a class="permalink" href="#GetEventAttendees">&#xb6;</a>
+					
+					
+				</h3>
+				<pre>func GetEventAttendees(eventID <a href="/pkg/builtin/#uint">uint</a>) ([]<a href="#Attendee">Attendee</a>, <a href="/pkg/builtin/#error">error</a>)</pre>
+				<p>
+GetEventAttendees gives a slice of event&#39;s attendees
+</p>
+
+				
+				
+			
+
+			
+		
+			
+			
+			<h2 id="Event">type <a href="/src/target/event.go?s=101:270#L1">Event</a>
+				<a class="permalink" href="#Event">&#xb6;</a>
+				
+				
+			</h2>
+			<p>
+Event defines an Event struct that defines events
+</p>
+
+			<pre>type Event struct {
+    <a href="/pkg/github.com/jinzhu/gorm/">gorm</a>.<a href="/pkg/github.com/jinzhu/gorm/#Model">Model</a>
+
+<span id="Event.UserID"></span>    UserID      <a href="/pkg/builtin/#uint">uint</a>
+<span id="Event.Day"></span>    Day         <a href="/pkg/builtin/#string">string</a>
+<span id="Event.Title"></span>    Title       <a href="/pkg/builtin/#string">string</a>
+<span id="Event.Description"></span>    Description <a href="/pkg/builtin/#string">string</a>
+<span id="Event.Timeslots"></span>    Timeslots   []*<a href="#Timeslot">Timeslot</a> `gorm:&#34;many2many:event_times;&#34;`
+}
+</pre>
+
+			
+
+			
+
+			
+			
+			
+
+			
+				
+				<h3 id="CreateEvent">func <a href="/src/target/player.go?s=1257:1352#L40">CreateEvent</a>
+					<a class="permalink" href="#CreateEvent">&#xb6;</a>
+					
+					
+				</h3>
+				<pre>func CreateEvent(creator, day, title, description <a href="/pkg/builtin/#string">string</a>, timeslots []<a href="#Timeslot">Timeslot</a>) (*<a href="#Event">Event</a>, <a href="/pkg/builtin/#error">error</a>)</pre>
+				<p>
+CreateEvent creates an even
+Register the day and the user_id of who created this event
+Add an association to timeslots, so event can occupy multiple timeslots
+</p>
+
+				
+				
+			
+				
+				<h3 id="GetAllEvents">func <a href="/src/target/player.go?s=452:488#L12">GetAllEvents</a>
+					<a class="permalink" href="#GetAllEvents">&#xb6;</a>
+					
+					
+				</h3>
+				<pre>func GetAllEvents() ([]<a href="#Event">Event</a>, <a href="/pkg/builtin/#error">error</a>)</pre>
+				<p>
+GetAllEvents gets all events
+</p>
+
+				
+				
+			
+				
+				<h3 id="GetEvents">func <a href="/src/target/player.go?s=1759:1811#L62">GetEvents</a>
+					<a class="permalink" href="#GetEvents">&#xb6;</a>
+					
+					
+				</h3>
+				<pre>func GetEvents(creator, day <a href="/pkg/builtin/#string">string</a>) ([]<a href="#Event">Event</a>, <a href="/pkg/builtin/#error">error</a>)</pre>
+				<p>
+GetEvents gets all user&#39;s events on a specific day
+</p>
+
+				
+				
+			
+				
+				<h3 id="GetEventsOfTheDay">func <a href="/src/target/player.go?s=2034:2085#L75">GetEventsOfTheDay</a>
+					<a class="permalink" href="#GetEventsOfTheDay">&#xb6;</a>
+					
+					
+				</h3>
+				<pre>func GetEventsOfTheDay(day <a href="/pkg/builtin/#string">string</a>) ([]<a href="#Event">Event</a>, <a href="/pkg/builtin/#error">error</a>)</pre>
+				
+				
+				
+			
+
+			
+		
+			
+			
+			<h2 id="Timeslot">type <a href="/src/target/timeslot.go?s=191:371#L2">Timeslot</a>
+				<a class="permalink" href="#Timeslot">&#xb6;</a>
+				
+				
+			</h2>
+			<p>
+Timeslot is a single timeslots
+</p>
+
+			<pre>type Timeslot struct {
+    <a href="/pkg/github.com/jinzhu/gorm/">gorm</a>.<a href="/pkg/github.com/jinzhu/gorm/#Model">Model</a>
+
+<span id="Timeslot.Name"></span>    Name      <a href="/pkg/builtin/#string">string</a>      `gorm:&#34;unique&#34;`
+<span id="Timeslot.Events"></span>    Events    []*<a href="#Event">Event</a>    `gorm:&#34;many2many:event_times;&#34;`
+<span id="Timeslot.Attendees"></span>    Attendees []*<a href="#Attendee">Attendee</a> `gorm:&#34;attendees_times;&#34;`
+}
+</pre>
+
+			
+
+			
+
+			
+			
+			
+
+			
+				
+				<h3 id="CreateTimeslot">func <a href="/src/target/player.go?s=620:671#L18">CreateTimeslot</a>
+					<a class="permalink" href="#CreateTimeslot">&#xb6;</a>
+					
+					
+				</h3>
+				<pre>func CreateTimeslot(name <a href="/pkg/builtin/#string">string</a>) (*<a href="#Timeslot">Timeslot</a>, <a href="/pkg/builtin/#error">error</a>)</pre>
+				<p>
+CreateTimeslot creates a timeslot
+</p>
+
+				
+				
+			
+				
+				<h3 id="GetAllTimeslots">func <a href="/src/target/player.go?s=120:162#L1">GetAllTimeslots</a>
+					<a class="permalink" href="#GetAllTimeslots">&#xb6;</a>
+					
+					
+				</h3>
+				<pre>func GetAllTimeslots() ([]<a href="#Timeslot">Timeslot</a>, <a href="/pkg/builtin/#error">error</a>)</pre>
+				<p>
+GetAllTimeslots returns all timeslots in the system
+</p>
+
+				
+				
+			
+				
+				<h3 id="GetAttendeeTimeslots">func <a href="/src/target/player.go?s=2842:2904#L106">GetAttendeeTimeslots</a>
+					<a class="permalink" href="#GetAttendeeTimeslots">&#xb6;</a>
+					
+					
+				</h3>
+				<pre>func GetAttendeeTimeslots(attendeeID <a href="/pkg/builtin/#uint">uint</a>) ([]<a href="#Timeslot">Timeslot</a>, <a href="/pkg/builtin/#error">error</a>)</pre>
+				<p>
+GetAttendeeTimeslots gets attendee&#39;s timeslots
+</p>
+
+				
+				
+			
+				
+				<h3 id="GetEventTimeslots">func <a href="/src/target/player.go?s=2310:2366#L85">GetEventTimeslots</a>
+					<a class="permalink" href="#GetEventTimeslots">&#xb6;</a>
+					
+					
+				</h3>
+				<pre>func GetEventTimeslots(eventID <a href="/pkg/builtin/#uint">uint</a>) ([]<a href="#Timeslot">Timeslot</a>, <a href="/pkg/builtin/#error">error</a>)</pre>
+				<p>
+GetEventTimeslots returns all timeslots occupied by an
+event, where it is being passed as an ID
+</p>
+
+				
+				
+			
+
+			
+		
+			
+			
+			<h2 id="User">type <a href="/src/target/user.go?s=84:164#L1">User</a>
+				<a class="permalink" href="#User">&#xb6;</a>
+				
+				
+			</h2>
+			<p>
+User struct defines a user model
+</p>
+
+			<pre>type User struct {
+    <a href="/pkg/github.com/jinzhu/gorm/">gorm</a>.<a href="/pkg/github.com/jinzhu/gorm/#Model">Model</a>
+
+<span id="User.Name"></span>    Name   <a href="/pkg/builtin/#string">string</a> `gorm:&#34;unique&#34;`
+<span id="User.Events"></span>    Events []<a href="#Event">Event</a>
+}
+</pre>
+
+			
+
+			
+
+			
+			
+			
+
+			
+				
+				<h3 id="CreateUser">func <a href="/src/target/player.go?s=780:823#L24">CreateUser</a>
+					<a class="permalink" href="#CreateUser">&#xb6;</a>
+					
+					
+				</h3>
+				<pre>func CreateUser(name <a href="/pkg/builtin/#string">string</a>) (*<a href="#User">User</a>, <a href="/pkg/builtin/#error">error</a>)</pre>
+				<p>
+CreateUser creates a user by name
+</p>
+
+				
+				
+			
+				
+				<h3 id="GetAllUsers">func <a href="/src/target/player.go?s=293:327#L6">GetAllUsers</a>
+					<a class="permalink" href="#GetAllUsers">&#xb6;</a>
+					
+					
+				</h3>
+				<pre>func GetAllUsers() ([]<a href="#User">User</a>, <a href="/pkg/builtin/#error">error</a>)</pre>
+				<p>
+GetAllUsers gets all users
+</p>
+
+				
+				
+			
+				
+				<h3 id="GetUser">func <a href="/src/target/player.go?s=922:962#L30">GetUser</a>
+					<a class="permalink" href="#GetUser">&#xb6;</a>
+					
+					
+				</h3>
+				<pre>func GetUser(name <a href="/pkg/builtin/#string">string</a>) (*<a href="#User">User</a>, <a href="/pkg/builtin/#error">error</a>)</pre>
+				<p>
+GetUser gets a user by name
+</p>
+
+				
+				
+			
+
+			
+		
+	
+
+	
+
+
+
+
+

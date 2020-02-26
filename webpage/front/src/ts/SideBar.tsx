@@ -49,13 +49,16 @@ export class SideBar extends React.Component<SideBarProps, SideBarState> {
                         Sign Out
                     </a>
                 }
-
+                {/* if */this.props.username !== '' ?
                 <a className="collection-item blue-text"
                     onClick={() => this.props.stateChange('events')}
                     key={2}
                 >
                     Events
                 </a>
+                /* else */:
+                    <div></div>
+                }
                 {
                 /* if */this.props.username !== '' ?
                 <a className="collection-item blue-text"

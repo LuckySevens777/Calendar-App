@@ -16,6 +16,11 @@ interface EventElementProps {
     interactive:boolean,
 
     /**
+     * Display differently if joining this as an event
+     */
+    joinMode:boolean,
+
+    /**
      * color classes to use
      */
     color:{
@@ -132,12 +137,28 @@ export class EventElement extends React.Component<EventElementProps, EventElemen
                 else state.slots[i].color = this.props.color.inactive
             }
         } else {
-            state.slots = this.props.slots
+            if(this.props.joinMode) {
+                state.slots = this.props.slots
 
-            for(let i = 0; i < 72; i++) {
-                //set correct colors
-                if(state.slots[i].active) state.slots[i].color = this.props.color.active
-                else state.slots[i].color = this.props.color.interactive
+                for(let i = 0; i < 72; i++) {
+                    //change mode
+                    state.slots[i].interactive = state.slots[i].active
+                    state.slots[i].active = false
+
+                    //set correct colors
+                    if(state.slots[i].interactive) {
+                        if(state.slots[i].active) state.slots[i].color = this.props.color.active
+                        state.slots[i].color = this.props.color.interactive
+                    } else state.slots[i].color = this.props.color.inactive
+                }
+            } else {
+                state.slots = this.props.slots
+
+                for(let i = 0; i < 72; i++) {
+                    //set correct colors
+                    if(state.slots[i].active) state.slots[i].color = this.props.color.active
+                    else state.slots[i].color = this.props.color.interactive
+                }
             }
         }
 

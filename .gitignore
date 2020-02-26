@@ -10,3 +10,6 @@ node_modules/
 webpage/front/serve/
 webpage/front/intermediate/
 webpage/front/docs-frontend/
+
+#system
+*.swp

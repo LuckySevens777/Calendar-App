@@ -1,0 +1,284 @@
+<!--
+	Copyright 2009 The Go Authors. All rights reserved.
+	Use of this source code is governed by a BSD-style
+	license that can be found in the LICENSE file.
+-->
+<!--
+	Note: Static (i.e., not template-generated) href and id
+	attributes start with "pkg-" to make it impossible for
+	them to conflict with generated attributes (some of which
+	correspond to Go identifiers).
+-->
+
+	<script type='text/javascript'>
+	document.ANALYSIS_DATA = ;
+	document.CALLGRAPH = ;
+	</script>
+
+	
+		
+		<div id="short-nav">
+			<dl>
+			<dd><code>import "Calendar-App/back/processing"</code></dd>
+			</dl>
+			<dl>
+			<dd><a href="#pkg-overview" class="overviewLink">Overview</a></dd>
+			<dd><a href="#pkg-index" class="indexLink">Index</a></dd>
+			
+			
+			</dl>
+		</div>
+		<!-- The package's Name is printed as title by the top-level template -->
+		<div id="pkg-overview" class="toggleVisible">
+			<div class="collapsed">
+				<h2 class="toggleButton" title="Click to show Overview section">Overview ▹</h2>
+			</div>
+			<div class="expanded">
+				<h2 class="toggleButton" title="Click to hide Overview section">Overview ▾</h2>
+				
+				
+			</div>
+		</div>
+
+		<div id="pkg-index" class="toggleVisible">
+		<div class="collapsed">
+			<h2 class="toggleButton" title="Click to show Index section">Index ▹</h2>
+		</div>
+		<div class="expanded">
+			<h2 class="toggleButton" title="Click to hide Index section">Index ▾</h2>
+
+		<!-- Table of contents for API; must be named manual-nav to turn off auto nav. -->
+			<div id="manual-nav">
+			<dl>
+			
+			
+			
+				
+				<dd><a href="#CreateEvent">func CreateEvent(creator string, name string, desc string, day string, times []string) error</a></dd>
+			
+				
+				<dd><a href="#DbClose">func DbClose() error</a></dd>
+			
+				
+				<dd><a href="#DbInit">func DbInit() error</a></dd>
+			
+				
+				<dd><a href="#GetAttendees">func GetAttendees(eventID string) ([]string, [][]string, error)</a></dd>
+			
+				
+				<dd><a href="#GetEvents">func GetEvents(name, creator, attendee string, days []string) ([]map[string]string, [][]string)</a></dd>
+			
+				
+				<dd><a href="#RegisterForEvent">func RegisterForEvent(username string, eventID string, times []string) error</a></dd>
+			
+				
+				<dd><a href="#SignUp">func SignUp(username string) error</a></dd>
+			
+			
+			
+			</dl>
+			</div><!-- #manual-nav -->
+
+		
+
+		
+			<h3>Package files</h3>
+			<p>
+			<span style="font-size:90%">
+			
+				<a href="/src/Calendar-App/back/processing/events.go">events.go</a>
+			
+				<a href="/src/Calendar-App/back/processing/utils.go">utils.go</a>
+			
+			</span>
+			</p>
+		
+		</div><!-- .expanded -->
+		</div><!-- #pkg-index -->
+
+		<div id="pkg-callgraph" class="toggle" style="display: none">
+		<div class="collapsed">
+			<h2 class="toggleButton" title="Click to show Internal Call Graph section">Internal call graph ▹</h2>
+		</div> <!-- .expanded -->
+		<div class="expanded">
+			<h2 class="toggleButton" title="Click to hide Internal Call Graph section">Internal call graph ▾</h2>
+			<p>
+			  In the call graph viewer below, each node
+			  is a function belonging to this package
+			  and its children are the functions it
+			  calls&mdash;perhaps dynamically.
+			</p>
+			<p>
+			  The root nodes are the entry points of the
+			  package: functions that may be called from
+			  outside the package.
+			  There may be non-exported or anonymous
+			  functions among them if they are called
+			  dynamically from another package.
+			</p>
+			<p>
+			  Click a node to visit that function's source code.
+			  From there you can visit its callers by
+			  clicking its declaring <code>func</code>
+			  token.
+			</p>
+			<p>
+			  Functions may be omitted if they were
+			  determined to be unreachable in the
+			  particular programs or tests that were
+			  analyzed.
+			</p>
+			<!-- Zero means show all package entry points. -->
+			<ul style="margin-left: 0.5in" id="callgraph-0" class="treeview"></ul>
+		</div>
+		</div> <!-- #pkg-callgraph -->
+
+		
+		
+		
+			
+			
+			<h2 id="CreateEvent">func <a href="/src/target/events.go?s=1240:1332#L45">CreateEvent</a>
+				<a class="permalink" href="#CreateEvent">&#xb6;</a>
+				
+				
+			</h2>
+			<pre>func CreateEvent(creator <a href="/pkg/builtin/#string">string</a>, name <a href="/pkg/builtin/#string">string</a>, desc <a href="/pkg/builtin/#string">string</a>, day <a href="/pkg/builtin/#string">string</a>, times []<a href="/pkg/builtin/#string">string</a>) <a href="/pkg/builtin/#error">error</a></pre>
+			<p>
+Throws errors and performs no db action when any of the timeslots are invalid
+</p>
+<pre>creates an event on the given day over the given timeslots made by the given user.
+creator must be an existing user
+name, desc have no specific restrictions
+day must be a valid day (format: &#34;02-21-2020&#34;)
+times must be valid timeslots (format: &#34;08:20&#34;)
+</pre>
+<p>
+Currently assumes the front end will ask for events again to get the eventID
+</p>
+
+			
+			
+
+		
+			
+			
+			<h2 id="DbClose">func <a href="/src/target/events.go?s=754:774#L33">DbClose</a>
+				<a class="permalink" href="#DbClose">&#xb6;</a>
+				
+				
+			</h2>
+			<pre>func DbClose() <a href="/pkg/builtin/#error">error</a></pre>
+			<p>
+closes the database
+</p>
+
+			
+			
+
+		
+			
+			
+			<h2 id="DbInit">func <a href="/src/target/events.go?s=140:159#L2">DbInit</a>
+				<a class="permalink" href="#DbInit">&#xb6;</a>
+				
+				
+			</h2>
+			<pre>func DbInit() <a href="/pkg/builtin/#error">error</a></pre>
+			<p>
+Initializes the database
+</p>
+
+			
+			
+
+		
+			
+			
+			<h2 id="GetAttendees">func <a href="/src/target/events.go?s=2289:2352#L74">GetAttendees</a>
+				<a class="permalink" href="#GetAttendees">&#xb6;</a>
+				
+				
+			</h2>
+			<pre>func GetAttendees(eventID <a href="/pkg/builtin/#string">string</a>) ([]<a href="/pkg/builtin/#string">string</a>, [][]<a href="/pkg/builtin/#string">string</a>, <a href="/pkg/builtin/#error">error</a>)</pre>
+			<p>
+validates that the event exists, then returns a list of usernames of users
+attending the event and the timeslots they are signed up for
+(each index of the two lists corresponds to the same user)
+</p>
+
+			
+			
+
+		
+			
+			
+			<h2 id="GetEvents">func <a href="/src/target/events.go?s=3613:3708#L116">GetEvents</a>
+				<a class="permalink" href="#GetEvents">&#xb6;</a>
+				
+				
+			</h2>
+			<pre>func GetEvents(name, creator, attendee <a href="/pkg/builtin/#string">string</a>, days []<a href="/pkg/builtin/#string">string</a>) ([]map[<a href="/pkg/builtin/#string">string</a>]<a href="/pkg/builtin/#string">string</a>, [][]<a href="/pkg/builtin/#string">string</a>)</pre>
+			<p>
+gets all events with specific criteria.  Leave the criterion zeroed/nil to not search on it.
+</p>
+<pre>return format: returns a pair of lists of same size
+a list of maps mapping:
+	&#34;Name&#34; to event name
+	&#34;Description&#34; to event description
+	&#34;EventID&#34; to unique event id
+	&#34;Creator&#34; to event creator&#39;s name
+	&#34;Day&#34; to the event&#39;s day
+and a list of a list of timeslots
+(each distinct index of the two lists corresponds to the same event)
+</pre>
+
+			
+			
+
+		
+			
+			
+			<h2 id="RegisterForEvent">func <a href="/src/target/events.go?s=5697:5773#L197">RegisterForEvent</a>
+				<a class="permalink" href="#RegisterForEvent">&#xb6;</a>
+				
+				
+			</h2>
+			<pre>func RegisterForEvent(username <a href="/pkg/builtin/#string">string</a>, eventID <a href="/pkg/builtin/#string">string</a>, times []<a href="/pkg/builtin/#string">string</a>) <a href="/pkg/builtin/#error">error</a></pre>
+			<p>
+validates that the event exists, that the user is in the db,
+and that all the times are valid (both valid timeslots and linked to the event).
+If anything is invalid, no action will be taken.
+remember: valid format for times is &#34;08:40&#34; or &#34;18:00&#34;
+</p>
+
+			
+			
+
+		
+			
+			
+			<h2 id="SignUp">func <a href="/src/target/events.go?s=6668:6702#L233">SignUp</a>
+				<a class="permalink" href="#SignUp">&#xb6;</a>
+				
+				
+			</h2>
+			<pre>func SignUp(username <a href="/pkg/builtin/#string">string</a>) <a href="/pkg/builtin/#error">error</a></pre>
+			<p>
+Adds the username given to the database if the user does not already exist.
+If the user does exist, throw an error
+</p>
+
+			
+			
+
+		
+		
+	
+
+	
+
+
+
+
+
