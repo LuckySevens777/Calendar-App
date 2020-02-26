@@ -1,5 +1,4 @@
 import {Event} from './Event'
-
 export class ApiCall {
 	public user: string = ""
 	public actions: string = ""
