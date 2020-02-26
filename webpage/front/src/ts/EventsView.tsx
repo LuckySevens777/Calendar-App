@@ -14,6 +14,8 @@ interface EventsViewState {}
 export class EventsView extends React.Component<EventsViewProps, EventsViewState> {
     public readonly state:EventsViewState
 
+    private selected:Slot[]
+
     /**
      * Constructs an EventsView
      * @param props the object's properties
@@ -37,7 +39,7 @@ export class EventsView extends React.Component<EventsViewProps, EventsViewState
         for(let i = 0; i < 72; i++) {
             let slot = new Slot
             slot.interactive = false
-            slot.active = EVENTS[0].timeSlots.indexOf(i) != -1
+            slot.active = EVENTS[0].timeSlots.indexOf(i) != -1 //EVENTS NEEDS TO BE REPLACED WITH SOME ARRAY OF EVENT OBJECTS
             slots[i] = slot
         }
 
@@ -48,28 +50,40 @@ export class EventsView extends React.Component<EventsViewProps, EventsViewState
                 </h2>
                 <div className="row">
                     <ul className="collapsible">
-                        {EVENTS.map((event, number) =>
+                        {EVENTS.map((event, number) => //EVENTS NEEDS TO BE REPLACED WITH SOME ARRAY OF EVENT OBJECTS
                             <li key={number}>
                                 {/* onMouseover is a hacky way to initialize the container just in time */}
                                 <div className="collapsible-header" onMouseOver={()=>Material.Collapsible.init(document.querySelectorAll('.collapsible'), {})}>
                                     <i className="material-icons">group</i>
                                     <h5>{event.name} | {event.creatorName} | {event.date}</h5>
-                                    {console.log(EVENTS)}
                                 </div>
                                 <div className="collapsible-body">
                                     <span>{event.description}</span><br/>
                                     <ErrorBoundary>
                                         <EventElement
                                             date={new Date()}
-                                            interactive={false}
-                                            onChange={(slots:Slot[]) => console.log(slots)}
+                                            interactive={true}
+                                            onChange={slots => this.selected = slots}
                                             color={{
                                                 active: 'blue',
                                                 interactive: 'white',
                                                 inactive: 'grey'
                                             }}
-                                            slots={slots}
+                                            slots={slots.map(slot => {
+                                                //swap active and interactive
+                                                let out:Slot = new Slot
+                                                out.interactive = slot.active
+                                                out.active = slot.active
+                                                if(!out.interactive) out.color = 'grey'
+                                                return out
+                                            })}
                                         />
+                                        {true/* usernames does not match */ ? <a className="btn waves-effect blue white-text" onClick={() => {
+                                            ////////////////////////////////////////////////
+                                            // EVENT JOINING FUNCTIONALITY
+                                            // ONLY DISPLAY THIS IF THE EVENT ISNT YOURS
+                                            ////////////////////////////////////////////////
+                                        }}>Join Event</a> : <div></div>}
                                     </ErrorBoundary>
                                 </div>
                             </li>

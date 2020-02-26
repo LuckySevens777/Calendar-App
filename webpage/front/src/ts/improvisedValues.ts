@@ -1,3 +1,5 @@
+//This whole file is just used for testing while I don't have actual data
+//it can be deleted whenever the API is connected
 import {Event} from './Event'
 import {Slot} from './Slot'
 
