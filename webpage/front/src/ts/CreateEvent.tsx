@@ -78,6 +78,7 @@ export class CreateEvent extends React.Component<CreateEventProps, CreateEventSt
         event.description = this.state.description
         event.uniqueID = 'INVALID ID'
         event.creatorName = this.props.username
+        event.members = [event.creatorName]
         event.date = this.state.date
         event.timeSlots = this.state.timeSlots
 

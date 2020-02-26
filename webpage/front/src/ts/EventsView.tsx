@@ -69,14 +69,7 @@ export class EventsView extends React.Component<EventsViewProps, EventsViewState
                                                 interactive: 'white',
                                                 inactive: 'grey'
                                             }}
-                                            slots={slots.map(slot => {
-                                                //swap active and interactive
-                                                let out:Slot = new Slot
-                                                out.interactive = slot.active
-                                                out.active = slot.active
-                                                if(!out.interactive) out.color = 'grey'
-                                                return out
-                                            })}
+                                            slots={slots}
                                         />
                                         {true/* usernames does not match */ ? <a className="btn waves-effect blue white-text" onClick={() => {
                                             ////////////////////////////////////////////////
