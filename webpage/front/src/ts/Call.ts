@@ -1,24 +1,4 @@
-<<<<<<< HEAD
-=======
 import {Event} from './Event'
-
-export async function call(the_url) {
-	const rawResponse = fetch(the_url, {
-		method: 'POST',
-			headers: {
-				'Accept': 'application/json',
-				'Content-Type': 'application/json'
-			},
-			body: JSON.stringify({"Action" : "boop"})
-	}).then(data => ({
-		        data: data,
-	})
-				 ).then(res => { console.log(res) });
-	//const content = await rawResponse.json();
-	//console.log(content);
-}
-
->>>>>>> 5b036b68481415006720e61a0eb7f679f8635848
 export class ApiCall {
 	public user: string = ""
 	public actions: string = ""
