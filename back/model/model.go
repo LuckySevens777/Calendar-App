@@ -1,3 +1,4 @@
+// Model is responsible for all DB interactions
 package model
 
 import (

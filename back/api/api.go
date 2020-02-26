@@ -1,3 +1,4 @@
+// Set of functions that interface with the frontend
 package api
 
 import (
