@@ -77,6 +77,7 @@ export class Page extends React.Component<PageProps, PageState> {
         this.setState({mode: 'events'})
     }
 
+
     /**
      * Adds a user to an event
      * @param name name of the event to join
@@ -84,9 +85,38 @@ export class Page extends React.Component<PageProps, PageState> {
      * @param slots slots when this user is available for the event
      */
     private joinEvent(name:string, creator:string, slots:number[]) : void {
+        //construct event
+        let searchEvent:Event
+        for(let event of this.state.events) {
+            if(event.creatorName === creator && event.name === name) {
+                searchEvent = event
+                searchEvent.members.push({
+                    name: this.state.username,
+                    availability: slots
+                })
+                break
+            }
+        }
+
+        if(searchEvent == undefined) {
+            //show failure
+            Material.toast({
+                html: `failed to join ${name}`,
+                classes: 'red'
+            })
+        }
+
         ///////////////////////////////////////
         // JOIN EVENT
         ///////////////////////////////////////
+
+        //confirm that the user has joined
+        Material.toast({
+            html: `joined ${name}`,
+            classes: 'green'
+        })
+        //log it
+        console.log('joining', name, 'from', creator, 'slots:', slots)
     }
 
     /**
