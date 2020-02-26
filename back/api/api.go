@@ -61,14 +61,14 @@ func apicall(w http.ResponseWriter, r *http.Request) {
 
 // HandleRequest No authentication is done on this other than making sure the action is valid (and has all its pieces).  Will throw an error if the request is invalid.
 // The possible actions you can take are as follows:
-// Create-Event - Create a new event given the user, event name, event description, day, and timeslots.
-// Get-All-Events - Just returns the data for every event in the calendar.
-// Get-Events-Attending - Given a user, get the events that they are attending.
-// Get-Events-Created - Given a user, get the events that they have created.
-// Get-Events-For-Days - Given a day, get all events for that day.
-// Get-Attendees - Given an event ID, get all attendees for that event.
-// Register-For-Event - Given a user, event name, and timeslots, register for that event.
-// Sign-Up - Given a user, sign them up (add them to the DB).
+//   Create-Event - Create a new event given the user, event name, event description, day, and timeslots.
+//   Get-All-Events - Just returns the data for every event in the calendar.
+//   Get-Events-Attending - Given a user, get the events that they are attending.
+//   Get-Events-Created - Given a user, get the events that they have created.
+//   Get-Events-For-Days - Given a day, get all events for that day.
+//   Get-Attendees - Given an event ID, get all attendees for that event.
+//   Register-For-Event - Given a user, event name, and timeslots, register for that event.
+//   Sign-Up - Given a user, sign them up (add them to the DB).
 func HandleRequest(InData Data) (returnThis ReturnData, err error) {
 	returnThis.Message = "OK"
 	switch InData.Action {
