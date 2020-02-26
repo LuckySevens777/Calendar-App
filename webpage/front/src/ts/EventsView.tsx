@@ -51,6 +51,7 @@ export class EventsView extends React.Component<EventsViewProps, EventsViewState
             slot.active = nums.indexOf(i) != -1
             slots[i] = slot
         }
+        console.log(nums)
         return slots
     }
 

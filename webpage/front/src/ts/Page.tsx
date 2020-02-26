@@ -158,7 +158,6 @@ export class Page extends React.Component<PageProps, PageState> {
                                 ///////////////////////////////////////
                                 // CREATE EVENT FUNCTIONALITY
                                 ///////////////////////////////////////
-                                console.log(event)
                                 Material.toast({html: 'Event Created!'})
                                 this.setState({mode: 'events'})
                             }).bind(this)}/>

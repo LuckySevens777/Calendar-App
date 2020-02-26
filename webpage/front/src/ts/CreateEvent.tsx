@@ -138,7 +138,7 @@ export class CreateEvent extends React.Component<CreateEventProps, CreateEventSt
                                 onChange={((slots:Slot[]) => {
                                     let timeSlots = []
 
-                                    for(let n in slots) if(slots[n].active) timeSlots.push(n)
+                                    for(let n in slots) if(slots[n].active) timeSlots.push(Number(n))
 
                                     this.setState({timeSlots: timeSlots})
                                 }).bind(this)}
