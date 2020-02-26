@@ -1,19 +1,3 @@
-export async function call(the_url) {
-	const rawResponse = fetch(the_url, {
-		method: 'POST',
-			headers: {
-				'Accept': 'application/json',
-				'Content-Type': 'application/json'
-			},
-			body: JSON.stringify({"Action" : "boop"})
-	}).then(data => ({
-		        data: data,
-	})
-				 ).then(res => { console.log(res) });
-	//const content = await rawResponse.json();
-	//console.log(content);
-}
-
 export class ApiCall {
 	public user: string = ""
 	public actions: string = ""
@@ -35,8 +19,6 @@ export class ApiCall {
 	}
 
 	makeBody() {
-		//let body = `{"User": "$(this.user)", "Action": "$(this.actions)", "Day": "$(this.day)", "Times": "$(this.times)", "Event_Name" : "$(this.event_name)", "Event_Description": "$(this.event_description)", "Event_ID": "$(this.event_id)"}`
-		//let body = `{"User": "` + this.user + `", "Action": "` + this.actions + `", "Day": "` + this.day + `", "Times": "` + this.times + `", "Event_Name" : "` + this.event_name + `", "Event_Description" : "` + this.event_description + `", "Event_ID" : "` + this.event_id + `"}`;
 		let body = {
 			User : this.user,
 			Action : this.actions,
@@ -46,51 +28,48 @@ export class ApiCall {
 			Event_Description : this.event_description,
 			Event_ID : this.event_id
 		}
-		console.log(body);
-		console.log(JSON.stringify(body));
-		return(body);
-		
+		return(JSON.stringify(body));
 	}
 
 	async standardCall(the_body: any) {
 		//the_body has to by a string like the one below. Make it look like this, don't want to touch it too much
-		let testing = `{"User": "Drmk5","Action": "Get-All-Events","Day": [],"Times": [],"Event_Name": "","Event_Description": "","Event_ID": ""}`;
-		console.log(typeof(testing));
+		//let testing = `{"User": "Drmk5","Action": "Get-All-Events","Day": [],"Times": [],"Event_Name": "","Event_Description": "","Event_ID": ""}`;
 		let body_promise;
 		const the_resp = fetch('/api', {
-			//mode: 'no-cors',
 			method: 'POST',
 			headers: {
 				'Accept': '*/*',
 				'Content-Type': 'application/json'
 			},
-			body: testing
+			body: the_body
 		}).then( data => {
 			data.body.getReader().read().then(res => {
 				body_promise = String.fromCharCode.apply(null, res.value);
-				console.log(body_promise);
-				//return(String.fromCharCode.apply(null, res.value));
 			});
 		})
+		let result = await the_resp;
+		return(result);
 	}
 
 	/**
 	 * Add user to an event
 	 * @param the_name the name of the event to join
 	 */
-	signUp(the_name:string) {
+	async signUp() {
 		this.actions = "Sign-Up";
-		this.user = the_name;
+		console.log("Entered sign up");
 		let call_body = this.makeBody();
-		console.log('HELLO THERE');
-		console.log(call_body);
-		this.standardCall(call_body);
+		console.log("made call body");
+		let return_str = await this.standardCall(call_body);
+		console.log(return_str);
+		console.log('asl;dfkjas;ldfkj');
 	}
 
-	getAllEvents() {
+	async getAllEvents() {
 		this.actions = "Get-All-Events";
 		let call_body = this.makeBody();
-		this.standardCall(call_body);
+		let return_str = await this.standardCall(call_body)
+
 	}
 
 	getEventsAttending() {
