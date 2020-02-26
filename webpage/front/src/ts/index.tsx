@@ -6,11 +6,12 @@ import * as ReactDOM from 'react-dom'
 //react elements
 import {ErrorBoundary} from './ErrorBoundary'
 import {Page} from './Page'
-import {call} from './Call'
+import {ApiCall} from './Call'
 
 //DOMContentLoaded
 document.addEventListener('DOMContentLoaded', () => {
-		call('/api/');
+		let call = new ApiCall("henry");
+		call.getAllEvents();
 
     let now = new Date()
 

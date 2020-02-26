@@ -1,8 +1,7 @@
 import * as Material from 'materialize-css'
 import * as React from 'react'
 
-import {USERNAME} from './improvisedValues'
-
+import {ApiCall} from './Call'
 import {Event} from './Event'
 
 import {CreateEvent} from './CreateEvent'
@@ -15,7 +14,8 @@ interface PageProps {}
 
 interface PageState {
     mode:string,
-    username:string
+    username:string,
+    events:Event[]
 }
 
 export class Page extends React.Component<PageProps, PageState> {
@@ -31,7 +31,8 @@ export class Page extends React.Component<PageProps, PageState> {
         //temporary for constructor
         let state:PageState = {
             mode: undefined,
-            username: USERNAME  //EXAMPLE USERNAME NEEDS TO BE REPLACED WITH HOWEVER YOU WANT TO STORE THAT
+            username: '',
+            events: []
         }
 
         state.mode = 'signin'
@@ -56,30 +57,187 @@ export class Page extends React.Component<PageProps, PageState> {
     }
 
     /**
+     * Lets a user create an event
+     * @param event event to be created
+     */
+    private createEvent(event:Event) {
+        if(event.date.substring(4) !== '-01-01' &&
+           event.date.substring(4) !== '-07-04' &&
+           event.date.substring(4) !== '-12-25') {
+            let events:Event[] = this.state.events
+            events.push(event)
+            this.setState({events: events})
+            ///////////////////////////////////////
+            // CREATE EVENT FUNCTIONALITY
+            ///////////////////////////////////////
+            //display confirmation
+            Material.toast({
+                html: 'Event Created!',
+                classes: "green"
+            })
+            this.setState({mode: 'events'})
+        } else {
+            //display failure
+            Material.toast({
+                html: 'This date is not available for meetings!',
+                classes: "red"
+            })
+            //log it
+            console.log('failed to create: ', event)
+        }
+    }
+
+
+    /**
+     * Adds a user to an event
+     * @param name name of the event to join
+     * @param creator name of event creator for id purposes
+     * @param slots slots when this user is available for the event
+     */
+    private joinEvent(name:string, creator:string, timeSlots:number[]) : void {
+        //construct event
+        let searchEvent:Event
+        for(let event of this.state.events) {
+            if(event.creatorName === creator && event.name === name) {
+                searchEvent = event
+                searchEvent.members.push({
+                    name: this.state.username,
+                    availability: timeSlots
+                })
+
+
+                //api call
+                let call:ApiCall = new ApiCall(this.state.username)
+
+                const date = event.date.split('-')
+                call.createEvent(event.name, event.description, date, timeSlots)
+
+                break
+            }
+        }
+
+        if(searchEvent == undefined) {
+            //show failure
+            Material.toast({
+                html: `failed to join ${name}`,
+                classes: 'red'
+            })
+        }
+
+        ///////////////////////////////////////
+        // JOIN EVENT
+        ///////////////////////////////////////
+
+        //confirm that the user has joined
+        Material.toast({
+            html: `joined ${name}`,
+            classes: 'green'
+        })
+        //log it
+        console.log('joining', name, 'from', creator, 'slots:', timeSlots)
+    }
+
+    /**
+     * Signs a user in
+     * @param username user to sign in
+     */
+    private signIn(username:string) : void {
+        this.setState({username: username})
+
+        ///////////////////////////////////////
+        // SIGN IN FUNCTIONALITY
+        ///////////////////////////////////////
+
+        //display a green notification indicating that the sign in worked
+        Material.toast({
+            html: `${username} signed in`,
+            classes: 'green'
+        })
+        //switch mode to events, since it would be weird to stay on this page
+        this.changeState('events')
+        //log it
+        console.log('signed in:', username)
+    }
+
+    /**
+     * Signs a user out
+     */
+    private signOut() : void {
+
+        //////////////////////////
+        // SIGN OUT FUNCTION
+        /////////////////////////
+
+        //sets the username to the empty string
+        this.setState({username: ''})
+        //give green confirmation
+        Material.toast({
+            html: `signed out`,
+            classes: 'green'
+        })
+        //set state to log in
+        this.setState({mode: 'signin'})
+        //log it
+        console.log('signed out')
+    }
+
+    /**
+     * Attempts to register a user
+     * @param username username to try and register
+     */
+    private signUp(username:string) : void {
+        this.setState({username: username})
+
+        ///////////////////////////////////////
+        // SIGN UP FUNCTIONALITY
+        ///////////////////////////////////////
+
+        let signInSuccess = true //indicates success
+
+        if(signInSuccess) {
+            //if sign in was a success, show green confirmation
+            Material.toast({
+                html: `${username} signed up`,
+                classes: 'green'
+            })
+            //switch to events view
+            this.changeState('events')
+            //log it
+            console.log('sucessfully signed up:', username)
+        } else {
+            //if sign in fails, show red warning
+            Material.toast({
+                html: `${username} already exists!`,
+                classes: 'red'
+            })
+            //log it
+            console.log('failed to sign up:', username)
+        }
+    }
+
+    /**
      * Renders the element
      * This is where you put the tsx
      */
     public render() {
-        //sign in mode
         if(this.state.mode === 'signin') {
             return (
                 <div>
                     <div className="col s12 l10">
                         <ErrorBoundary>
-                            <SignIn onSignin={username => {
-                                ///////////////////////////////////////
-                                // SIGN IN FUNCTIONALITY
-                                ///////////////////////////////////////
-                            }} onSignup={username => {
-                                ///////////////////////////////////////
-                                // SIGN UP FUNCTIONALITY
-                                ///////////////////////////////////////
-                            }}/>
+                            <SignIn
+                                onSignin={this.signIn.bind(this)}
+                                onSignup={this.signUp.bind(this)}
+                            />
                         </ErrorBoundary>
                     </div>
                     <div className="col s12 l2">
                         <ErrorBoundary>
-                            <SideBar stateChange={this.changeState.bind(this)}/>
+                            <SideBar
+                                username={this.state.username}
+                                signOut={this.signOut.bind(this)}
+                                stateChange={this.changeState.bind(this)}
+                            />
                         </ErrorBoundary>
                     </div>
                 </div>
@@ -91,16 +249,20 @@ export class Page extends React.Component<PageProps, PageState> {
                 <div>
                     <div className="col s12 l10">
                         <ErrorBoundary>
-                            <EventsView onJoin={(name:string, creator:string) => {
-                                ////////////////////////////////////////////////
-                                // EVENT JOINING FUNCTIONALITY
-                                ////////////////////////////////////////////////
-                            }}/>
+                            <EventsView
+                                username={this.state.username}
+                                events={this.state.events}
+                                onJoin={this.joinEvent.bind(this)}
+                            />
                         </ErrorBoundary>
                     </div>
                     <div className="col s12 l2">
                         <ErrorBoundary>
-                            <SideBar stateChange={this.changeState.bind(this)}/>
+                            <SideBar
+                                username={this.state.username}
+                                signOut={this.signOut.bind(this)}
+                                stateChange={this.changeState.bind(this)}
+                            />
                         </ErrorBoundary>
                     </div>
                 </div>
@@ -112,21 +274,19 @@ export class Page extends React.Component<PageProps, PageState> {
                 <div>
                     <div className="col s12 l10">
                         <ErrorBoundary>
-                            <CreateEvent username={this.state.username} createObject={((event:Event) => {
-                                //this is called when a user confirms creating an event
-
-                                ///////////////////////////////////////
-                                // CREATE EVENT FUNCTIONALITY
-                                ///////////////////////////////////////
-
-                                Material.toast({html: 'Event Created!'})
-                                this.setState({mode: 'events'})
-                            }).bind(this)}/>
+                            <CreateEvent
+                                username={this.state.username}
+                                createObject={this.createEvent.bind(this)}
+                            />
                         </ErrorBoundary>
                     </div>
                     <div className="col s12 l2">
                         <ErrorBoundary>
-                            <SideBar stateChange={this.changeState.bind(this)}/>
+                            <SideBar
+                                username={this.state.username}
+                                signOut={this.signOut.bind(this)}
+                                stateChange={this.changeState.bind(this)}
+                            />
                         </ErrorBoundary>
                     </div>
                 </div>
