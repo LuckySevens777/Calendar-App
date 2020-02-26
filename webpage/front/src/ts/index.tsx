@@ -11,7 +11,7 @@ import {ApiCall} from './Call'
 //DOMContentLoaded
 document.addEventListener('DOMContentLoaded', () => {
 		let call = new ApiCall("henry");
-		call.signUp();
+		call.getAttendees("123");
 
     let now = new Date()
 
