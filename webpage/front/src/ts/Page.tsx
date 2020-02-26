@@ -130,20 +130,30 @@ export class Page extends React.Component<PageProps, PageState> {
 
         //api call
         let call:ApiCall = new ApiCall(this.state.username)
-        call.login()
+        if(call.login()) {
+            //api call to get event list
+            this.setState({events: call.getAllEvents()})
 
-        //api call to get event list
-        this.setState({events: call.getAllEvents()})
+            //display a green notification indicating that the sign in worked
+            Material.toast({
+                html: `${username} signed in`,
+                classes: 'green'
+            })
+            //switch mode to events, since it would be weird to stay on this page
+            this.changeState('events')
+            //log it
+            console.log('signed in:', username)
+        } else {
+            //display a red failure
+            Material.toast({
+                html: `${username} failed to sign in`,
+                classes: 'red'
+            })
+            //log it
+            console.log('failed to sign in:', username)
+        }
 
-        //display a green notification indicating that the sign in worked
-        Material.toast({
-            html: `${username} signed in`,
-            classes: 'green'
-        })
-        //switch mode to events, since it would be weird to stay on this page
-        this.changeState('events')
-        //log it
-        console.log('signed in:', username)
+
     }
 
     /**

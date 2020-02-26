@@ -72,7 +72,7 @@ export class ApiCall {
 		return []
 	}
 
-	
+
 
 	async getEventsAttending() {
 		this.actions = "Get-Events-Attending";
@@ -109,8 +109,10 @@ export class ApiCall {
 	/**
 	 * Sends a log in request to the API
 	 */
-	public login() : void {
-
+	public async login() : Promise<void> {
+		this.actions = "Sign-In";
+		let call_body = this.makeBody();
+		return await this.standardCall(call_body);
 	}
 
 	/**
