@@ -91,11 +91,12 @@ func (suite *CalendarModelTestSuite) TestBUsers() {
 
 // TestCEvent tests events creation and attendee appointment
 func (suite *CalendarModelTestSuite) TestCEvents() {
-	event1, err := CreateEvent(testUsers[0].Name, "2020-02-20", "Test Event 1", testTimeslots[:2])
+	event1, err := CreateEvent(testUsers[0].Name, "2020-02-20", "Test Event 1", "Description 1", testTimeslots[:2])
 	suite.Assert().Nil(err)
 	suite.Assert().Equal(testUsers[0].ID, event1.UserID)
 	suite.Assert().Equal("2020-02-20", event1.Day)
-	suite.Assert().Equal("Test Event 1", event1.Description)
+	suite.Assert().Equal("Test Event 1", event1.Title)
+	suite.Assert().Equal("Description 1", event1.Description)
 
 	times1, err := GetEventTimeslots(event1.ID)
 	suite.Assert().Equal(2, len(times1))
@@ -110,11 +111,12 @@ func (suite *CalendarModelTestSuite) TestCEvents() {
 	suite.Assert().Equal(1, len(attendeeSlots1))
 
 	// Second try
-	event2, err := CreateEvent(testUsers[2].Name, "2020-02-20", "Test Event 2", testTimeslots)
+	event2, err := CreateEvent(testUsers[2].Name, "2020-02-20", "Test Event 2", "Description 2", testTimeslots)
 	suite.Assert().Nil(err)
 	suite.Assert().Equal(testUsers[2].ID, event2.UserID)
 	suite.Assert().Equal("2020-02-20", event2.Day)
-	suite.Assert().Equal("Test Event 2", event2.Description)
+	suite.Assert().Equal("Test Event 2", event2.Title)
+	suite.Assert().Equal("Description 2", event2.Description)
 
 	times2, err := GetEventTimeslots(event2.ID)
 	suite.Assert().Equal(7, len(times2))

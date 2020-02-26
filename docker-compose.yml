@@ -6,15 +6,16 @@ services:
     restart: unless-stopped
     ports:
       - 5432:5432
-  testdb:
-    image: postgres:11.3-alpine
-    env_file: .env
-    restart: unless-stopped
-    ports:
-      - 5432:5432
-
     volumes:
-      - "/data/luckysevens777/calendar/mysql:/var/lib/mysql"
+      - /data/LuckySevens/Calendar-App/postgres:/var/lib/postgresql/data
+
+  testdb:
+   image: postgres:11.3-alpine
+   env_file: .env
+   restart: unless-stopped
+   ports:
+     - 5432:5432
+
   nginx:
     build: ./webpage
     container_name: nginx
@@ -27,4 +28,4 @@ services:
     build: ./back
     container_name: golang_backend
     ports:
-      - "3000:3000"
+      - "10000:10000"
