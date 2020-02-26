@@ -46,7 +46,7 @@ export class EventsView extends React.Component<EventsViewProps, EventsViewState
         return (
             <div className="container center">
                 <h2 className="row">
-                    Header
+                    Available Events
                 </h2>
                 <div className="row">
                     <ul className="collapsible">
@@ -58,7 +58,15 @@ export class EventsView extends React.Component<EventsViewProps, EventsViewState
                                     <h5>{event.name} | {event.creatorName} | {event.date}</h5>
                                 </div>
                                 <div className="collapsible-body">
+                                    <h5>Description</h5>
                                     <span>{event.description}</span><br/>
+                                    <h5>Members</h5>
+                                    <ul>
+                                        {event.members.map((member, number) =>
+                                            <li key={number}>{member}</li>
+                                        )}
+                                    </ul>
+                                    <h5>Join</h5>
                                     <ErrorBoundary>
                                         <EventElement
                                             date={new Date()}
