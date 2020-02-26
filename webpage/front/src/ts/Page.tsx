@@ -8,7 +8,6 @@ import {Event} from './Event'
 import {CreateEvent} from './CreateEvent'
 import {ErrorBoundary} from './ErrorBoundary'
 import {EventsView} from './EventsView'
-import {Overview} from './Overview'
 import {SideBar} from './SideBar'
 import {SignIn} from './SignIn'
 
@@ -35,7 +34,7 @@ export class Page extends React.Component<PageProps, PageState> {
             username: USERNAME  //EXAMPLE USERNAME NEEDS TO BE REPLACED WITH HOWEVER YOU WANT TO STORE THAT
         }
 
-        state.mode = 'overview'
+        state.mode = 'signin'
 
         this.state = state
     }
@@ -47,7 +46,6 @@ export class Page extends React.Component<PageProps, PageState> {
     private changeState(state:string) {
         switch(state) {
             //valid states
-            case 'overview':
             case 'events':
             case 'create':
             case 'signin':
@@ -62,23 +60,6 @@ export class Page extends React.Component<PageProps, PageState> {
      * This is where you put the tsx
      */
     public render() {
-        //overview mode
-        if(this.state.mode === 'overview') {
-            return (
-                <div>
-                    <div className="col s12 l10">
-                        <ErrorBoundary>
-                            <Overview stateChange={this.changeState.bind(this)}/>
-                        </ErrorBoundary>
-                    </div>
-                    <div className="col s12 l2">
-                        <ErrorBoundary>
-                            <SideBar stateChange={this.changeState.bind(this)}/>
-                        </ErrorBoundary>
-                    </div>
-                </div>
-            )
-        }
         //sign in mode
         if(this.state.mode === 'signin') {
             return (
@@ -135,7 +116,7 @@ export class Page extends React.Component<PageProps, PageState> {
                                 ///////////////////////////////////////
 
                                 Material.toast({html: 'Event Created!'})
-                                this.setState({mode: 'overview'})
+                                this.setState({mode: 'events'})
                             }).bind(this)}/>
                         </ErrorBoundary>
                     </div>

@@ -53,9 +53,10 @@ export class EventsView extends React.Component<EventsViewProps, EventsViewState
                         {EVENTS.map((event, number) => //EVENTS NEEDS TO BE REPLACED WITH SOME ARRAY OF EVENT OBJECTS
                             <li key={number}>
                                 {/* onMouseover is a hacky way to initialize the container just in time */}
-                                <div className="collapsible-header" onMouseOver={()=>Material.Collapsible.init(document.querySelectorAll('.collapsible'), {})}>
+                                <div className={`collapsible-header`} onMouseOver={()=>Material.Collapsible.init(document.querySelectorAll('.collapsible'), {})}>
                                     <i className="material-icons">group</i>
                                     <h5>{event.name} | {event.creatorName} | {event.date}</h5>
+                                    {true /* if this event is yours */ ? <span className="badge blue white-text">Your Event</span> : <div></div>}
                                 </div>
                                 <div className="collapsible-body">
                                     <h5>Description</h5>
