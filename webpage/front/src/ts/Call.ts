@@ -49,7 +49,7 @@ export class ApiCall {
 		console.log(body);
 		console.log(JSON.stringify(body));
 		return(body);
-		
+
 	}
 
 	async standardCall(the_body: any) {
@@ -119,10 +119,16 @@ export class ApiCall {
 	 * @param the_day the date formatted as ["YYYY", "MM", "DD"]
 	 * @param time_slots the array of time slot numbers to be created
 	 */
-	createEvent(the_event_name: string, the_event_description: string, the_day: string[], time_slots: number[]) : void {
+	public createEvent(the_event_name: string, the_event_description: string, the_day: string[], time_slots: number[]) : void {
 
 	}
 
+	/**
+	 * Sends a log in request to the API
+	 */
+	public login() : void {
+
+	}
 
 }
 

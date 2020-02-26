@@ -128,6 +128,11 @@ export class Page extends React.Component<PageProps, PageState> {
     private signIn(username:string) : void {
         this.setState({username: username})
 
+        //api call
+        let call:ApiCall = new ApiCall(this.state.username)
+        call.login()
+
+
         ///////////////////////////////////////
         // SIGN IN FUNCTIONALITY
         ///////////////////////////////////////
