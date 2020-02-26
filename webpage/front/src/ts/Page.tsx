@@ -94,7 +94,6 @@ export class Page extends React.Component<PageProps, PageState> {
                     availability: timeSlots
                 })
 
-
                 //api call
                 let call:ApiCall = new ApiCall(this.state.username)
 
@@ -112,10 +111,6 @@ export class Page extends React.Component<PageProps, PageState> {
                 classes: 'red'
             })
         }
-
-        ///////////////////////////////////////
-        // JOIN EVENT
-        ///////////////////////////////////////
 
         //confirm that the user has joined
         Material.toast({
