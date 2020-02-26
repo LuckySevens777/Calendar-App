@@ -58,18 +58,109 @@ export class Page extends React.Component<PageProps, PageState> {
     }
 
     /**
-     * signs a user out
+     * Lets a user create an event
+     * @param event event to be created
      */
-    private signOut() {
+    private createEvent(event:Event) {
+        //this is called when a user confirms creating an event
+        let events:Event[] = this.state.events
+        events.push(event)
+        this.setState({events: events})
+        ///////////////////////////////////////
+        // CREATE EVENT FUNCTIONALITY
+        ///////////////////////////////////////
+        Material.toast({html: 'Event Created!'})
+        this.setState({mode: 'events'})
+    }
+
+    /**
+     * Adds a user to an event
+     * @param name name of the event to join
+     * @param creator name of event creator for id purposes
+     * @param slots slots when this user is available for the event
+     */
+    private joinEvent(name:string, creator:string, slots:number[]) : void {
+        ///////////////////////////////////////
+        // JOIN EVENT
+        ///////////////////////////////////////
+    }
+
+    /**
+     * Signs a user in
+     * @param username user to sign in
+     */
+    private signIn(username:string) : void {
+        this.setState({username: username})
+
+        ///////////////////////////////////////
+        // SIGN IN FUNCTIONALITY
+        ///////////////////////////////////////
+
+        //display a green notification indicating that the sign in worked
+        Material.toast({
+            html: `${username} signed in`,
+            classes: 'green'
+        })
+        //switch mode to events, since it would be weird to stay on this page
+        this.changeState('events')
+        //log it
+        console.log('signed in:', username)
+    }
+
+    /**
+     * Signs a user out
+     */
+    private signOut() : void {
+
         //////////////////////////
         // SIGN OUT FUNCTION
         /////////////////////////
+
+        //sets the username to the empty string
         this.setState({username: ''})
+        //give green confirmation
         Material.toast({
             html: `signed out`,
             classes: 'green'
         })
+        //set state to log in
         this.setState({mode: 'signin'})
+        //log it
+        console.log('signed out')
+    }
+
+    /**
+     * Attempts to register a user
+     * @param username username to try and register
+     */
+    private signUp(username:string) : void {
+        this.setState({username: username})
+
+        ///////////////////////////////////////
+        // SIGN UP FUNCTIONALITY
+        ///////////////////////////////////////
+
+        let signInSuccess = true //indicates success
+
+        if(signInSuccess) {
+            //if sign in was a success, show green confirmation
+            Material.toast({
+                html: `${username} signed up`,
+                classes: 'green'
+            })
+            //switch to events view
+            this.changeState('events')
+            //log it
+            console.log('sucessfully signed up:', username)
+        } else {
+            //if sign in fails, show red warning
+            Material.toast({
+                html: `${username} already exists!`,
+                classes: 'red'
+            })
+            //log it
+            console.log('failed to sign up:', username)
+        }
     }
 
     /**
@@ -82,37 +173,7 @@ export class Page extends React.Component<PageProps, PageState> {
                 <div>
                     <div className="col s12 l10">
                         <ErrorBoundary>
-                            <SignIn onSignin={(username => {
-                                this.setState({username: username})
-                                ///////////////////////////////////////
-                                // SIGN IN FUNCTIONALITY
-                                ///////////////////////////////////////
-                                Material.toast({
-                                    html: `${username} signed in`,
-                                    classes: 'green'
-                                })
-                                this.changeState('events')
-                            }).bind(this)} onSignup={(username => {
-                                this.setState({username: username})
-                                ///////////////////////////////////////
-                                // SIGN UP FUNCTIONALITY
-                                ///////////////////////////////////////
-                                let signInSuccess = true
-
-                                if(signInSuccess)
-                                    //if sign in was a success, show green confirmation
-                                    Material.toast({
-                                        html: `${username} signed up`,
-                                        classes: 'green'
-                                    })
-                                else
-                                    //if sign in fails, show red warning
-                                    Material.toast({
-                                        html: `${username} already exists!`,
-                                        classes: 'red'
-                                    })
-                                this.changeState('events')
-                            }).bind(this)}/>
+                            <SignIn onSignin={this.signIn.bind(this)} onSignup={this.signUp.bind(this)}/>
                         </ErrorBoundary>
                     </div>
                     <div className="col s12 l2">
@@ -129,11 +190,7 @@ export class Page extends React.Component<PageProps, PageState> {
                 <div>
                     <div className="col s12 l10">
                         <ErrorBoundary>
-                            <EventsView username={this.state.username} events={this.state.events} onJoin={(name:string, creator:string, slots:number[]) => {
-                                ////////////////////////////////////////////////
-                                // EVENT JOINING FUNCTIONALITY
-                                ////////////////////////////////////////////////
-                            }}/>
+                            <EventsView username={this.state.username} events={this.state.events} onJoin={this.joinEvent.bind(this)}/>
                         </ErrorBoundary>
                     </div>
                     <div className="col s12 l2">
@@ -150,17 +207,7 @@ export class Page extends React.Component<PageProps, PageState> {
                 <div>
                     <div className="col s12 l10">
                         <ErrorBoundary>
-                            <CreateEvent username={this.state.username} createObject={((event:Event) => {
-                                //this is called when a user confirms creating an event
-                                let events:Event[] = this.state.events
-                                events.push(event)
-                                this.setState({events: events})
-                                ///////////////////////////////////////
-                                // CREATE EVENT FUNCTIONALITY
-                                ///////////////////////////////////////
-                                Material.toast({html: 'Event Created!'})
-                                this.setState({mode: 'events'})
-                            }).bind(this)}/>
+                            <CreateEvent username={this.state.username} createObject={this.createEvent.bind(this)}/>
                         </ErrorBoundary>
                     </div>
                     <div className="col s12 l2">
