@@ -105,14 +105,35 @@ export class EventsView extends React.Component<EventsViewProps, EventsViewState
                                     <h5>Description</h5>
                                     <span>{event.description}</span><br/>
                                     <h5>Members</h5>
-                                    <ul>
+                                    <ul className="collapsible">
                                         {event.members.map((member, number) =>
-                                            <li key={number}>{member}</li>
+                                            <li key={number}>
+                                                <div className="collapsible-header">
+                                                    <i className="material-icons">user</i>
+                                                    <h5 className="center">{`${member.name}'s availability`}</h5>
+                                                </div>
+                                                <div className="collapsible-body">
+                                                    <ErrorBoundary>
+                                                        <EventElement
+                                                            date={event.date}
+                                                            interactive={false}
+                                                            joinMode={false}
+                                                            onChange={() => {}}
+                                                            color={{
+                                                                active: 'blue',
+                                                                interactive: 'white',
+                                                                inactive: 'grey'
+                                                            }}
+                                                            slots={this.getSlotsFromNums(member.availability)}
+                                                        />
+                                                    </ErrorBoundary>
+                                                </div>
+                                            </li>
                                         )}
                                     </ul>
 
                                     {
-                                    /* if */event.members.indexOf(this.props.username) === -1 &&
+                                    /* if */event.members.map(m=>m.name).indexOf(this.props.username) === -1 &&
                                     this.props.username !== '' ?
                                         <h5>Join</h5>
                                     /* else */:
@@ -121,7 +142,7 @@ export class EventsView extends React.Component<EventsViewProps, EventsViewState
                                     <ErrorBoundary>
                                         <EventElement
                                             date={event.date}
-                                            interactive={event.members.indexOf(this.props.username) !== -1}
+                                            interactive={event.members.map(m=>m.name).indexOf(this.props.username) !== -1}
                                             joinMode={true}
                                             onChange={this.updateSelectedSlots.bind(this)}
                                             color={{
