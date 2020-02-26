@@ -4,70 +4,62 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"github.com/gorilla/mux"
-	"github.com/thecsw/Calendar-App/back/processing"
 	"io/ioutil"
 	"log"
 	"net/http"
+
+	"github.com/gorilla/mux"
+	"github.com/thecsw/Calendar-App/back/processing"
 )
 
-// Stores all the possible data that should come in from the front end.
-// Includes the name of the user, the action they want to take, the day they're looking at, the possible timeslots (for registration purposes),
+// Data Stores all the possible Data that should come in from the front end.
+// Includes the name of the user, the action they want to take, the day they're
+// looking at, the possible timeslots (for registration purposes),
 // the event name, the event description, and the event ID
-// Some of these may be empty, signifying the data is not important
-type data struct {
-	User              string   `json:"User"`
-	Action            string   `json:"Action"`
-	Day               []string `json:"Day"`
-	Times             []string `json:"Times"`
-	Event_Name        string   `json:"Event_Name"`
-	Event_Description string   `json:"Event_Description"`
-	Event_ID          string   `json:"Event_ID"`
+// Some of these may be empty, signifying the Data is not important
+type Data struct {
+	User             string   `json:"User"`
+	Action           string   `json:"Action"`
+	Day              []string `json:"Day"`
+	Times            []string `json:"Times"`
+	EventName        string   `json:"Event_Name"`
+	EventDescription string   `json:"Event_Description"`
+	EventID          string   `json:"Event_ID"`
 }
 
-// Stores all the possible data that could be returned to the front end.
-// Includes a simple message for the front end to check, and the result of the get_attendees and get_event methods
-type return_data struct {
-	Message        string              `json:"Message"`
-	Attendee_Names []string            `json:"Attendee_Names"`
-	Event_Info     []map[string]string `json:"Event_Info"`
-	Timeslots      [][]string          `json:"Timeslots"`
+// ReturnData Stores all the possible data that could be returned to the front end.
+// Includes a simple message for the front end to check, and the result of the get_attendees
+// and get_event methods
+type ReturnData struct {
+	Message       string              `json:"Message"`
+	AttendeeNames []string            `json:"Attendee_Names"`
+	EventInfo     []map[string]string `json:"Event_Info"`
+	Timeslots     [][]string          `json:"Timeslots"`
 }
 
-//Parses the data obtained from the front-end into the data struct, then sends the data into the handle method
+// apicall Parses the data obtained from the front-end into the data struct, then sends
+// the data into the handle method
 func apicall(w http.ResponseWriter, r *http.Request) {
-	var Data data
-
+	input := Data{}
 	reqBody, err := ioutil.ReadAll(r.Body)
 	if err != nil {
 		fmt.Fprintf(w, "Data entered is invalid")
 	}
-
-	json.Unmarshal(reqBody, &Data)
-
-	//For observation purposes
-	fmt.Println(Data.User)
-	fmt.Println(Data.Action)
-	fmt.Println(Data.Day)
-	fmt.Println(Data.Times)
-	fmt.Println(Data.Event_Name)
-	fmt.Println(Data.Event_Description)
-
-	if Data.Action != "Echo" {
-		new_data, err := HandleRequest(Data)
+	json.Unmarshal(reqBody, &input)
+	if input.Action != "Echo" {
+		newData, err := HandleRequest(input)
 		if err != nil {
-			fmt.Println(err)
-			fmt.Println("Help!")
+			w.WriteHeader(http.StatusInternalServerError)
+			fmt.Println("Caught an error:", err)
 		}
-
-		json.NewEncoder(w).Encode(new_data)
+		w.WriteHeader(http.StatusOK)
+		json.NewEncoder(w).Encode(newData)
 	} else {
-		json.NewEncoder(w).Encode(Data)
+		json.NewEncoder(w).Encode(input)
 	}
-
 }
 
-//No authentication is done on this other than making sure the action is valid (and has all its pieces).  Will throw an error if the request is invalid.
+// HandleRequest No authentication is done on this other than making sure the action is valid (and has all its pieces).  Will throw an error if the request is invalid.
 // The possible actions you can take are as follows:
 // Create-Event - Create a new event given the user, event name, event description, day, and timeslots.
 // Get-All-Events - Just returns the data for every event in the calendar.
@@ -77,107 +69,72 @@ func apicall(w http.ResponseWriter, r *http.Request) {
 // Get-Attendees - Given an event ID, get all attendees for that event.
 // Register-For-Event - Given a user, event name, and timeslots, register for that event.
 // Sign-Up - Given a user, sign them up (add them to the DB).
-func HandleRequest(Data data) (return_data, error) {
-	user := Data.User
-
-	action := Data.Action
-
-	day := Data.Day
-	times := Data.Times
-	eventName := Data.Event_Name
-	eventDescription := Data.Event_Description
-	eventID := Data.Event_ID
-
-	switch action {
+func HandleRequest(InData Data) (returnThis ReturnData, err error) {
+	returnThis.Message = "OK"
+	switch InData.Action {
 	case "Create-Event":
-		var return_this return_data
-		err := processing.CreateEvent(user, eventName, eventDescription, day[0], times)
-
+		err = processing.CreateEvent(
+			InData.User,
+			InData.EventName,
+			InData.EventDescription,
+			InData.Day[0],
+			InData.Times,
+		)
 		if err != nil {
-			return return_data{}, err
+			returnThis.Message = err.Error()
 		}
-
-		return_this.Message = "OK"
-		return return_this, nil
-
+		return
 	case "Get-All-Events":
-		var return_this return_data
-		event_info, timeslots := processing.GetEvents("", "", "", nil)
-		return_this.Message = "OK"
-		return_this.Event_Info = event_info
-		return_this.Timeslots = timeslots
-		return return_this, nil
-
+		fillReturnObj(&returnThis, "", "", "", nil)
+		return
 	case "Get-Events-Attending":
-		var return_this return_data
-		event_info, timeslots := processing.GetEvents("", "", user, nil)
-		return_this.Message = "OK"
-		return_this.Event_Info = event_info
-		return_this.Timeslots = timeslots
-		return return_this, nil
-
+		fillReturnObj(&returnThis, "", "", InData.User, nil)
+		return
 	case "Get-Events-Created":
-		var return_this return_data
-		event_info, timeslots := processing.GetEvents("", user, "", nil)
-		return_this.Message = "OK"
-		return_this.Event_Info = event_info
-		return_this.Timeslots = timeslots
-		return return_this, nil
-
+		fillReturnObj(&returnThis, "", InData.User, "", nil)
+		return
 	case "Get-Events-For-Days":
-		var return_this return_data
-		event_info, timeslots := processing.GetEvents("", "", "", day)
-		return_this.Message = "OK"
-		return_this.Event_Info = event_info
-		return_this.Timeslots = timeslots
-		return return_this, nil
-
+		fillReturnObj(&returnThis, "", "", "", InData.Day)
+		return
 	case "Get-Attendees":
-		var return_this return_data
-		attendees, timeslots, err := processing.GetAttendees(eventID)
-		if err != nil {
-			return return_data{}, err
+		attendees, timeslots, errTemp := processing.GetAttendees(InData.EventID)
+		if errTemp != nil {
+			// I'm ashamed of doing this
+			err = errTemp
+			returnThis.Message = errTemp.Error()
+			return
 		}
-
-		return_this.Message = "OK"
-		return_this.Attendee_Names = attendees
-		return_this.Timeslots = timeslots
-
-		return return_this, nil
-
+		returnThis.AttendeeNames = attendees
+		returnThis.Timeslots = timeslots
+		return returnThis, nil
 	case "Register-For-Event":
-		var return_this return_data
-
-		err := processing.RegisterForEvent(user, eventName, times)
-
+		err = processing.RegisterForEvent(InData.User, InData.EventName, InData.Times)
 		if err != nil {
-			return return_data{}, err
+			returnThis.Message = err.Error()
 		}
-
-		return_this.Message = "OK"
-
-		return return_this, nil
+		return
 	case "Sign-Up":
-		var return_this return_data
-
-		err := processing.SignUp(user)
+		err = processing.SignUp(InData.User)
 		if err != nil {
-			return return_data{}, err
+			returnThis.Message = err.Error()
 		}
-		return_this.Message = "OK"
-
-		return return_this, nil
-
+		return
 	default:
-		return return_data{}, errors.New("No action selected")
+		returnThis.Message = "No Action Selected"
+		err = errors.New("No action selected")
+		return
 	}
 }
 
-//Creates a new router and then continually listens for a POST request on port 10000.
+func fillReturnObj(object *ReturnData, name, creator, attendee string, days []string) {
+	eventInfo, timeslots := processing.GetEvents(name, creator, attendee, days)
+	object.EventInfo = eventInfo
+	object.Timeslots = timeslots
+}
+
+// HandleRequests Creates a new router and then continually listens for a POST request on port 10000.
 func HandleRequests() {
 	myRouter := mux.NewRouter().StrictSlash(true)
-
-	myRouter.HandleFunc("/", apicall).Methods("POST")
-
+	myRouter.HandleFunc("/", apicall).Methods(http.MethodPost)
 	log.Fatal(http.ListenAndServe(":10000", myRouter))
 }

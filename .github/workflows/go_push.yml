@@ -5,6 +5,8 @@ jobs:
   test:
     name: Testing
     runs-on: ubuntu-latest
+    env:
+      CALENDAR_TEST: Yes
     steps:
 
     - name: Set up Go 1.13

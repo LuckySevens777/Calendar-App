@@ -3,12 +3,13 @@ package processing
 import (
 	"errors"
 	"fmt"
-	"github.com/thecsw/Calendar-App/back/model"
 	"strconv"
 	"time"
+
+	"github.com/thecsw/Calendar-App/back/model"
 )
 
-//Initializes the database
+// DbInit Initializes the database
 func DbInit() error {
 	//connect to db:
 	err := model.Init()
@@ -16,8 +17,8 @@ func DbInit() error {
 		return err
 	}
 
-	//check if this is first start up of the db:
-	//(by checking for entries in the timeslot table)
+	// check if this is first start up of the db:
+	// (by checking for entries in the timeslot table)
 	slots, err := model.GetAllTimeslots()
 	if err != nil {
 		return err
@@ -39,37 +40,37 @@ func DbInit() error {
 	return nil
 }
 
-//closes the database
+// DbClose closes the database
 func DbClose() error {
 	err := model.Close()
 	return err
 }
 
-//Throws errors and performs no db action when any of the timeslots are invalid
+// CreateEvent Throws errors and performs no db action when any of the timeslots are invalid
 //	creates an event on the given day over the given timeslots made by the given user.
 //	creator must be an existing user
 //	name, desc have no specific restrictions
 //	day must be a valid day (format: "02-21-2020")
 //	times must be valid timeslots (format: "08:20")
-//Currently assumes the front end will ask for events again to get the eventID
+// Currently assumes the front end will ask for events again to get the eventID
 func CreateEvent(creator string, name string, desc string, day string, times []string) error {
 
 	if len(times) == 0 {
-		return errors.New("Can't make an event without a time!")
+		return errors.New("Can't make an event without a time")
 	}
 
-	//make sure the day is a valid one:
+	// make sure the day is a valid one:
 	if !validDay(day) {
 		return errors.New("Problem parsing day: " + day)
 	}
 
-	//obtain the validated timeslots corresponding to input (checks date and slots):
+	// obtain the validated timeslots corresponding to input (checks date and slots):
 	slots, err := toValidTimeSlots(times)
 	if err != nil {
 		return errors.New("Problem parsing times: " + err.Error())
 	}
 
-	//put the event in the db (model checks that user exists in db)
+	// put the event in the db (model checks that user exists in db)
 	event, err := model.CreateEvent(creator, day, name, desc, slots)
 	if err != nil {
 		return errors.New("Problem adding event to db: " + err.Error())
@@ -78,9 +79,9 @@ func CreateEvent(creator string, name string, desc string, day string, times []s
 	return RegisterForEvent(creator, strconv.FormatUint(uint64(event.ID), 10), times) //creator signs up for all timeslots of event?
 }
 
-//validates that the event exists, then returns a list of usernames of users
-//attending the event and the timeslots they are signed up for
-//(each index of the two lists corresponds to the same user)
+// GetAttendees validates that the event exists, then returns a list of usernames of users
+// attending the event and the timeslots they are signed up for
+// (each index of the two lists corresponds to the same user)
 func GetAttendees(eventID string) ([]string, [][]string, error) {
 	id, err := validateEventID(eventID)
 	if err != nil {
@@ -90,7 +91,7 @@ func GetAttendees(eventID string) ([]string, [][]string, error) {
 	if err != nil {
 		return nil, nil, errors.New("Error getting event attendees from db: " + err.Error())
 	}
-	//get the usernames:
+	// get the usernames:
 	names := make([]string, len(attendees))
 	for i, elem := range attendees {
 		names[i], err = getUser(elem.UserID)
@@ -98,7 +99,7 @@ func GetAttendees(eventID string) ([]string, [][]string, error) {
 			return nil, nil, err
 		}
 	}
-	//get the timeslots:
+	// get the timeslots:
 	slots := make([][]string, len(attendees))
 	for i, elem := range attendees {
 		timeslots, err := model.GetAttendeeTimeslots(elem.ID)
@@ -113,7 +114,7 @@ func GetAttendees(eventID string) ([]string, [][]string, error) {
 	return names, slots, nil
 }
 
-//gets all events with specific criteria.  Leave the criterion zeroed/nil to not search on it.
+// GetEvents gets all events with specific criteria.  Leave the criterion zeroed/nil to not search on it.
 //	return format: returns a pair of lists of same size
 //	a list of maps mapping:
 //		"Name" to event name
@@ -200,7 +201,7 @@ func GetEvents(name, creator, attendee string, days []string) ([]map[string]stri
 	return endmap, endslots
 }
 
-//validates that the event exists, that the user is in the db,
+// RegisterForEvent validates that the event exists, that the user is in the db,
 //and that all the times are valid (both valid timeslots and linked to the event).
 //If anything is invalid, no action will be taken.
 //remember: valid format for times is "08:40" or "18:00"
@@ -238,12 +239,12 @@ func RegisterForEvent(username string, eventID string, times []string) error {
 	return err
 }
 
-//Adds the username given to the database if the user does not already exist.
-//If the user does exist, throw an error
+// SignUp Adds the username given to the database if the user
+//does not already exist. If the user does exist, throw an error
 func SignUp(username string) error {
 	_, err := model.GetUser(username)
 	if err == nil {
-		return errors.New("User already exists in db.")
+		return errors.New("User already exists in db")
 	}
 	_, err2 := model.CreateUser(username)
 	return err2
