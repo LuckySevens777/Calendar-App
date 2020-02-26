@@ -104,8 +104,15 @@ export class ApiCall {
 	 * @param the_day the date formatted as ["YYYY", "MM", "DD"]
 	 * @param time_slots the array of time slot numbers to be created
 	 */
-	public createEvent(the_event_name: string, the_event_description: string, the_day: string[], time_slots: number[]) : void {
-
+	public async createEvent(the_event_name: string, the_event_description: string, the_day: string, time_slots: string[]) {
+		this.actions = "Create-Event";
+		this.event_name = the_event_name;
+		this.event_description = the_event_description;
+		this.day = the_day;
+		this.times = String(time_slots);
+		let call_body = this.makeBody();
+		console.log('asdfjka;lsdkfj');
+		return await this.standardCall(call_body);
 	}
 
 	/**

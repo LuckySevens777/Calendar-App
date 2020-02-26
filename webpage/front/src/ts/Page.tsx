@@ -69,7 +69,7 @@ export class Page extends React.Component<PageProps, PageState> {
         //api call
         let call:ApiCall = new ApiCall(this.state.username)
         let date = event.date.split('-')
-        call.createEvent(event.name, event.description, date, event.timeSlots)
+        //call.createEvent(event.name, event.description, date, String(event.timeSlots))
 
         //confirmations
         Material.toast({html: 'Event Created!'})
@@ -127,6 +127,8 @@ export class Page extends React.Component<PageProps, PageState> {
     private signIn(username:string) : void {
 
         //api call
+				if(this.state.username === undefined) return;
+				if(username === undefined) return;
         let call:ApiCall = new ApiCall(this.state.username)
         if(call.login()) {
             //api call to get event list
@@ -180,6 +182,8 @@ export class Page extends React.Component<PageProps, PageState> {
      * @param username username to try and register
      */
     private signUp(username:string) : void {
+				if(this.state.username === undefined) return;
+				if(username === undefined) return;
         this.setState({username: username})
 
         //api call
