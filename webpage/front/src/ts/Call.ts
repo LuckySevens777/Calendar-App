@@ -35,29 +35,34 @@ export class ApiCall {
 	}
 
 	makeBody() {
-		let body = '';
-		body += '{ ';
-		body += '"User":"' + this.user + '",';
-		body += '"Action":"' + this.actions + '", ';
-		body += '"Day" : [' + this.day + '], ';
-		body += '"Times" : [' + this.times + '],';
-		body += '"Event_name" : "' + this.event_name + '",';
-		body += '"Event_Description" : "' + this.event_description + '",';
-		body += '"Event_ID" : "' + this.event_id + '"}';
+		//let body = `{"User": "$(this.user)", "Action": "$(this.actions)", "Day": "$(this.day)", "Times": "$(this.times)", "Event_Name" : "$(this.event_name)", "Event_Description": "$(this.event_description)", "Event_ID": "$(this.event_id)"}`
+		//let body = `{"User": "` + this.user + `", "Action": "` + this.actions + `", "Day": "` + this.day + `", "Times": "` + this.times + `", "Event_Name" : "` + this.event_name + `", "Event_Description" : "` + this.event_description + `", "Event_ID" : "` + this.event_id + `"}`;
+		let body = {
+			User : this.user,
+			Action : this.actions,
+			Day : this.day,
+			Times : this.times,
+			Event_Name : this.event_name,
+			Event_Description : this.event_description,
+			Event_ID : this.event_id
+		}
+		console.log(body);
+		console.log(JSON.stringify(body));
 		return(body);
+		
 	}
 
 	async standardCall(the_body: any) {
-		let body_promise;
+		//the_body has to by a string like the one below. Make it look like this, don't want to touch it too much
 		let testing = `{"User": "Drmk5","Action": "Get-All-Events","Day": [],"Times": [],"Event_Name": "","Event_Description": "","Event_ID": ""}`;
-	console.log(testing);
+		console.log(typeof(testing));
+		let body_promise;
 		const the_resp = fetch('/api', {
 			//mode: 'no-cors',
 			method: 'POST',
 			headers: {
 				'Accept': '*/*',
-				'Content-Type': 'application/json',
-				'User-Agent' : 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6) AppleWebKit/537.36 (KHTML, like Gecko) Brave Chrome/80.0.3987.116 Safari/537.36'
+				'Content-Type': 'application/json'
 			},
 			body: testing
 		}).then( data => {
@@ -69,36 +74,38 @@ export class ApiCall {
 		})
 	}
 
+	
 	signUp(the_name:string) {
 		this.actions = "Sign-Up";
 		this.user = the_name;
 		let call_body = this.makeBody();
-		//console.log(call_body);
-		this.standardCall(JSON.parse(call_body));
+		console.log('HELLO THERE');
+		console.log(call_body);
+		this.standardCall(call_body);
 	}
 
 	getAllEvents() {
 		this.actions = "Get-All-Events";
 		let call_body = this.makeBody();
-		this.standardCall(JSON.parse(call_body));
+		this.standardCall(call_body);
 	}
 
 	getEventsAttending() {
 		this.actions = "Get-Events-Attending";
 		let call_body = this.makeBody();
-		this.standardCall(JSON.parse(call_body));
+		this.standardCall(call_body);
 	}
 
 	getEventsForDays(date:string) {
 		this.day = date;
 		let call_body = this.makeBody();
-		this.standardCall(JSON.parse(call_body));
+		this.standardCall(call_body);
 	}
 
 	getAttendees(id_of_event:string) {
 		this.event_id = id_of_event;
 		let call_body = this.makeBody();
-		this.standardCall(JSON.parse(call_body));
+		this.standardCall(call_body);
 	}
 
 
