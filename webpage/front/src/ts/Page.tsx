@@ -61,19 +61,30 @@ export class Page extends React.Component<PageProps, PageState> {
      * @param event event to be created
      */
     private createEvent(event:Event) {
-        //local events
-        let events:Event[] = this.state.events
-        events.push(event)
-        this.setState({events: events})
-
-        //api call
-        let call:ApiCall = new ApiCall(this.state.username)
-        let date = event.date.split('-')
-        call.createEvent(event.name, event.description, date, event.timeSlots)
-
-        //confirmations
-        Material.toast({html: 'Event Created!'})
-        this.setState({mode: 'events'})
+        if(event.date.substring(4) !== '-01-01' &&
+           event.date.substring(4) !== '-07-04' &&
+           event.date.substring(4) !== '-12-25') {
+            let events:Event[] = this.state.events
+            events.push(event)
+            this.setState({events: events})
+            ///////////////////////////////////////
+            // CREATE EVENT FUNCTIONALITY
+            ///////////////////////////////////////
+            //display confirmation
+            Material.toast({
+                html: 'Event Created!',
+                classes: "green"
+            })
+            this.setState({mode: 'events'})
+        } else {
+            //display failure
+            Material.toast({
+                html: 'This date is not available for meetings!',
+                classes: "red"
+            })
+            //log it
+            console.log('failed to create: ', event)
+        }
     }
 
 
