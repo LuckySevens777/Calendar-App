@@ -130,6 +130,13 @@ export class ApiCall {
 
 	}
 
+	/**
+	 * sends a log out request to the API
+	 */
+	public logout() : void {
+
+	}
+
 }
 
 

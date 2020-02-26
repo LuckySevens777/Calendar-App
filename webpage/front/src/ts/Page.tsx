@@ -147,10 +147,9 @@ export class Page extends React.Component<PageProps, PageState> {
      * Signs a user out
      */
     private signOut() : void {
-
-        //////////////////////////
-        // SIGN OUT FUNCTION
-        /////////////////////////
+        //api call
+        let call:ApiCall = new ApiCall(this.state.username)
+        call.logout()
 
         //sets the username to the empty string
         this.setState({username: ''})
