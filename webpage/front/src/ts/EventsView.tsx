@@ -143,7 +143,7 @@ export class EventsView extends React.Component<EventsViewProps, EventsViewState
                                         <EventElement
                                             date={event.date}
                                             interactive={event.members.map(m=>m.name).indexOf(this.props.username) !== -1}
-                                            joinMode={true}
+                                            joinMode={event.members.map(m=>m.name).indexOf(this.props.username) === -1}
                                             onChange={this.updateSelectedSlots.bind(this)}
                                             color={{
                                                 active: 'blue',
