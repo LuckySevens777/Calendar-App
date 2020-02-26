@@ -1,0 +1,12 @@
+We used the Standard Go Libraries, Gorm, Testify-Suite, and Mux
+We used React.js
+We used Materialize-CSS
+We used Docker, Docker-Compose, DockerFile
+We used nginx
+We used TypeScript
+We used Shell Script
+We used Postgres
+We used Javascript
+We used the Godoc tool
+We used Markdown
+We used eJS, and sass
