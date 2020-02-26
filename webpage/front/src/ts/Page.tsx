@@ -139,9 +139,11 @@ export class Page extends React.Component<PageProps, PageState> {
         // SIGN UP FUNCTIONALITY
         ///////////////////////////////////////
 
-        let signInSuccess = true //indicates success
+        let signUpSuccess = true //indicates success
 
-        if(signInSuccess) {
+        if(username === undefined) signUpSuccess = false
+
+        if(signUpSuccess) {
             //if sign in was a success, show green confirmation
             Material.toast({
                 html: `${username} signed up`,
@@ -154,7 +156,7 @@ export class Page extends React.Component<PageProps, PageState> {
         } else {
             //if sign in fails, show red warning
             Material.toast({
-                html: `${username} already exists!`,
+                html: `failed to register ${username}, this name may exist already`,
                 classes: 'red'
             })
             //log it
