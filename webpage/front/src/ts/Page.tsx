@@ -83,7 +83,7 @@ export class Page extends React.Component<PageProps, PageState> {
      * @param creator name of event creator for id purposes
      * @param slots slots when this user is available for the event
      */
-    private joinEvent(name:string, creator:string, slots:number[]) : void {
+    private joinEvent(name:string, creator:string, timeSlots:number[]) : void {
         //construct event
         let searchEvent:Event
         for(let event of this.state.events) {
@@ -91,8 +91,16 @@ export class Page extends React.Component<PageProps, PageState> {
                 searchEvent = event
                 searchEvent.members.push({
                     name: this.state.username,
-                    availability: slots
+                    availability: timeSlots
                 })
+
+
+                //api call
+                let call:ApiCall = new ApiCall(this.state.username)
+
+                const date = event.date.split('-')
+                call.createEvent(event.name, event.description, date, timeSlots)
+
                 break
             }
         }
@@ -105,12 +113,6 @@ export class Page extends React.Component<PageProps, PageState> {
             })
         }
 
-        // //api call
-        // let call:ApiCall = new ApiCall(this.state.username)
-        // const date = event.date.split('-')
-        // const slots = event.timeSlots.map(slot => '' + slot)
-        // call.createEvent(event.name, event.description, date, slots)
-
         ///////////////////////////////////////
         // JOIN EVENT
         ///////////////////////////////////////
@@ -121,7 +123,7 @@ export class Page extends React.Component<PageProps, PageState> {
             classes: 'green'
         })
         //log it
-        console.log('joining', name, 'from', creator, 'slots:', slots)
+        console.log('joining', name, 'from', creator, 'slots:', timeSlots)
     }
 
     /**
