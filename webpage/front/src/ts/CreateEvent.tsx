@@ -141,6 +141,7 @@ export class CreateEvent extends React.Component<CreateEventProps, CreateEventSt
                             <EventElement
                                 date={''}
                                 interactive={true}
+                                joinMode={false}
                                 onChange={((slots:Slot[]) => {
                                     let timeSlots = []
 

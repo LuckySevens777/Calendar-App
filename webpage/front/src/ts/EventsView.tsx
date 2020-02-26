@@ -18,6 +18,8 @@ interface EventsViewProps {
      */
     events:Event[],
 
+
+
     /**
      * callback function to call when an event is joined
      * passes in the name and creator of the event being joined (name, creator, slots)
@@ -29,6 +31,8 @@ interface EventsViewState {}
 
 export class EventsView extends React.Component<EventsViewProps, EventsViewState> {
     public readonly state:EventsViewState
+
+    private selectedSlots:number[]
 
     /**
      * Constructs an EventsView
@@ -57,8 +61,17 @@ export class EventsView extends React.Component<EventsViewProps, EventsViewState
     /**
      * Logic for when the Join Event button is pressed
      */
-    private joinEvent(name:string, creator:string, slots:number[]) : void {
-        this.props.onJoin(name, creator, slots)
+    private joinEvent(name:string, creator:string) : void {
+        this.props.onJoin(name, creator, this.selectedSlots)
+    }
+
+    private updateSelectedSlots(slots:Slot[]) : void {
+        let selected:number[] = []
+        for(let i = 0; i < slots.length; i++) {
+            if(slots[i].active) selected.push(i)
+        }
+        this.selectedSlots = selected
+        console.log(selected)
     }
 
     /**
@@ -100,7 +113,7 @@ export class EventsView extends React.Component<EventsViewProps, EventsViewState
 
                                     {
                                     /* if */event.members.indexOf(this.props.username) === -1 &&
-                                            this.props.username !== '' ?
+                                    this.props.username !== '' ?
                                         <h5>Join</h5>
                                     /* else */:
                                         <div></div>
@@ -109,7 +122,8 @@ export class EventsView extends React.Component<EventsViewProps, EventsViewState
                                         <EventElement
                                             date={event.date}
                                             interactive={event.members.indexOf(this.props.username) !== -1}
-                                            onChange={() => {}}
+                                            joinMode={true}
+                                            onChange={this.updateSelectedSlots.bind(this)}
                                             color={{
                                                 active: 'blue',
                                                 interactive: 'white',
@@ -120,7 +134,7 @@ export class EventsView extends React.Component<EventsViewProps, EventsViewState
                                         {
                                         /* if */this.props.username !== event.creatorName ?
                                             <a className="btn waves-effect blue white-text" onClick={(() => {
-                                                this.joinEvent(event.name, event.creatorName, event.timeSlots)
+                                                this.joinEvent(event.name, event.creatorName)
                                             }).bind(this)}>Join Event</a>
                                         /* else */:
                                             <div></div>

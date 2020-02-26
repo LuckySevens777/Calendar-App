@@ -81,6 +81,7 @@ export class Page extends React.Component<PageProps, PageState> {
         ///////////////////////////////////////
         // JOIN EVENT
         ///////////////////////////////////////
+        console.log('joining', name, 'from', creator, 'slots:', slots)
     }
 
     /**
