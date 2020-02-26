@@ -32,7 +32,7 @@ export class Page extends React.Component<PageProps, PageState> {
         //temporary for constructor
         let state:PageState = {
             mode: undefined,
-            username: undefined,  //EXAMPLE USERNAME NEEDS TO BE REPLACED WITH HOWEVER YOU WANT TO STORE THAT
+            username: '',  //EXAMPLE USERNAME NEEDS TO BE REPLACED WITH HOWEVER YOU WANT TO STORE THAT
             events: []
         }
 
@@ -58,11 +58,25 @@ export class Page extends React.Component<PageProps, PageState> {
     }
 
     /**
+     * signs a user out
+     */
+    private signOut() {
+        //////////////////////////
+        // SIGN OUT FUNCTION
+        /////////////////////////
+        this.setState({username: ''})
+        Material.toast({
+            html: `signed out`,
+            classes: 'green'
+        })
+        this.setState({mode: 'signin'})
+    }
+
+    /**
      * Renders the element
      * This is where you put the tsx
      */
     public render() {
-        //sign in mode
         if(this.state.mode === 'signin') {
             return (
                 <div>
@@ -103,7 +117,7 @@ export class Page extends React.Component<PageProps, PageState> {
                     </div>
                     <div className="col s12 l2">
                         <ErrorBoundary>
-                            <SideBar signedIn={this.state.username !== undefined} stateChange={this.changeState.bind(this)}/>
+                            <SideBar username={this.state.username} signOut={this.signOut.bind(this)} stateChange={this.changeState.bind(this)}/>
                         </ErrorBoundary>
                     </div>
                 </div>
@@ -115,7 +129,7 @@ export class Page extends React.Component<PageProps, PageState> {
                 <div>
                     <div className="col s12 l10">
                         <ErrorBoundary>
-                            <EventsView onJoin={(name:string, creator:string) => {
+                            <EventsView onJoin={(name:string, creator:string, slots:number[]) => {
                                 ////////////////////////////////////////////////
                                 // EVENT JOINING FUNCTIONALITY
                                 ////////////////////////////////////////////////
@@ -124,7 +138,7 @@ export class Page extends React.Component<PageProps, PageState> {
                     </div>
                     <div className="col s12 l2">
                         <ErrorBoundary>
-                            <SideBar signedIn={this.state.username !== undefined} stateChange={this.changeState.bind(this)}/>
+                            <SideBar username={this.state.username} signOut={this.signOut.bind(this)} stateChange={this.changeState.bind(this)}/>
                         </ErrorBoundary>
                     </div>
                 </div>
@@ -150,7 +164,7 @@ export class Page extends React.Component<PageProps, PageState> {
                     </div>
                     <div className="col s12 l2">
                         <ErrorBoundary>
-                            <SideBar signedIn={this.state.username !== undefined} stateChange={this.changeState.bind(this)}/>
+                            <SideBar username={this.state.username} signOut={this.signOut.bind(this)} stateChange={this.changeState.bind(this)}/>
                         </ErrorBoundary>
                     </div>
                 </div>
