@@ -120,7 +120,7 @@ export class EventsView extends React.Component<EventsViewProps, EventsViewState
                                                             joinMode={false}
                                                             onChange={() => {}}
                                                             color={{
-                                                                active: 'blue',
+                                                                active: 'green',
                                                                 interactive: 'white',
                                                                 inactive: 'grey'
                                                             }}
