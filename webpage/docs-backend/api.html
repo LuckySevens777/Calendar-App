@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html><link type="text/css" id="dark-mode" rel="stylesheet" href=""><style type="text/css" id="dark-mode-custom-style"></style><head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#375EAB">
+
+  <title>api - Go Documentation Server</title>
+
+<link type="text/css" rel="stylesheet" href="api_files/style.css">
+
+<script>window.initFuncs = [];</script>
+<script src="api_files/jquery.js" defer="defer"></script>
+
+
+
+<script>var goVersion = "go1.13.8";</script>
+<script src="api_files/godocs.js" defer="defer"></script>
+</head>
+<body>
+
+<div id="lowframe" style="position: fixed; bottom: 0; left: 0; height: 0; width: 100%; border-top: thin solid grey; background-color: white; overflow: auto;">
+...
+</div><!-- #lowframe -->
+
+<div id="topbar" class="wide"><div class="container">
+<div class="top-heading" id="heading-wide"><a href="http://127.0.0.1:6060/pkg/">Go Documentation Server</a></div>
+<div class="top-heading" id="heading-narrow"><a href="http://127.0.0.1:6060/pkg/">GoDoc</a></div>
+<a href="#" id="menu-button"><span id="menu-button-arrow">▽</span></a>
+<form method="GET" action="/search">
+<div id="menu" style="min-width: 60px;">
+
+<span class="search-box"><input type="search" id="search" name="q" placeholder="Search" aria-label="Search" required=""><button type="submit"><span><!-- magnifying glass: --><svg width="24" height="24" viewBox="0 0 24 24"><title>submit search</title><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"></path><path d="M0 0h24v24H0z" fill="none"></path></svg></span></button></span>
+</div>
+</form>
+
+</div></div>
+
+
+
+<div id="page" class="wide" style="outline: currentcolor none 0px;" tabindex="-1">
+<div class="container">
+
+
+  <h1>
+    Package api
+    <span class="text-muted"></span>
+  </h1>
+
+
+
+
+
+
+
+<div id="nav"></div>
+
+
+<!--
+	Copyright 2009 The Go Authors. All rights reserved.
+	Use of this source code is governed by a BSD-style
+	license that can be found in the LICENSE file.
+-->
+<!--
+	Note: Static (i.e., not template-generated) href and id
+	attributes start with "pkg-" to make it impossible for
+	them to conflict with generated attributes (some of which
+	correspond to Go identifiers).
+-->
+
+	<script>
+	document.ANALYSIS_DATA = null;
+	document.CALLGRAPH = null;
+	</script>
+
+	
+		
+		<div id="short-nav">
+			<dl>
+			<dd><code>import "github.com/thecsw/Calendar-App/back/api"</code></dd>
+			</dl>
+			<dl>
+			<dd><a href="#pkg-overview" class="overviewLink">Overview</a></dd>
+			<dd><a href="#pkg-index" class="indexLink">Index</a></dd>
+			
+			
+			</dl>
+		</div>
+		<!-- The package's Name is printed as title by the top-level template -->
+		<div id="pkg-overview" class="toggleVisible">
+			<div class="collapsed">
+				<h2 class="toggleButton" title="Click to show Overview section">Overview ▹</h2>
+			</div>
+			<div class="expanded">
+				<h2 class="toggleButton" title="Click to hide Overview section">Overview ▾</h2>
+				<p>
+Set of functions that interface with the frontend
+</p>
+
+				
+			</div>
+		</div>
+
+		<div id="pkg-index" class="toggleVisible">
+		<div class="collapsed">
+			<h2 class="toggleButton" title="Click to show Index section">Index ▹</h2>
+		</div>
+		<div class="expanded">
+			<h2 class="toggleButton" title="Click to hide Index section">Index ▾</h2>
+
+		<!-- Table of contents for API; must be named manual-nav to turn off auto nav. -->
+			<div id="manual-nav">
+			<dl>
+			
+			
+			
+				
+				<dd><a href="#HandleRequests">func HandleRequests()</a></dd>
+			
+			
+				
+				<dd><a href="#Data">type Data</a></dd>
+				
+				
+			
+				
+				<dd><a href="#ReturnData">type ReturnData</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#HandleRequest">func HandleRequest(InData Data) (returnThis ReturnData, err error)</a></dd>
+				
+				
+			
+			
+			</dl>
+			</div><!-- #manual-nav -->
+
+		
+
+		
+			<h3>Package files</h3>
+			<p>
+			<span style="font-size:90%">
+			
+				<a href="http://127.0.0.1:6060/src/github.com/thecsw/Calendar-App/back/api/api.go">api.go</a>
+			
+			</span>
+			</p>
+		
+		</div><!-- .expanded -->
+		</div><!-- #pkg-index -->
+
+		
+
+		
+		
+		
+			
+			
+			<h2 id="HandleRequests">func <a href="http://127.0.0.1:6060/src/github.com/thecsw/Calendar-App/back/api/api.go?s=4612:4633#L127">HandleRequests</a>
+				<a class="permalink" href="#HandleRequests">¶</a>
+				
+				
+			</h2>
+			<pre>func HandleRequests()</pre>
+			<p>
+HandleRequests Creates a new router and then continually listens for a POST request on port 10000.
+</p>
+
+			
+			
+
+		
+		
+			
+			
+			<h2 id="Data">type <a href="http://127.0.0.1:6060/src/github.com/thecsw/Calendar-App/back/api/api.go?s=572:904#L11">Data</a>
+				<a class="permalink" href="#Data">¶</a>
+				
+				
+			</h2>
+			<p>
+Data Stores all the possible Data that should come in from the front end.
+Includes the name of the user, the action they want to take, the day they're
+looking at, the possible timeslots (for registration purposes),
+the event name, the event description, and the event ID
+Some of these may be empty, signifying the Data is not important
+</p>
+
+			<pre>type Data struct {
+<span id="Data.User"></span>    User             <a href="http://127.0.0.1:6060/pkg/builtin/#string">string</a>   `json:"User"`
+<span id="Data.Action"></span>    Action           <a href="http://127.0.0.1:6060/pkg/builtin/#string">string</a>   `json:"Action"`
+<span id="Data.Day"></span>    Day              []<a href="http://127.0.0.1:6060/pkg/builtin/#string">string</a> `json:"Day"`
+<span id="Data.Times"></span>    Times            []<a href="http://127.0.0.1:6060/pkg/builtin/#string">string</a> `json:"Times"`
+<span id="Data.EventName"></span>    EventName        <a href="http://127.0.0.1:6060/pkg/builtin/#string">string</a>   `json:"Event_Name"`
+<span id="Data.EventDescription"></span>    EventDescription <a href="http://127.0.0.1:6060/pkg/builtin/#string">string</a>   `json:"Event_Description"`
+<span id="Data.EventID"></span>    EventID          <a href="http://127.0.0.1:6060/pkg/builtin/#string">string</a>   `json:"Event_ID"`
+}
+</pre>
+
+			
+
+			
+
+			
+			
+			
+
+			
+
+			
+		
+			
+			
+			<h2 id="ReturnData">type <a href="http://127.0.0.1:6060/src/github.com/thecsw/Calendar-App/back/api/api.go?s=1108:1354#L24">ReturnData</a>
+				<a class="permalink" href="#ReturnData">¶</a>
+				
+				
+			</h2>
+			<p>
+ReturnData Stores all the possible data that could be returned to the front end.
+Includes a simple message for the front end to check, and the result of the get_attendees
+and get_event methods
+</p>
+
+			<pre>type ReturnData struct {
+<span id="ReturnData.Message"></span>    Message       <a href="http://127.0.0.1:6060/pkg/builtin/#string">string</a>              `json:"Message"`
+<span id="ReturnData.AttendeeNames"></span>    AttendeeNames []<a href="http://127.0.0.1:6060/pkg/builtin/#string">string</a>            `json:"Attendee_Names"`
+<span id="ReturnData.EventInfo"></span>    EventInfo     []map[<a href="http://127.0.0.1:6060/pkg/builtin/#string">string</a>]<a href="http://127.0.0.1:6060/pkg/builtin/#string">string</a> `json:"Event_Info"`
+<span id="ReturnData.Timeslots"></span>    Timeslots     [][]<a href="http://127.0.0.1:6060/pkg/builtin/#string">string</a>          `json:"Timeslots"`
+}
+</pre>
+
+			
+
+			
+
+			
+			
+			
+
+			
+				
+				<h3 id="HandleRequest">func <a href="http://127.0.0.1:6060/src/github.com/thecsw/Calendar-App/back/api/api.go?s=2850:2916#L63">HandleRequest</a>
+					<a class="permalink" href="#HandleRequest">¶</a>
+					
+					
+				</h3>
+				<pre>func HandleRequest(InData <a href="#Data">Data</a>) (returnThis <a href="#ReturnData">ReturnData</a>, err <a href="http://127.0.0.1:6060/pkg/builtin/#error">error</a>)</pre>
+				<p>
+HandleRequest No authentication is done on this other than making sure 
+the action is valid (and has all its pieces).  Will throw an error if 
+the request is invalid.
+The possible actions you can take are as follows:
+</p>
+<pre>Create-Event - Create a new event given the user, event name, event description, day, and timeslots.
+Get-All-Events - Just returns the data for every event in the calendar.
+Get-Events-Attending - Given a user, get the events that they are attending.
+Get-Events-Created - Given a user, get the events that they have created.
+Get-Events-For-Days - Given a day, get all events for that day.
+Get-Attendees - Given an event ID, get all attendees for that event.
+Register-For-Event - Given a user, event name, and timeslots, register for that event.
+Sign-Up - Given a user, sign them up (add them to the DB).
+</pre>
+
+				
+				
+			
+
+			
+		
+	
+
+	
+
+
+
+
+
+
+
+<div id="footer">
+Build version go1.13.8.<br>
+Except as <a href="https://developers.google.com/site-policies#restrictions">noted</a>,
+the content of this page is licensed under the
+Creative Commons Attribution 3.0 License,
+and code is licensed under a <a href="http://127.0.0.1:6060/LICENSE">BSD license</a>.<br>
+<a href="http://127.0.0.1:6060/doc/tos.html">Terms of Service</a> |
+<a href="http://www.google.com/intl/en/policies/privacy/">Privacy Policy</a>
+</div>
+
+</div><!-- .container -->
+</div><!-- #page -->
+
+
+</body></html>
