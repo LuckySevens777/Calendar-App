@@ -51,14 +51,13 @@ export class EventsView extends React.Component<EventsViewProps, EventsViewState
             slot.active = nums.indexOf(i) != -1
             slots[i] = slot
         }
-        console.log(nums)
         return slots
     }
 
     /**
      * Logic for when the Join Event button is pressed
      */
-    private joinEvent(name:string, creator:string, slots:number[]) {
+    private joinEvent(name:string, creator:string, slots:number[]) : void {
         this.props.onJoin(name, creator, slots)
     }
 
@@ -100,7 +99,7 @@ export class EventsView extends React.Component<EventsViewProps, EventsViewState
                                     </ul>
 
                                     {
-                                    /* if */this.props.username !== event.creatorName ?
+                                    /* if */event.members.indexOf(this.props.username) !== -1 ?
                                         <h5>Join</h5>
                                     /* else */:
                                         <div></div>
@@ -108,7 +107,7 @@ export class EventsView extends React.Component<EventsViewProps, EventsViewState
                                     <ErrorBoundary>
                                         <EventElement
                                             date={event.date}
-                                            interactive={this.props.username !== event.creatorName}
+                                            interactive={event.members.indexOf(this.props.username) !== -1}
                                             onChange={() => {}}
                                             color={{
                                                 active: 'blue',

@@ -56,12 +56,17 @@ export class SideBar extends React.Component<SideBarProps, SideBarState> {
                 >
                     Events
                 </a>
+                {
+                /* if */this.props.username !== '' ?
                 <a className="collection-item blue-text"
                     onClick={() => this.props.stateChange('create')}
                     key={3}
                 >
-                    Create
+                    Create Event
                 </a>
+                /* else */:
+                    <div></div>
+                }
             </div>
         )
     }
