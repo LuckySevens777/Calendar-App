@@ -66,16 +66,26 @@ export class SignIn extends React.Component<SignInProps, SignInState> {
                 <div className="row valign-wrapper">
                     <ErrorBoundary>
                         <div className="input-field col s8">
-                            <input className="validate" id="Username" type="text" onChange={((e: React.FormEvent<HTMLInputElement>) => {
-                                this.setState({username: e.currentTarget.value})
-                            }).bind(this)}></input>
+                            <input className="validate" id="Username" type="text"
+                                onChange={((e: React.FormEvent<HTMLInputElement>) => {
+                                    this.setState({username: e.currentTarget.value})
+                                }).bind(this)}
+                            ></input>
                         </div>
                     </ErrorBoundary>
                     <div className="col s2">
-                        <a className="waves-effect blue white-text btn" onClick={this.signIn.bind(this)}>Sign In</a>
+                        <a className="waves-effect blue white-text btn"
+                            onClick={this.signIn.bind(this)}
+                        >
+                            Sign In
+                        </a>
                     </div>
                     <div className="col s2">
-                        <a className="waves-effect blue white-text btn" onClick={this.signUp.bind(this)}>Sign Up</a>
+                        <a className="waves-effect blue white-text btn"
+                            onClick={this.signUp.bind(this)}
+                        >
+                            Sign Up
+                        </a>
                     </div>
                 </div>
             </div>

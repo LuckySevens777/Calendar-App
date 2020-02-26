@@ -8,7 +8,7 @@ interface EventElementProps {
     /**
      * The actual Date object to register this EventElement during
      */
-    date:Date,
+    date:string,
 
     /**
      * Determines whether this is a static display or a creation menu
@@ -121,11 +121,13 @@ export class EventElement extends React.Component<EventElementProps, EventElemen
                 state.slots[i] = new Slot
                 state.slots[i].active = false
 
+                //grey out certain slots
                 if(i < 12) state.slots[i].interactive = false
                 else if(i > 68) state.slots[i].interactive = false
                 else if(i >= 33 && i < 36) state.slots[i].interactive = false
                 else state.slots[i].interactive = true
 
+                //set correct colors
                 if(state.slots[i].interactive) state.slots[i].color = this.props.color.interactive
                 else state.slots[i].color = this.props.color.inactive
             }
@@ -133,6 +135,7 @@ export class EventElement extends React.Component<EventElementProps, EventElemen
             state.slots = this.props.slots
 
             for(let i = 0; i < 72; i++) {
+                //set correct colors
                 if(state.slots[i].active) state.slots[i].color = this.props.color.active
                 else state.slots[i].color = this.props.color.interactive
             }
@@ -162,6 +165,15 @@ export class EventElement extends React.Component<EventElementProps, EventElemen
     }
 
     /**
+     * sets the time mode
+     * @param time24 true for 24 hour time, false for 12
+     */
+    private setTimeMode(time24:boolean) : void {
+        this.setState({time24Hour: time24})
+        this.setState({displayTimes: (time24 ? this.state.times24 : this.state.times12)})
+    }
+
+    /**
      * Renders the element
      * This is where you put the tsx
      */
@@ -173,12 +185,11 @@ export class EventElement extends React.Component<EventElementProps, EventElemen
                         <div className="switch">
                             <label>
                                 12 hour
-                                <input type="checkbox" onChange={((e: React.FormEvent<HTMLInputElement>) => {
-                                    let time24 = e.currentTarget.checked
-
-                                    this.setState({time24Hour: time24})
-                                    this.setState({displayTimes: (time24 ? this.state.times24 : this.state.times12)})
-                                }).bind(this)}/>
+                                <input type="checkbox"
+                                    onChange={((e:React.FormEvent<HTMLInputElement>) =>
+                                        this.setTimeMode(e.currentTarget.checked)
+                                    ).bind(this)}
+                                />
                                 <span className="lever"></span>
                                 24 hour
                             </label>
@@ -192,6 +203,7 @@ export class EventElement extends React.Component<EventElementProps, EventElemen
                                         <div className={`time-title`} key={number}><br/>{time}</div>
                                     </div>
                                     <div className="col s8">
+                                        {/* Render time slot boxes */}
                                         <div className={`time-slot ${this.state.slots[number*3].interactive ? 'selectable' : ''} ${this.state.slots[number*3].color}`} key={number*3}  onClick={(() => {
                                                 if(this.state.slots[number*3].interactive) this.setSlot(number*3, !this.state.slots[number*3].active)
                                             }).bind(this)}><br/>
