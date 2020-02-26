@@ -14,6 +14,8 @@ interface EventsViewState {}
 export class EventsView extends React.Component<EventsViewProps, EventsViewState> {
     public readonly state:EventsViewState
 
+    private selected:Slot[]
+
     /**
      * Constructs an EventsView
      * @param props the object's properties
@@ -60,21 +62,28 @@ export class EventsView extends React.Component<EventsViewProps, EventsViewState
                                     <ErrorBoundary>
                                         <EventElement
                                             date={new Date()}
-                                            interactive={false}
-                                            onChange={(slots:Slot[]) => console.log(slots)}
+                                            interactive={true}
+                                            onChange={slots => this.selected = slots}
                                             color={{
                                                 active: 'blue',
                                                 interactive: 'white',
                                                 inactive: 'grey'
                                             }}
-                                            slots={slots}
+                                            slots={slots.map(slot => {
+                                                //swap active and interactive
+                                                let out:Slot = new Slot
+                                                out.interactive = slot.active
+                                                out.active = slot.active
+                                                if(!out.interactive) out.color = 'grey'
+                                                return out
+                                            })}
                                         />
-                                        <a className="btn waves-effect blue white-text" onClick={() => {
+                                        {true/* usernames does not match */ ? <a className="btn waves-effect blue white-text" onClick={() => {
                                             ////////////////////////////////////////////////
                                             // EVENT JOINING FUNCTIONALITY
                                             // ONLY DISPLAY THIS IF THE EVENT ISNT YOURS
                                             ////////////////////////////////////////////////
-                                        }}>Join Event</a>
+                                        }}>Join Event</a> : <div></div>}
                                     </ErrorBoundary>
                                 </div>
                             </li>
