@@ -1,3 +1,5 @@
+import {Event} from './Event'
+
 export async function call(the_url) {
 	const rawResponse = fetch(the_url, {
 		method: 'POST',
@@ -87,10 +89,12 @@ export class ApiCall {
 		this.standardCall(call_body);
 	}
 
-	getAllEvents() {
+	getAllEvents() : Event[] {
 		this.actions = "Get-All-Events";
 		let call_body = this.makeBody();
 		this.standardCall(call_body);
+
+		return []
 	}
 
 	getEventsAttending() {

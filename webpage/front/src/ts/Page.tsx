@@ -132,6 +132,9 @@ export class Page extends React.Component<PageProps, PageState> {
         let call:ApiCall = new ApiCall(this.state.username)
         call.login()
 
+        //api call to get event list
+        this.setState({events: call.getAllEvents()})
+
         //display a green notification indicating that the sign in worked
         Material.toast({
             html: `${username} signed in`,
