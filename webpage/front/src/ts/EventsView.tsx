@@ -131,6 +131,12 @@ export class EventsView extends React.Component<EventsViewProps, EventsViewState
                         )}
                     </ul>
                 </div>
+                {
+                    /* if */this.props.events.length === 0 ?
+                        <h3 className="red-text" >None Found</h3>
+                    /* else */:
+                        <div></div>
+                }
             </div>
         )
     }

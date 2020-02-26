@@ -1,8 +1,6 @@
 import * as Material from 'materialize-css'
 import * as React from 'react'
 
-import {EVENTS} from './improvisedValues'
-
 import {Event} from './Event'
 
 import {CreateEvent} from './CreateEvent'
