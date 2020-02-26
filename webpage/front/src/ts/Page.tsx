@@ -176,7 +176,7 @@ export class Page extends React.Component<PageProps, PageState> {
 
         //api call
         let call:ApiCall = new ApiCall(this.state.username)
-        call.signUp(this.state.username)
+        call.signUp()
 
         let signInSuccess = true //indicates success
 

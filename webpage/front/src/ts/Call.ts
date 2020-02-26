@@ -1,24 +1,5 @@
-<<<<<<< HEAD
-=======
 import {Event} from './Event'
 
-export async function call(the_url) {
-	const rawResponse = fetch(the_url, {
-		method: 'POST',
-			headers: {
-				'Accept': 'application/json',
-				'Content-Type': 'application/json'
-			},
-			body: JSON.stringify({"Action" : "boop"})
-	}).then(data => ({
-		        data: data,
-	})
-				 ).then(res => { console.log(res) });
-	//const content = await rawResponse.json();
-	//console.log(content);
-}
-
->>>>>>> 5b036b68481415006720e61a0eb7f679f8635848
 export class ApiCall {
 	public user: string = ""
 	public actions: string = ""
@@ -56,20 +37,16 @@ export class ApiCall {
 		//the_body has to by a string like the one below. Make it look like this, don't want to touch it too much
 		//let testing = `{"User": "Drmk5","Action": "Get-All-Events","Day": [],"Times": [],"Event_Name": "","Event_Description": "","Event_ID": ""}`;
 		let body_promise;
-		const the_resp = fetch('/api', {
+		const the_resp = await fetch('/api', {
 			method: 'POST',
 			headers: {
 				'Accept': '*/*',
 				'Content-Type': 'application/json'
 			},
 			body: the_body
-		}).then( data => {
-			data.body.getReader().read().then(res => {
-				body_promise = String.fromCharCode.apply(null, res.value);
-			});
 		})
-		let result = await the_resp;
-		return(result);
+		let the_text = await the_resp.body.getReader().read();
+		return(String.fromCharCode.apply(null, the_text.value));
 	}
 
 	/**
@@ -78,38 +55,44 @@ export class ApiCall {
 	 */
 	async signUp() {
 		this.actions = "Sign-Up";
-		console.log("Entered sign up");
 		let call_body = this.makeBody();
-		console.log("made call body");
 		let return_str = await this.standardCall(call_body);
 		console.log(return_str);
-		console.log('asl;dfkjas;ldfkj');
+	}
+
+	async async_getAllEvents() {
+		this.actions = "Get-All-Events";
+		let call_body = this.makeBody();
+		let return_str = await this.standardCall(call_body);
+		return(return_str);
 	}
 
 	getAllEvents() : Event[] {
-		this.actions = "Get-All-Events";
-		let call_body = this.makeBody();
-		this.standardCall(call_body);
+		let json_string = this.async_getAllEvents();
 
 		return []
 	}
 
-	getEventsAttending() {
+	
+
+	async getEventsAttending() {
 		this.actions = "Get-Events-Attending";
 		let call_body = this.makeBody();
-		this.standardCall(call_body);
+		let return_str = await this.standardCall(call_body);
 	}
 
-	getEventsForDays(date:string) {
+	async getEventsForDays(date:string) {
 		this.day = date;
 		let call_body = this.makeBody();
-		this.standardCall(call_body);
+		let return_str = await this.standardCall(call_body);
 	}
 
-	getAttendees(id_of_event:string) {
+	async getAttendees(id_of_event:string) {
 		this.event_id = id_of_event;
 		let call_body = this.makeBody();
-		this.standardCall(call_body);
+		let return_str = await this.standardCall(call_body);
+		let the_json = JSON.parse(return_str);
+		return(the_json.Attendee_Names);
 	}
 
 
