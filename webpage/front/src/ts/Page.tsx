@@ -8,8 +8,8 @@ import {Event} from './Event'
 import {CreateEvent} from './CreateEvent'
 import {ErrorBoundary} from './ErrorBoundary'
 import {EventsView} from './EventsView'
-import {Overview} from './Overview'
 import {SideBar} from './SideBar'
+import {SignIn} from './SignIn'
 
 interface PageProps {}
 
@@ -31,10 +31,10 @@ export class Page extends React.Component<PageProps, PageState> {
         //temporary for constructor
         let state:PageState = {
             mode: undefined,
-            username: USERNAME
+            username: USERNAME  //EXAMPLE USERNAME NEEDS TO BE REPLACED WITH HOWEVER YOU WANT TO STORE THAT
         }
 
-        state.mode = 'overview'
+        state.mode = 'signin'
 
         this.state = state
     }
@@ -46,9 +46,9 @@ export class Page extends React.Component<PageProps, PageState> {
     private changeState(state:string) {
         switch(state) {
             //valid states
-            case 'overview':
             case 'events':
             case 'create':
+            case 'signin':
                 this.setState({mode: state})
             //invalid
             default:
@@ -60,13 +60,21 @@ export class Page extends React.Component<PageProps, PageState> {
      * This is where you put the tsx
      */
     public render() {
-        //overview mode
-        if(this.state.mode === 'overview') {
+        //sign in mode
+        if(this.state.mode === 'signin') {
             return (
                 <div>
                     <div className="col s12 l10">
                         <ErrorBoundary>
-                            <Overview stateChange={this.changeState.bind(this)}/>
+                            <SignIn onSignin={username => {
+                                ///////////////////////////////////////
+                                // SIGN IN FUNCTIONALITY
+                                ///////////////////////////////////////
+                            }} onSignup={username => {
+                                ///////////////////////////////////////
+                                // SIGN UP FUNCTIONALITY
+                                ///////////////////////////////////////
+                            }}/>
                         </ErrorBoundary>
                     </div>
                     <div className="col s12 l2">
@@ -83,7 +91,11 @@ export class Page extends React.Component<PageProps, PageState> {
                 <div>
                     <div className="col s12 l10">
                         <ErrorBoundary>
-                            <EventsView/>
+                            <EventsView onJoin={(name:string, creator:string) => {
+                                ////////////////////////////////////////////////
+                                // EVENT JOINING FUNCTIONALITY
+                                ////////////////////////////////////////////////
+                            }}/>
                         </ErrorBoundary>
                     </div>
                     <div className="col s12 l2">
@@ -98,13 +110,17 @@ export class Page extends React.Component<PageProps, PageState> {
         if(this.state.mode === 'create') {
             return (
                 <div>
-                    <div className="col s12 l10 red">
+                    <div className="col s12 l10">
                         <ErrorBoundary>
                             <CreateEvent username={this.state.username} createObject={((event:Event) => {
                                 //this is called when a user confirms creating an event
+
+                                ///////////////////////////////////////
+                                // CREATE EVENT FUNCTIONALITY
+                                ///////////////////////////////////////
+
                                 Material.toast({html: 'Event Created!'})
-                                console.log(event)
-                                this.setState({mode: 'overview'})
+                                this.setState({mode: 'events'})
                             }).bind(this)}/>
                         </ErrorBoundary>
                     </div>

@@ -29,9 +29,9 @@ export class SideBar extends React.Component<SideBarProps, SideBarState> {
     public render() {
         return (
             <div className="collection" id="sidebar">
-                <a className="collection-item blue-text" onClick={() => this.props.stateChange('overview')}>
-                    Overview
-                </a>
+                {true /* only run if not signed in */ ? <a className="collection-item blue-text" onClick={() => this.props.stateChange('signin')}>
+                    Sign In / Sign Up
+                </a> : <div></div>}
                 <a className="collection-item blue-text" onClick={() => this.props.stateChange('events')}>
                     Events
                 </a>

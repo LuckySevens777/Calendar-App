@@ -1,3 +1,6 @@
 FROM golang
 WORKDIR /
-RUN go run main.go
+COPY . .
+RUN go get golang.org/x/tools/cmd/godoc
+RUN go build
+CMD ./back

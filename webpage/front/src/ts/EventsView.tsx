@@ -7,12 +7,20 @@ import {ErrorBoundary} from './ErrorBoundary'
 import {EventElement} from './EventElement'
 import {EVENTS} from './improvisedValues'
 
-interface EventsViewProps {}
+interface EventsViewProps {
+    /**
+     * callback function to call when an event is joined
+     * passes in the name and creator of the event being joined (name, creator, slots)
+     */
+    onJoin:Function
+}
 
 interface EventsViewState {}
 
 export class EventsView extends React.Component<EventsViewProps, EventsViewState> {
     public readonly state:EventsViewState
+
+    private selected:Slot[]
 
     /**
      * Constructs an EventsView
@@ -28,6 +36,13 @@ export class EventsView extends React.Component<EventsViewProps, EventsViewState
     }
 
     /**
+     * Logic for when the Join Event button is pressed
+     */
+    private joinEvent(name:string, creator:string, slots:number[]) {
+        this.props.onJoin(name, creator, slots)
+    }
+
+    /**
      * Renders the element
      * This is where you put the tsx
      */
@@ -37,32 +52,40 @@ export class EventsView extends React.Component<EventsViewProps, EventsViewState
         for(let i = 0; i < 72; i++) {
             let slot = new Slot
             slot.interactive = false
-            slot.active = EVENTS[0].timeSlots.indexOf(i) != -1
+            slot.active = EVENTS[0].timeSlots.indexOf(i) != -1 //EVENTS NEEDS TO BE REPLACED WITH SOME ARRAY OF EVENT OBJECTS
             slots[i] = slot
         }
 
         return (
             <div className="container center">
                 <h2 className="row">
-                    Header
+                    Available Events
                 </h2>
                 <div className="row">
                     <ul className="collapsible">
-                        {EVENTS.map((event, number) =>
+                        {EVENTS.map((event, number) => //EVENTS NEEDS TO BE REPLACED WITH SOME ARRAY OF EVENT OBJECTS
                             <li key={number}>
                                 {/* onMouseover is a hacky way to initialize the container just in time */}
-                                <div className="collapsible-header" onMouseOver={()=>Material.Collapsible.init(document.querySelectorAll('.collapsible'), {})}>
+                                <div className={`collapsible-header`} onMouseOver={()=>Material.Collapsible.init(document.querySelectorAll('.collapsible'), {})}>
                                     <i className="material-icons">group</i>
                                     <h5>{event.name} | {event.creatorName} | {event.date}</h5>
-                                    {console.log(EVENTS)}
+                                    {true /* if this event is yours */ ? <span className="badge blue white-text">Your Event</span> : <div></div>}
                                 </div>
                                 <div className="collapsible-body">
+                                    <h5>Description</h5>
                                     <span>{event.description}</span><br/>
+                                    <h5>Members</h5>
+                                    <ul>
+                                        {event.members.map((member, number) =>
+                                            <li key={number}>{member}</li>
+                                        )}
+                                    </ul>
+                                    <h5>Join</h5>
                                     <ErrorBoundary>
                                         <EventElement
                                             date={new Date()}
-                                            interactive={false}
-                                            onChange={(slots:Slot[]) => console.log(slots)}
+                                            interactive={true}
+                                            onChange={slots => this.selected = slots}
                                             color={{
                                                 active: 'blue',
                                                 interactive: 'white',
@@ -70,6 +93,9 @@ export class EventsView extends React.Component<EventsViewProps, EventsViewState
                                             }}
                                             slots={slots}
                                         />
+                                        {true/* usernames does not match */ ? <a className="btn waves-effect blue white-text" onClick={(() => {
+                                            this.joinEvent(event.name, event.creatorName, event.timeSlots)
+                                        }).bind(this)}>Join Event</a> : <div></div>}
                                     </ErrorBoundary>
                                 </div>
                             </li>
