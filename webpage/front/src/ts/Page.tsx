@@ -61,14 +61,30 @@ export class Page extends React.Component<PageProps, PageState> {
      */
     private createEvent(event:Event) {
         //this is called when a user confirms creating an event
-        let events:Event[] = this.state.events
-        events.push(event)
-        this.setState({events: events})
-        ///////////////////////////////////////
-        // CREATE EVENT FUNCTIONALITY
-        ///////////////////////////////////////
-        Material.toast({html: 'Event Created!'})
-        this.setState({mode: 'events'})
+        if(event.date.substring(4) !== '-01-01' &&
+           event.date.substring(4) !== '-07-04' &&
+           event.date.substring(4) !== '-12-25') {
+            let events:Event[] = this.state.events
+            events.push(event)
+            this.setState({events: events})
+            ///////////////////////////////////////
+            // CREATE EVENT FUNCTIONALITY
+            ///////////////////////////////////////
+            //display confirmation
+            Material.toast({
+                html: 'Event Created!',
+                classes: "green"
+            })
+            this.setState({mode: 'events'})
+        } else {
+            //display failure
+            Material.toast({
+                html: 'This date is not available for meetings!',
+                classes: "red"
+            })
+            //log it
+            console.log('failed to create: ', event)
+        }
     }
 
     /**
@@ -81,6 +97,9 @@ export class Page extends React.Component<PageProps, PageState> {
         ///////////////////////////////////////
         // JOIN EVENT
         ///////////////////////////////////////
+
+
+        //log it
         console.log('joining', name, 'from', creator, 'slots:', slots)
     }
 
