@@ -1,7 +1,12 @@
 import * as React from 'react'
 
 interface SideBarProps {
-    stateChange:Function
+    /**
+     * keeps track of if a user is signed in and needs the sign in option
+     */
+    username:string,
+    stateChange:Function,
+    signOut:Function
 }
 
 interface SideBarState {}
@@ -18,7 +23,6 @@ export class SideBar extends React.Component<SideBarProps, SideBarState> {
 
         //temporary for constructor
         let state:SideBarState = {}
-
         this.state = state
     }
 
@@ -29,15 +33,43 @@ export class SideBar extends React.Component<SideBarProps, SideBarState> {
     public render() {
         return (
             <div className="collection" id="sidebar">
-                {true /* only run if not signed in */ ? <a className="collection-item blue-text" onClick={() => this.props.stateChange('signin')}>
-                    Sign In / Sign Up
-                </a> : <div></div>}
-                <a className="collection-item blue-text" onClick={() => this.props.stateChange('events')}>
+                {
+                /* if */this.props.username === '' ?
+                    <a className="collection-item blue-text"
+                        onClick={() => this.props.stateChange('signin')}
+                        key={1}
+                    >
+                        Sign In / Sign Up
+                    </a>
+                /* else */:
+                    <a className="collection-item blue-text"
+                        onClick={() => this.props.signOut()}
+                        key={1}
+                    >
+                        Sign Out
+                    </a>
+                }
+                {/* if */this.props.username !== '' ?
+                <a className="collection-item blue-text"
+                    onClick={() => this.props.stateChange('events')}
+                    key={2}
+                >
                     Events
                 </a>
-                <a className="collection-item blue-text" onClick={() => this.props.stateChange('create')}>
-                    Create
+                /* else */:
+                    <div></div>
+                }
+                {
+                /* if */this.props.username !== '' ?
+                <a className="collection-item blue-text"
+                    onClick={() => this.props.stateChange('create')}
+                    key={3}
+                >
+                    Create Event
                 </a>
+                /* else */:
+                    <div></div>
+                }
             </div>
         )
     }

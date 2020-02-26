@@ -1,13 +1,25 @@
 import * as React from 'react'
 import * as Material from 'materialize-css'
 
+import {Event} from './Event'
 import {Slot} from './Slot'
 
 import {ErrorBoundary} from './ErrorBoundary'
 import {EventElement} from './EventElement'
-import {EVENTS} from './improvisedValues'
 
 interface EventsViewProps {
+    /**
+     * The name of the user signed in
+     */
+    username:string,
+
+    /**
+     * list of events to display
+     */
+    events:Event[],
+
+
+
     /**
      * callback function to call when an event is joined
      * passes in the name and creator of the event being joined (name, creator, slots)
@@ -20,7 +32,7 @@ interface EventsViewState {}
 export class EventsView extends React.Component<EventsViewProps, EventsViewState> {
     public readonly state:EventsViewState
 
-    private selected:Slot[]
+    private selectedSlots:number[]
 
     /**
      * Constructs an EventsView
@@ -35,11 +47,31 @@ export class EventsView extends React.Component<EventsViewProps, EventsViewState
         this.state = state
     }
 
+    private getSlotsFromNums(nums:number[]) : Slot[] {
+        let slots:Slot[] = []
+        for(let i = 0; i < 72; i++) {
+            let slot = new Slot
+            slot.interactive = false
+            slot.active = nums.indexOf(i) != -1
+            slots[i] = slot
+        }
+        return slots
+    }
+
     /**
      * Logic for when the Join Event button is pressed
      */
-    private joinEvent(name:string, creator:string, slots:number[]) {
-        this.props.onJoin(name, creator, slots)
+    private joinEvent(name:string, creator:string) : void {
+        this.props.onJoin(name, creator, this.selectedSlots)
+    }
+
+    private updateSelectedSlots(slots:Slot[]) : void {
+        let selected:number[] = []
+        for(let i = 0; i < slots.length; i++) {
+            if(slots[i].active) selected.push(i)
+        }
+        this.selectedSlots = selected
+        console.log(selected)
     }
 
     /**
@@ -47,15 +79,6 @@ export class EventsView extends React.Component<EventsViewProps, EventsViewState
      * This is where you put the tsx
      */
     public render() {
-
-        let slots:Slot[] = []
-        for(let i = 0; i < 72; i++) {
-            let slot = new Slot
-            slot.interactive = false
-            slot.active = EVENTS[0].timeSlots.indexOf(i) != -1 //EVENTS NEEDS TO BE REPLACED WITH SOME ARRAY OF EVENT OBJECTS
-            slots[i] = slot
-        }
-
         return (
             <div className="container center">
                 <h2 className="row">
@@ -63,45 +86,91 @@ export class EventsView extends React.Component<EventsViewProps, EventsViewState
                 </h2>
                 <div className="row">
                     <ul className="collapsible">
-                        {EVENTS.map((event, number) => //EVENTS NEEDS TO BE REPLACED WITH SOME ARRAY OF EVENT OBJECTS
+                        {this.props.events.map((event, number) =>
                             <li key={number}>
                                 {/* onMouseover is a hacky way to initialize the container just in time */}
-                                <div className={`collapsible-header`} onMouseOver={()=>Material.Collapsible.init(document.querySelectorAll('.collapsible'), {})}>
+                                <div className={`collapsible-header`}
+                                    onMouseOver={()=>Material.Collapsible.init(document.querySelectorAll('.collapsible'), {})}
+                                >
                                     <i className="material-icons">group</i>
                                     <h5>{event.name} | {event.creatorName} | {event.date}</h5>
-                                    {true /* if this event is yours */ ? <span className="badge blue white-text">Your Event</span> : <div></div>}
+                                    {
+                                    /* if */this.props.username === event.creatorName ?
+                                        <span className="badge blue white-text">Your Event</span>
+                                    /* else */:
+                                        <span></span>
+                                    }
                                 </div>
                                 <div className="collapsible-body">
                                     <h5>Description</h5>
                                     <span>{event.description}</span><br/>
                                     <h5>Members</h5>
-                                    <ul>
+                                    <ul className="collapsible">
                                         {event.members.map((member, number) =>
-                                            <li key={number}>{member}</li>
+                                            <li key={number}>
+                                                <div className="collapsible-header">
+                                                    <h6 className="align-center">{`${member.name}'s availability`}</h6>
+                                                </div>
+                                                <div className="collapsible-body">
+                                                    <ErrorBoundary>
+                                                        <EventElement
+                                                            date={event.date}
+                                                            interactive={false}
+                                                            joinMode={false}
+                                                            onChange={() => {}}
+                                                            color={{
+                                                                active: 'green',
+                                                                interactive: 'white',
+                                                                inactive: 'grey'
+                                                            }}
+                                                            slots={this.getSlotsFromNums(member.availability)}
+                                                        />
+                                                    </ErrorBoundary>
+                                                </div>
+                                            </li>
                                         )}
                                     </ul>
-                                    <h5>Join</h5>
+
+                                    {
+                                    /* if */event.members.map(m=>m.name).indexOf(this.props.username) === -1 &&
+                                    this.props.username !== '' ?
+                                        <h5>Join</h5>
+                                    /* else */:
+                                        <div></div>
+                                    }
                                     <ErrorBoundary>
                                         <EventElement
-                                            date={new Date()}
-                                            interactive={true}
-                                            onChange={slots => this.selected = slots}
+                                            date={event.date}
+                                            interactive={event.members.map(m=>m.name).indexOf(this.props.username) !== -1}
+                                            joinMode={event.members.map(m=>m.name).indexOf(this.props.username) === -1}
+                                            onChange={this.updateSelectedSlots.bind(this)}
                                             color={{
                                                 active: 'blue',
                                                 interactive: 'white',
                                                 inactive: 'grey'
                                             }}
-                                            slots={slots}
+                                            slots={this.getSlotsFromNums(event.timeSlots)}
                                         />
-                                        {true/* usernames does not match */ ? <a className="btn waves-effect blue white-text" onClick={(() => {
-                                            this.joinEvent(event.name, event.creatorName, event.timeSlots)
-                                        }).bind(this)}>Join Event</a> : <div></div>}
+                                        {
+                                        /* if */this.props.username !== event.creatorName ?
+                                            <a className="btn waves-effect blue white-text" onClick={(() => {
+                                                this.joinEvent(event.name, event.creatorName)
+                                            }).bind(this)}>Join Event</a>
+                                        /* else */:
+                                            <div></div>
+                                        }
                                     </ErrorBoundary>
                                 </div>
                             </li>
                         )}
                     </ul>
                 </div>
+                {
+                    /* if */this.props.events.length === 0 ?
+                        <h3 className="red-text" >No Events Found</h3>
+                    /* else */:
+                        <div></div>
+                }
             </div>
         )
     }

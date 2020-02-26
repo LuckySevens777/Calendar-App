@@ -7,7 +7,7 @@ import {Event} from './Event'
 import {Slot} from './Slot'
 
 import {ErrorBoundary} from './ErrorBoundary'
-import { EventElement } from './EventElement'
+import {EventElement} from './EventElement'
 interface CreateEventProps {
     /**
      * the name of the currently logged in user
@@ -81,7 +81,10 @@ export class CreateEvent extends React.Component<CreateEventProps, CreateEventSt
         event.description = this.state.description
         event.uniqueID = 'INVALID ID'
         event.creatorName = this.props.username
-        event.members = [event.creatorName]
+        event.members = [{
+            name: event.creatorName,
+            availability: this.state.timeSlots
+        }]
         event.date = this.state.date
         event.timeSlots = this.state.timeSlots
 
@@ -105,27 +108,33 @@ export class CreateEvent extends React.Component<CreateEventProps, CreateEventSt
                 <div className="row">
                     <div className="col s2"></div>
                     <div className="input-field col s8">
-                        <input id="event-date" type="date" onChange={((e: React.FormEvent<HTMLInputElement>) => {
-                            this.setState({date: e.currentTarget.value})
-                        }).bind(this)}></input>
+                        <input id="event-date" type="date"
+                            onChange={((e:React.FormEvent<HTMLInputElement>) =>
+                                this.setState({date: e.currentTarget.value})
+                            ).bind(this)}
+                        ></input>
                     </div>
                     <div className="col s2"></div>
                 </div>
                 <div className="row">
                     <div className="col s2"></div>
                     <div className="input-field col s8">
-                        <input placeholder="Event Name" id="event-name" type="text" className="validate" onChange={((e: React.FormEvent<HTMLInputElement>) => {
-                            this.setState({name: e.currentTarget.value})
-                        }).bind(this)}></input>
+                        <input placeholder="Event Name" id="event-name" type="text" className="validate"
+                            onChange={((e:React.FormEvent<HTMLInputElement>) =>
+                                this.setState({name: e.currentTarget.value})
+                            ).bind(this)}
+                        ></input>
                     </div>
                     <div className="col s2"></div>
                 </div>
                 <div className="row">
                     <div className="col s2"></div>
                     <div className="input-field col s8">
-                        <input placeholder="Event Description" id="event-description" type="text" className="validate" onChange={((e: React.FormEvent<HTMLInputElement>) => {
-                            this.setState({description: e.currentTarget.value})
-                        }).bind(this)}></input>
+                        <input placeholder="Event Description" id="event-description" type="text" className="validate"
+                            onChange={((e:React.FormEvent<HTMLInputElement>) =>
+                                this.setState({description: e.currentTarget.value})
+                            ).bind(this)}
+                        ></input>
                     </div>
                     <div className="col s2"></div>
                 </div>
@@ -133,12 +142,14 @@ export class CreateEvent extends React.Component<CreateEventProps, CreateEventSt
                     <ErrorBoundary>
                         <div className="col s12">
                             <EventElement
-                                date={new Date}
+                                date={''}
                                 interactive={true}
+                                joinMode={false}
                                 onChange={((slots:Slot[]) => {
                                     let timeSlots = []
 
-                                    for(let n in slots) if(slots[n].active) timeSlots.push(n)
+                                    //generate numbered slot list
+                                    for(let n in slots) if(slots[n].active) timeSlots.push(Number(n))
 
                                     this.setState({timeSlots: timeSlots})
                                 }).bind(this)}
