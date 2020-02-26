@@ -156,7 +156,7 @@ export class Page extends React.Component<PageProps, PageState> {
         } else {
             //if sign in fails, show red warning
             Material.toast({
-                html: `failed to register ${username}, this name may exist already`,
+                html: `failed to register ${username}, this user may exist already`,
                 classes: 'red'
             })
             //log it
