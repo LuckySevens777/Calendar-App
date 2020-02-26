@@ -33,7 +33,7 @@ export class Page extends React.Component<PageProps, PageState> {
         let state:PageState = {
             mode: undefined,
             username: '',
-            events: EVENTS
+            events: []
         }
 
         state.mode = 'signin'
