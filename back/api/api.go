@@ -69,6 +69,7 @@ func apicall(w http.ResponseWriter, r *http.Request) {
 //   Get-Attendees - Given an event ID, get all attendees for that event.
 //   Register-For-Event - Given a user, event name, and timeslots, register for that event.
 //   Sign-Up - Given a user, sign them up (add them to the DB).
+//   Sign-In - Given a user, sign them in
 func HandleRequest(InData Data) (returnThis ReturnData, err error) {
 	returnThis.Message = "OK"
 	switch InData.Action {
@@ -118,6 +119,9 @@ func HandleRequest(InData Data) (returnThis ReturnData, err error) {
 		if err != nil {
 			returnThis.Message = err.Error()
 		}
+		return
+	case "Sign-In":
+		err = processing.SignUp(InData.User)
 		return
 	default:
 		returnThis.Message = "No Action Selected"
