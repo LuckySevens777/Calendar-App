@@ -98,7 +98,13 @@ export class EventsView extends React.Component<EventsViewProps, EventsViewState
                                             <li key={number}>{member}</li>
                                         )}
                                     </ul>
-                                    <h5>Join</h5>
+
+                                    {
+                                    /* if */this.props.username !== event.creatorName ?
+                                        <h5>Join</h5>
+                                    /* else */:
+                                        <div></div>
+                                    }
                                     <ErrorBoundary>
                                         <EventElement
                                             date={event.date}
