@@ -98,8 +98,7 @@ export class Page extends React.Component<PageProps, PageState> {
                 let call:ApiCall = new ApiCall(this.state.username)
 
                 const date = event.date.split('-')
-                call.createEvent(event.name, event.description, date, timeSlots)
-
+                call.joinEvent(this.state.username, event.name, timeSlots)
                 break
             }
         }

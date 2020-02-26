@@ -122,6 +122,10 @@ export class ApiCall {
 
 	}
 
+	public joinEvent(username:string, eventName:string, times:number[]) : void {
+
+	}
+
 }
 
 
