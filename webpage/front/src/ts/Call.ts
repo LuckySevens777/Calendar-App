@@ -1,4 +1,5 @@
 import {Event} from './Event'
+
 export class ApiCall {
 	public user: string = ""
 	public actions: string = ""
@@ -77,21 +78,22 @@ export class ApiCall {
 		return []
 	}
 
-
-
 	async getEventsAttending() {
 		this.actions = "Get-Events-Attending";
 		let call_body = this.makeBody();
 		let return_str = await this.standardCall(call_body);
 	}
 
-	async getEventsForDays(date:string) {
-		this.day = date;
+	//can connect to backend but dunno if it gets the events
+	async getEventsForDays(date:string[]) {
+		this.actions = "Get-Events-For-Days";
+		this.day = String(date);
 		let call_body = this.makeBody();
 		let return_str = await this.standardCall(call_body);
 	}
 
 	async getAttendees(id_of_event:string) {
+		this.actions = "Get-Attendees";
 		this.event_id = id_of_event;
 		let call_body = this.makeBody();
 		let return_str = await this.standardCall(call_body);
