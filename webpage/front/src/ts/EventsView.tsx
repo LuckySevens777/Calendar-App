@@ -109,8 +109,7 @@ export class EventsView extends React.Component<EventsViewProps, EventsViewState
                                         {event.members.map((member, number) =>
                                             <li key={number}>
                                                 <div className="collapsible-header">
-                                                    <i className="material-icons">user</i>
-                                                    <h5 className="center">{`${member.name}'s availability`}</h5>
+                                                    <h6 className="align-center">{`${member.name}'s availability`}</h6>
                                                 </div>
                                                 <div className="collapsible-body">
                                                     <ErrorBoundary>
