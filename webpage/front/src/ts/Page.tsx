@@ -132,11 +132,6 @@ export class Page extends React.Component<PageProps, PageState> {
         let call:ApiCall = new ApiCall(this.state.username)
         call.login()
 
-
-        ///////////////////////////////////////
-        // SIGN IN FUNCTIONALITY
-        ///////////////////////////////////////
-
         //display a green notification indicating that the sign in worked
         Material.toast({
             html: `${username} signed in`,
@@ -177,9 +172,9 @@ export class Page extends React.Component<PageProps, PageState> {
     private signUp(username:string) : void {
         this.setState({username: username})
 
-        ///////////////////////////////////////
-        // SIGN UP FUNCTIONALITY
-        ///////////////////////////////////////
+        //api call
+        let call:ApiCall = new ApiCall(this.state.username)
+        call.signUp(this.state.username)
 
         let signInSuccess = true //indicates success
 
