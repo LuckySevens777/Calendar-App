@@ -91,7 +91,11 @@ export class Page extends React.Component<PageProps, PageState> {
                 <div>
                     <div className="col s12 l10">
                         <ErrorBoundary>
-                            <EventsView/>  {/* NEEDS EVENT JOINING FUNCTIONALITY */}
+                            <EventsView onJoin={(name:string, creator:string) => {
+                                ////////////////////////////////////////////////
+                                // EVENT JOINING FUNCTIONALITY
+                                ////////////////////////////////////////////////
+                            }}/>
                         </ErrorBoundary>
                     </div>
                     <div className="col s12 l2">

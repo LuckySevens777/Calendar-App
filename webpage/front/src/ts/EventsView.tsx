@@ -7,7 +7,13 @@ import {ErrorBoundary} from './ErrorBoundary'
 import {EventElement} from './EventElement'
 import {EVENTS} from './improvisedValues'
 
-interface EventsViewProps {}
+interface EventsViewProps {
+    /**
+     * callback function to call when an event is joined
+     * passes in the name and creator of the event being joined (name, creator, slots)
+     */
+    onJoin:Function
+}
 
 interface EventsViewState {}
 
@@ -27,6 +33,13 @@ export class EventsView extends React.Component<EventsViewProps, EventsViewState
         let state:EventsViewState = {}
 
         this.state = state
+    }
+
+    /**
+     * Logic for when the Join Event button is pressed
+     */
+    private joinEvent(name:string, creator:string, slots:number[]) {
+        this.props.onJoin(name, creator, slots)
     }
 
     /**
@@ -80,12 +93,9 @@ export class EventsView extends React.Component<EventsViewProps, EventsViewState
                                             }}
                                             slots={slots}
                                         />
-                                        {true/* usernames does not match */ ? <a className="btn waves-effect blue white-text" onClick={() => {
-                                            ////////////////////////////////////////////////
-                                            // EVENT JOINING FUNCTIONALITY
-                                            // ONLY DISPLAY THIS IF THE EVENT ISNT YOURS
-                                            ////////////////////////////////////////////////
-                                        }}>Join Event</a> : <div></div>}
+                                        {true/* usernames does not match */ ? <a className="btn waves-effect blue white-text" onClick={(() => {
+                                            this.joinEvent(event.name, event.creatorName, event.timeSlots)
+                                        }).bind(this)}>Join Event</a> : <div></div>}
                                     </ErrorBoundary>
                                 </div>
                             </li>
