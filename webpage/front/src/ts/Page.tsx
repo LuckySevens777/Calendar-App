@@ -15,7 +15,8 @@ interface PageProps {}
 
 interface PageState {
     mode:string,
-    username:string
+    username:string,
+    events:Event[]
 }
 
 export class Page extends React.Component<PageProps, PageState> {
@@ -31,7 +32,8 @@ export class Page extends React.Component<PageProps, PageState> {
         //temporary for constructor
         let state:PageState = {
             mode: undefined,
-            username: USERNAME  //EXAMPLE USERNAME NEEDS TO BE REPLACED WITH HOWEVER YOU WANT TO STORE THAT
+            username: undefined,  //EXAMPLE USERNAME NEEDS TO BE REPLACED WITH HOWEVER YOU WANT TO STORE THAT
+            events: []
         }
 
         state.mode = 'signin'
@@ -66,20 +68,42 @@ export class Page extends React.Component<PageProps, PageState> {
                 <div>
                     <div className="col s12 l10">
                         <ErrorBoundary>
-                            <SignIn onSignin={username => {
+                            <SignIn onSignin={(username => {
+                                this.setState({username: username})
                                 ///////////////////////////////////////
                                 // SIGN IN FUNCTIONALITY
                                 ///////////////////////////////////////
-                            }} onSignup={username => {
+                                Material.toast({
+                                    html: `${username} signed in`,
+                                    classes: 'green'
+                                })
+                                this.changeState('events')
+                            }).bind(this)} onSignup={(username => {
+                                this.setState({username: username})
                                 ///////////////////////////////////////
                                 // SIGN UP FUNCTIONALITY
                                 ///////////////////////////////////////
-                            }}/>
+                                let signInSuccess = true
+
+                                if(signInSuccess)
+                                    //if sign in was a success, show green confirmation
+                                    Material.toast({
+                                        html: `${username} signed up`,
+                                        classes: 'green'
+                                    })
+                                else
+                                    //if sign in fails, show red warning
+                                    Material.toast({
+                                        html: `${username} already exists!`,
+                                        classes: 'red'
+                                    })
+                                this.changeState('events')
+                            }).bind(this)}/>
                         </ErrorBoundary>
                     </div>
                     <div className="col s12 l2">
                         <ErrorBoundary>
-                            <SideBar stateChange={this.changeState.bind(this)}/>
+                            <SideBar signedIn={this.state.username !== undefined} stateChange={this.changeState.bind(this)}/>
                         </ErrorBoundary>
                     </div>
                 </div>
@@ -100,7 +124,7 @@ export class Page extends React.Component<PageProps, PageState> {
                     </div>
                     <div className="col s12 l2">
                         <ErrorBoundary>
-                            <SideBar stateChange={this.changeState.bind(this)}/>
+                            <SideBar signedIn={this.state.username !== undefined} stateChange={this.changeState.bind(this)}/>
                         </ErrorBoundary>
                     </div>
                 </div>
@@ -126,7 +150,7 @@ export class Page extends React.Component<PageProps, PageState> {
                     </div>
                     <div className="col s12 l2">
                         <ErrorBoundary>
-                            <SideBar stateChange={this.changeState.bind(this)}/>
+                            <SideBar signedIn={this.state.username !== undefined} stateChange={this.changeState.bind(this)}/>
                         </ErrorBoundary>
                     </div>
                 </div>

@@ -1,10 +1,19 @@
 import * as React from 'react'
 
 interface SideBarProps {
+    /**
+     * keeps track of if a user is signed in and needs the sign in option
+     */
+    signedIn:boolean,
     stateChange:Function
 }
 
-interface SideBarState {}
+interface SideBarState {
+    /**
+     * keeps track of if a user is signed in and needs the sign in option
+     */
+    signedIn:boolean
+}
 
 export class SideBar extends React.Component<SideBarProps, SideBarState> {
     public readonly state:SideBarState
@@ -17,7 +26,11 @@ export class SideBar extends React.Component<SideBarProps, SideBarState> {
         super(props)
 
         //temporary for constructor
-        let state:SideBarState = {}
+        let state:SideBarState = {
+            signedIn: false
+        }
+
+        state.signedIn = this.props.signedIn
 
         this.state = state
     }
@@ -29,9 +42,11 @@ export class SideBar extends React.Component<SideBarProps, SideBarState> {
     public render() {
         return (
             <div className="collection" id="sidebar">
-                {true /* only run if not signed in */ ? <a className="collection-item blue-text" onClick={() => this.props.stateChange('signin')}>
+                {!this.state.signedIn ? <a className="collection-item blue-text" onClick={() => this.props.stateChange('signin')}>
                     Sign In / Sign Up
-                </a> : <div></div>}
+                </a> : <a onClick={() => this.props.stateChange('signin')}>
+                    Sign Out
+                </a>}
                 <a className="collection-item blue-text" onClick={() => this.props.stateChange('events')}>
                     Events
                 </a>
