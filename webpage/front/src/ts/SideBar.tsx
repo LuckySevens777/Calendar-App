@@ -1,7 +1,12 @@
 import * as React from 'react'
 
 interface SideBarProps {
-    stateChange:Function
+    /**
+     * keeps track of if a user is signed in and needs the sign in option
+     */
+    username:string,
+    stateChange:Function,
+    signOut:Function
 }
 
 interface SideBarState {}
@@ -18,7 +23,6 @@ export class SideBar extends React.Component<SideBarProps, SideBarState> {
 
         //temporary for constructor
         let state:SideBarState = {}
-
         this.state = state
     }
 
@@ -29,16 +33,20 @@ export class SideBar extends React.Component<SideBarProps, SideBarState> {
     public render() {
         return (
             <div className="collection" id="sidebar">
-                <a className="collection-item blue-text" onClick={() => this.props.stateChange('overview')}>
-                    Overview
-                </a>
-                <a className="collection-item blue-text" onClick={() => this.props.stateChange('signin')}>
+                {/* if */this.props.username === '' ?
+                //then
+                <a className="collection-item blue-text" onClick={() => this.props.stateChange('signin')} key={1}>
                     Sign In / Sign Up
                 </a>
-                <a className="collection-item blue-text" onClick={() => this.props.stateChange('events')}>
+                : //else
+                <a className="collection-item blue-text" onClick={() => this.props.signOut()} key={1}>
+                    Sign Out
+                </a>}
+
+                <a className="collection-item blue-text" onClick={() => this.props.stateChange('events')} key={2}>
                     Events
                 </a>
-                <a className="collection-item blue-text" onClick={() => this.props.stateChange('create')}>
+                <a className="collection-item blue-text" onClick={() => this.props.stateChange('create')} key={3}>
                     Create
                 </a>
             </div>
