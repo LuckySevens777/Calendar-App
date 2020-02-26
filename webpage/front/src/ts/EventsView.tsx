@@ -77,10 +77,17 @@ export class EventsView extends React.Component<EventsViewProps, EventsViewState
                         {this.props.events.map((event, number) =>
                             <li key={number}>
                                 {/* onMouseover is a hacky way to initialize the container just in time */}
-                                <div className={`collapsible-header`} onMouseOver={()=>Material.Collapsible.init(document.querySelectorAll('.collapsible'), {})}>
+                                <div className={`collapsible-header`}
+                                    onMouseOver={()=>Material.Collapsible.init(document.querySelectorAll('.collapsible'), {})}
+                                >
                                     <i className="material-icons">group</i>
                                     <h5>{event.name} | {event.creatorName} | {event.date}</h5>
-                                    {this.props.username === event.creatorName ? <span className="badge blue white-text">Your Event</span> : <span></span>}
+                                    {
+                                    /* if */this.props.username === event.creatorName ?
+                                        <span className="badge blue white-text">Your Event</span>
+                                    /* else */:
+                                        <span></span>
+                                    }
                                 </div>
                                 <div className="collapsible-body">
                                     <h5>Description</h5>
@@ -104,9 +111,14 @@ export class EventsView extends React.Component<EventsViewProps, EventsViewState
                                             }}
                                             slots={this.getSlotsFromNums(event.timeSlots)}
                                         />
-                                        {this.props.username !== event.creatorName ? <a className="btn waves-effect blue white-text" onClick={(() => {
-                                            this.joinEvent(event.name, event.creatorName, event.timeSlots)
-                                        }).bind(this)}>Join Event</a> : <div></div>}
+                                        {
+                                        /* if */this.props.username !== event.creatorName ?
+                                            <a className="btn waves-effect blue white-text" onClick={(() => {
+                                                this.joinEvent(event.name, event.creatorName, event.timeSlots)
+                                            }).bind(this)}>Join Event</a>
+                                        /* else */:
+                                            <div></div>
+                                        }
                                     </ErrorBoundary>
                                 </div>
                             </li>

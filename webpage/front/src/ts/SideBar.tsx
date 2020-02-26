@@ -33,20 +33,33 @@ export class SideBar extends React.Component<SideBarProps, SideBarState> {
     public render() {
         return (
             <div className="collection" id="sidebar">
-                {/* if */this.props.username === '' ?
-                //then
-                <a className="collection-item blue-text" onClick={() => this.props.stateChange('signin')} key={1}>
-                    Sign In / Sign Up
-                </a>
-                : //else
-                <a className="collection-item blue-text" onClick={() => this.props.signOut()} key={1}>
-                    Sign Out
-                </a>}
+                {
+                /* if */this.props.username === '' ?
+                    <a className="collection-item blue-text"
+                        onClick={() => this.props.stateChange('signin')}
+                        key={1}
+                    >
+                        Sign In / Sign Up
+                    </a>
+                /* else */:
+                    <a className="collection-item blue-text"
+                        onClick={() => this.props.signOut()}
+                        key={1}
+                    >
+                        Sign Out
+                    </a>
+                }
 
-                <a className="collection-item blue-text" onClick={() => this.props.stateChange('events')} key={2}>
+                <a className="collection-item blue-text"
+                    onClick={() => this.props.stateChange('events')}
+                    key={2}
+                >
                     Events
                 </a>
-                <a className="collection-item blue-text" onClick={() => this.props.stateChange('create')} key={3}>
+                <a className="collection-item blue-text"
+                    onClick={() => this.props.stateChange('create')}
+                    key={3}
+                >
                     Create
                 </a>
             </div>

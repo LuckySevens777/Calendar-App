@@ -173,12 +173,19 @@ export class Page extends React.Component<PageProps, PageState> {
                 <div>
                     <div className="col s12 l10">
                         <ErrorBoundary>
-                            <SignIn onSignin={this.signIn.bind(this)} onSignup={this.signUp.bind(this)}/>
+                            <SignIn
+                                onSignin={this.signIn.bind(this)}
+                                onSignup={this.signUp.bind(this)}
+                            />
                         </ErrorBoundary>
                     </div>
                     <div className="col s12 l2">
                         <ErrorBoundary>
-                            <SideBar username={this.state.username} signOut={this.signOut.bind(this)} stateChange={this.changeState.bind(this)}/>
+                            <SideBar
+                                username={this.state.username}
+                                signOut={this.signOut.bind(this)}
+                                stateChange={this.changeState.bind(this)}
+                            />
                         </ErrorBoundary>
                     </div>
                 </div>
@@ -190,12 +197,20 @@ export class Page extends React.Component<PageProps, PageState> {
                 <div>
                     <div className="col s12 l10">
                         <ErrorBoundary>
-                            <EventsView username={this.state.username} events={this.state.events} onJoin={this.joinEvent.bind(this)}/>
+                            <EventsView
+                                username={this.state.username}
+                                events={this.state.events}
+                                onJoin={this.joinEvent.bind(this)}
+                            />
                         </ErrorBoundary>
                     </div>
                     <div className="col s12 l2">
                         <ErrorBoundary>
-                            <SideBar username={this.state.username} signOut={this.signOut.bind(this)} stateChange={this.changeState.bind(this)}/>
+                            <SideBar
+                                username={this.state.username}
+                                signOut={this.signOut.bind(this)}
+                                stateChange={this.changeState.bind(this)}
+                            />
                         </ErrorBoundary>
                     </div>
                 </div>
@@ -207,12 +222,19 @@ export class Page extends React.Component<PageProps, PageState> {
                 <div>
                     <div className="col s12 l10">
                         <ErrorBoundary>
-                            <CreateEvent username={this.state.username} createObject={this.createEvent.bind(this)}/>
+                            <CreateEvent
+                                username={this.state.username}
+                                createObject={this.createEvent.bind(this)}
+                            />
                         </ErrorBoundary>
                     </div>
                     <div className="col s12 l2">
                         <ErrorBoundary>
-                            <SideBar username={this.state.username} signOut={this.signOut.bind(this)} stateChange={this.changeState.bind(this)}/>
+                            <SideBar
+                                username={this.state.username}
+                                signOut={this.signOut.bind(this)}
+                                stateChange={this.changeState.bind(this)}
+                            />
                         </ErrorBoundary>
                     </div>
                 </div>
