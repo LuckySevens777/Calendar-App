@@ -83,7 +83,7 @@ export class Page extends React.Component<PageProps, PageState> {
      * @param creator name of event creator for id purposes
      * @param slots slots when this user is available for the event
      */
-    private joinEvent(name:string, creator:string, slots:number[]) : void {
+    private joinEvent(name:string, creator:string, timeSlots:number[]) : void {
         //construct event
         let searchEvent:Event
         for(let event of this.state.events) {
@@ -91,8 +91,15 @@ export class Page extends React.Component<PageProps, PageState> {
                 searchEvent = event
                 searchEvent.members.push({
                     name: this.state.username,
-                    availability: slots
+                    availability: timeSlots
                 })
+
+                //api call
+                let call:ApiCall = new ApiCall(this.state.username)
+
+                const date = event.date.split('-')
+                call.createEvent(event.name, event.description, date, timeSlots)
+
                 break
             }
         }
@@ -105,23 +112,13 @@ export class Page extends React.Component<PageProps, PageState> {
             })
         }
 
-        // //api call
-        // let call:ApiCall = new ApiCall(this.state.username)
-        // const date = event.date.split('-')
-        // const slots = event.timeSlots.map(slot => '' + slot)
-        // call.createEvent(event.name, event.description, date, slots)
-
-        ///////////////////////////////////////
-        // JOIN EVENT
-        ///////////////////////////////////////
-
         //confirm that the user has joined
         Material.toast({
             html: `joined ${name}`,
             classes: 'green'
         })
         //log it
-        console.log('joining', name, 'from', creator, 'slots:', slots)
+        console.log('joining', name, 'from', creator, 'slots:', timeSlots)
     }
 
     /**
@@ -131,9 +128,12 @@ export class Page extends React.Component<PageProps, PageState> {
     private signIn(username:string) : void {
         this.setState({username: username})
 
-        ///////////////////////////////////////
-        // SIGN IN FUNCTIONALITY
-        ///////////////////////////////////////
+        //api call
+        let call:ApiCall = new ApiCall(this.state.username)
+        call.login()
+
+        //api call to get event list
+        this.setState({events: call.getAllEvents()})
 
         //display a green notification indicating that the sign in worked
         Material.toast({
@@ -150,10 +150,9 @@ export class Page extends React.Component<PageProps, PageState> {
      * Signs a user out
      */
     private signOut() : void {
-
-        //////////////////////////
-        // SIGN OUT FUNCTION
-        /////////////////////////
+        //api call
+        let call:ApiCall = new ApiCall(this.state.username)
+        call.logout()
 
         //sets the username to the empty string
         this.setState({username: ''})
@@ -175,9 +174,9 @@ export class Page extends React.Component<PageProps, PageState> {
     private signUp(username:string) : void {
         this.setState({username: username})
 
-        ///////////////////////////////////////
-        // SIGN UP FUNCTIONALITY
-        ///////////////////////////////////////
+        //api call
+        let call:ApiCall = new ApiCall(this.state.username)
+        call.signUp(this.state.username)
 
         let signInSuccess = true //indicates success
 

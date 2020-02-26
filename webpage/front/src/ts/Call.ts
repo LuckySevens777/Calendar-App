@@ -1,3 +1,24 @@
+<<<<<<< HEAD
+=======
+import {Event} from './Event'
+
+export async function call(the_url) {
+	const rawResponse = fetch(the_url, {
+		method: 'POST',
+			headers: {
+				'Accept': 'application/json',
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify({"Action" : "boop"})
+	}).then(data => ({
+		        data: data,
+	})
+				 ).then(res => { console.log(res) });
+	//const content = await rawResponse.json();
+	//console.log(content);
+}
+
+>>>>>>> 5b036b68481415006720e61a0eb7f679f8635848
 export class ApiCall {
 	public user: string = ""
 	public actions: string = ""
@@ -65,11 +86,12 @@ export class ApiCall {
 		console.log('asl;dfkjas;ldfkj');
 	}
 
-	async getAllEvents() {
+	getAllEvents() : Event[] {
 		this.actions = "Get-All-Events";
 		let call_body = this.makeBody();
-		let return_str = await this.standardCall(call_body)
+		this.standardCall(call_body);
 
+		return []
 	}
 
 	getEventsAttending() {
@@ -98,10 +120,23 @@ export class ApiCall {
 	 * @param the_day the date formatted as ["YYYY", "MM", "DD"]
 	 * @param time_slots the array of time slot numbers to be created
 	 */
-	createEvent(the_event_name: string, the_event_description: string, the_day: string[], time_slots: number[]) : void {
+	public createEvent(the_event_name: string, the_event_description: string, the_day: string[], time_slots: number[]) : void {
 
 	}
 
+	/**
+	 * Sends a log in request to the API
+	 */
+	public login() : void {
+
+	}
+
+	/**
+	 * sends a log out request to the API
+	 */
+	public logout() : void {
+
+	}
 
 }
 
