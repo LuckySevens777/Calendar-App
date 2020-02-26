@@ -21,3 +21,8 @@ services:
     container_name: golang_backend
     ports:
       - "10000:10000"
+  backdocs:
+    build: ./back
+    command: godoc -http=:6060
+    ports:
+      - "6060:6060"

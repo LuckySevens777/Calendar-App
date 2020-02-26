@@ -1,3 +1,4 @@
+// Processing dictates the actual logic of Calendar-App
 package processing
 
 import (
