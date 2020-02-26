@@ -1,7 +1,7 @@
 import * as Material from 'materialize-css'
 import * as React from 'react'
 
-import {USERNAME} from './improvisedValues'
+import {EVENTS} from './improvisedValues'
 
 import {Event} from './Event'
 
@@ -32,8 +32,8 @@ export class Page extends React.Component<PageProps, PageState> {
         //temporary for constructor
         let state:PageState = {
             mode: undefined,
-            username: '',  //EXAMPLE USERNAME NEEDS TO BE REPLACED WITH HOWEVER YOU WANT TO STORE THAT
-            events: []
+            username: '',
+            events: EVENTS
         }
 
         state.mode = 'signin'
@@ -129,7 +129,7 @@ export class Page extends React.Component<PageProps, PageState> {
                 <div>
                     <div className="col s12 l10">
                         <ErrorBoundary>
-                            <EventsView onJoin={(name:string, creator:string, slots:number[]) => {
+                            <EventsView username={this.state.username} events={this.state.events} onJoin={(name:string, creator:string, slots:number[]) => {
                                 ////////////////////////////////////////////////
                                 // EVENT JOINING FUNCTIONALITY
                                 ////////////////////////////////////////////////
@@ -152,11 +152,13 @@ export class Page extends React.Component<PageProps, PageState> {
                         <ErrorBoundary>
                             <CreateEvent username={this.state.username} createObject={((event:Event) => {
                                 //this is called when a user confirms creating an event
-
+                                let events:Event[] = this.state.events
+                                events.push(event)
+                                this.setState({events: events})
                                 ///////////////////////////////////////
                                 // CREATE EVENT FUNCTIONALITY
                                 ///////////////////////////////////////
-
+                                console.log(event)
                                 Material.toast({html: 'Event Created!'})
                                 this.setState({mode: 'events'})
                             }).bind(this)}/>

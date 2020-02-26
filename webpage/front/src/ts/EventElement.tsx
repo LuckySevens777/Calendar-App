@@ -8,7 +8,7 @@ interface EventElementProps {
     /**
      * The actual Date object to register this EventElement during
      */
-    date:Date,
+    date:string,
 
     /**
      * Determines whether this is a static display or a creation menu

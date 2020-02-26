@@ -133,7 +133,7 @@ export class CreateEvent extends React.Component<CreateEventProps, CreateEventSt
                     <ErrorBoundary>
                         <div className="col s12">
                             <EventElement
-                                date={new Date}
+                                date={''}
                                 interactive={true}
                                 onChange={((slots:Slot[]) => {
                                     let timeSlots = []
