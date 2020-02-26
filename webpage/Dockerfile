@@ -1,7 +1,6 @@
-FROM node:12 AS dev
+FROM frontend as dev
 COPY front /code/
 WORKDIR /code
-RUN npm i
 RUN npm run gulp
 RUN npm run gulp typedoc
 #RUN node node_modules/gulp/bin/gulp.js

@@ -11,8 +11,7 @@ import {ApiCall} from './Call'
 //DOMContentLoaded
 document.addEventListener('DOMContentLoaded', () => {
 		let call = new ApiCall("henry");
-		let request = "{ 'User':'Henry', 'Action': 'Get-All-Events', }"
-		call.standardCall(request);
+		call.getAllEvents();
 
     let now = new Date()
 

@@ -84,6 +84,8 @@ export class Page extends React.Component<PageProps, PageState> {
                         <ErrorBoundary>
                             <SignIn onSignin={(username => {
                                 this.setState({username: username})
+																//this.state.username = username;										
+																console.log(this.state);
                                 ///////////////////////////////////////
                                 // SIGN IN FUNCTIONALITY
                                 ///////////////////////////////////////
