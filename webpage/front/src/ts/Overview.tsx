@@ -38,7 +38,7 @@ export class Overview extends React.Component<OverviewProps, OverviewState> {
         for(let i = 0; i < 72; i++) {
             let slot = new Slot
             slot.interactive = false
-            slot.active = EVENTS[0].timeSlots.indexOf(i) != -1
+            slot.active = EVENTS[0].timeSlots.indexOf(i) != -1 //EVENTS NEEDS TO BE REPLACED WITH SOME ARRAY OF EVENT OBJECTS
             slots[i] = slot
         }
 
