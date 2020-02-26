@@ -3,6 +3,7 @@ package model
 import (
 	"fmt"
 	"log"
+	"os"
 	"time"
 
 	"github.com/jinzhu/gorm"
@@ -19,6 +20,9 @@ var (
 // Init initialized the DB connection
 func Init() error {
 	var err error
+	if os.Getenv("CALENDAR_TEST") == "Yes" {
+		connectionString = "postgresql://sandy:pass@localhost:5432/calendar?sslmode=disable"
+	}
 	db, err = connectDB(connectionString)
 	autoMigrate()
 	return err
