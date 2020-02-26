@@ -99,7 +99,7 @@ export class EventsView extends React.Component<EventsViewProps, EventsViewState
                                     </ul>
 
                                     {
-                                    /* if */event.members.indexOf(this.props.username) !== -1 &&
+                                    /* if */event.members.indexOf(this.props.username) === -1 &&
                                             this.props.username !== '' ?
                                         <h5>Join</h5>
                                     /* else */:
