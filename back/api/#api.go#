@@ -126,7 +126,7 @@ func HandleRequest(Data data) (return_data, error) {
 
 	case "Get-Events-For-Days":
 		var return_this return_data
-		event_info, timeslots := processing.GetEvents("", "", "", []string{day})
+		event_info, timeslots := processing.GetEvents("", "", "", day)
 		return_this.Message = "OK"
 		return_this.Event_Info = event_info
 		return_this.Timeslots = timeslots

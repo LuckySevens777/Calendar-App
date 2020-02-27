@@ -1,6 +1,7 @@
 /**
  * contains the information needed for an event
  */
+export let EVENTS:Event[] = [];
 export class Event {
 
     public name:string

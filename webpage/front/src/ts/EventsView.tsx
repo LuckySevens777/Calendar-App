@@ -2,6 +2,7 @@ import * as React from 'react'
 import * as Material from 'materialize-css'
 
 import {Event} from './Event'
+import {EVENTS} from './Event'f
 import {Slot} from './Slot'
 
 import {ErrorBoundary} from './ErrorBoundary'
@@ -86,7 +87,7 @@ export class EventsView extends React.Component<EventsViewProps, EventsViewState
                 </h2>
                 <div className="row">
                     <ul className="collapsible">
-                        {this.props.events.map((event, number) =>
+                        {EVENTS.map((event, number) =>
                             <li key={number}>
                                 {/* onMouseover is a hacky way to initialize the container just in time */}
                                 <div className={`collapsible-header`}
@@ -166,7 +167,7 @@ export class EventsView extends React.Component<EventsViewProps, EventsViewState
                     </ul>
                 </div>
                 {
-                    /* if */this.props.events.length === 0 ?
+                    /* if */ EVENTS.length === 0 ?
                         <h3 className="red-text" >No Events Found</h3>
                     /* else */:
                         <div></div>
