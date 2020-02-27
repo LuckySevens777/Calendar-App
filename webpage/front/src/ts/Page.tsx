@@ -135,11 +135,10 @@ export class Page extends React.Component<PageProps, PageState> {
 				if(this.state.username === undefined) return;
 				if(username === undefined) return;
         let call:ApiCall = new ApiCall(this.state.username)
-console.log(this.state.username);
         if(call.login(username)) {
             //api call to get event list
             this.setState({username: username})
-						this.setState({events: call.getAllEvents()})
+            this.setState({events: call.getAllEvents()})
 
 
             //display a green notification indicating that the sign in worked

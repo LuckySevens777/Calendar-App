@@ -1,5 +1,4 @@
 import {Event} from './Event'
-import {EVENTS} from './Event'
 
 export class ApiCall {
 	public user: string = ""
@@ -83,7 +82,6 @@ export class ApiCall {
 		let call_body = this.makeBody();
 		let return_str = await this.standardCall(call_body);
 		console.log(return_str);
-		for (let elem of JSON.parse(return_str).Event_Info) EVENTS.push(elem);
 		return(return_str);
 	}
 
@@ -95,7 +93,6 @@ export class ApiCall {
 
 		thing = event.Event_Info;
 
-		for (let elem of thing) EVENTS.push(elem);
 		});
 		return thing;
 	}
@@ -112,6 +109,7 @@ export class ApiCall {
 		this.day = String(date);
 		let call_body = this.makeBody();
 		let return_str = await this.standardCall(call_body);
+		return(JSON.parse(return_str).Event_Info);
 	}
 
 	async getAttendees(id_of_event:string) {
